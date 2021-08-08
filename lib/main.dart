@@ -33,11 +33,11 @@ class _AppState extends State<App> {
             theme: ThemeData(
               primarySwatch: Colors.blue,
             ),
-            home: MyWorkoutPage(title: 'Flutter Demo Home Page'),
+            home: MyWorkoutPage(),
           );
         }
         // Otherwise, show something whilst waiting for initialization to complete
-        return Text("loading", textDirection: TextDirection.ltr);
+        return const Center(child: CircularProgressIndicator());
       },
     );
   }

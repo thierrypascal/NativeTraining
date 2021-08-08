@@ -1,0 +1,81 @@
+import 'dart:core';
+import 'dart:developer' as logging;
+
+import 'package:flutter/cupertino.dart';
+import 'package:native_training/models/exercise.dart';
+import 'package:native_training/services/storage_provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:uuid/uuid.dart';
+
+class Workout extends ChangeNotifier {
+  ///Title of the workout
+  String title;
+  ///how long the workout lasts/estimation by user
+  int time;
+  ///dateTime of when this workout was last used
+  DateTime lastUsed;
+  ///List of exercises for warm-up
+  List<Exercise> warmupExercises;
+  ///List of exercises for workout
+  List<Exercise> workoutExercises;
+  ///List of exercises for cooldown
+  List<Exercise> cooldownExercises;
+  /// reference where the object is stored in the database
+  DocumentReference reference;
+
+  bool _isEmpty;
+
+  final StorageProvider _storage;
+
+
+  /// creates an empty workout as placeholder
+  Workout.empty({StorageProvider storageProvider})
+      : _storage = storageProvider ??= StorageProvider.instance {
+    title = '';
+    time = 0;
+    lastUsed = DateTime.now();
+    warmupExercises = [];
+    workoutExercises = [];
+    cooldownExercises = [];
+    _isEmpty = true;
+  }
+
+  /// creates an workout from the provided Map.
+  /// Used for database loading and testing
+  Workout.fromMap(Map<String, dynamic> map,
+      {this.reference, StorageProvider storageProvider})
+      : _storage = storageProvider ??= StorageProvider.instance,
+        title = map.containsKey('title') ? map['title'] as String : '',
+        time = map.containsKey('time') ? map['time'] as int : 0,
+        lastUsed = map.containsKey('lastUsed') ? map['lastUsed'] as DateTime : DateTime.now(),
+        warmupExercises = map.containsKey('warmupExercises') ? map['warmupExercises'] as List<Exercise> : [],
+        workoutExercises = map.containsKey('workoutExercises') ? map['workoutExercises'] as List<Exercise> : [],
+        cooldownExercises = map.containsKey('cooldownExercises') ? map['cooldownExercises'] as List<Exercise> : [],
+        _isEmpty = false;
+
+  /// loads an workout form a database snapshot
+  Workout.fromSnapshot(DocumentSnapshot snapshot)
+      : this.fromMap(snapshot.data(), reference: snapshot.reference);
+
+  /// saves the workout object to the database
+  /// any information already present on the database will be overridden
+  Future<void> saveWorkout() async {
+    logging.log('Save workout $title');
+    if (_isEmpty || reference == null) {
+      reference = _storage.database.doc('workouts/${Uuid().v4()}');
+      _isEmpty = false;
+    }
+    final path = reference.path;
+    await _storage.database.doc(path).set({
+      'title': title,
+      'time': time,
+      'lastUsed': lastUsed,
+      'warmupExercises': warmupExercises,
+      'workoutExercises': workoutExercises,
+      'cooldownExercises': cooldownExercises,
+    });
+  }
+
+  /// is true if this workout is an empty placeholder
+  bool get isEmpty => _isEmpty;
+}
