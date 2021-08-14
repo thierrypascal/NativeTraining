@@ -36,6 +36,14 @@ class SimpleInformationObjectCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              ClipRRect(
+                borderRadius: const BorderRadius.only(
+                    topRight: Radius.circular(3),
+                    bottomRight: Radius.circular(3)),
+                child: _serviceProvider.imageService.getImageByUrl(
+                    object.imageURL,
+                    height: 60, width: 60, fit: BoxFit.cover),
+              ),
               Expanded(
                 child: Wrap(
                   spacing: 8.0,
@@ -56,14 +64,6 @@ class SimpleInformationObjectCard extends StatelessWidget {
                     ),
                   ],
                 ),
-              ),
-              ClipRRect(
-                borderRadius: const BorderRadius.only(
-                    topRight: Radius.circular(3),
-                    bottomRight: Radius.circular(3)),
-                child: _serviceProvider.imageService.getImage(
-                    object.title,
-                    height: 60, width: 60, fit: BoxFit.cover),
               ),
             ],
           ),

@@ -38,22 +38,6 @@ class ExerciseService extends ChangeNotifier {
     notifyListeners();
   }
 
-  // ///handles the routing to MyExerciseAdd, if logged in: redirects to MyExerciseAdd, if not: redirect to LoginPage
-  // void handle_create_exercise(BuildContext context) {
-  //   if (Provider.of<User>(context, listen: false).isLoggedIn) {
-  //     Navigator.push(
-  //         context,
-  //         MaterialPageRoute(
-  //             builder: (context) => MyExerciseAdd()));
-  //   } else {
-  //     Navigator.pushReplacement(
-  //         context,
-  //         MaterialPageRoute(
-  //             builder: (context) => WhiteRedirectPage(
-  //                 'Bitte melde Dich zuerst an', LoginPage())));
-  //   }
-  // }
-
   /// Returns a list of exercises which the provided User has
   List<Exercise> getAllExercisesFromUser(User user) {
     return _exercises.where((exercise) => exercise.owner == user.userUUID).toList();

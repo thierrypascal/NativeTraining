@@ -20,7 +20,7 @@ class Workout extends ChangeNotifier implements InformationObject{
   String description;
   ///how long the workout lasts/estimation by user
   @override
-  int time;
+  int workoutDurationInMinutes;
   ///ImageURL of the exercise
   @override
   String get imageURL => null;
@@ -47,7 +47,7 @@ class Workout extends ChangeNotifier implements InformationObject{
   Workout.empty({StorageProvider storageProvider})
       : _storage = storageProvider ??= StorageProvider.instance {
     title = '';
-    time = 0;
+    workoutDurationInMinutes = 0;
     lastUsed = DateTime.now();
     warmupExercises = [];
     workoutExercises = [];
@@ -61,7 +61,7 @@ class Workout extends ChangeNotifier implements InformationObject{
       {this.reference, StorageProvider storageProvider})
       : _storage = storageProvider ??= StorageProvider.instance,
         title = map.containsKey('title') ? map['title'] as String : '',
-        time = map.containsKey('time') ? map['time'] as int : 0,
+        workoutDurationInMinutes = map.containsKey('time') ? map['time'] as int : 0,
         lastUsed = map.containsKey('lastUsed') ? map['lastUsed'] as DateTime : DateTime.now(),
         warmupExercises = map.containsKey('warmupExercises') ? map['warmupExercises'] as List<Exercise> : [],
         workoutExercises = map.containsKey('workoutExercises') ? map['workoutExercises'] as List<Exercise> : [],
@@ -83,11 +83,12 @@ class Workout extends ChangeNotifier implements InformationObject{
     final path = reference.path;
     await _storage.database.doc(path).set({
       'title': title,
-      'time': time,
+      'time': workoutDurationInMinutes,
       'lastUsed': lastUsed,
       'warmupExercises': warmupExercises,
       'workoutExercises': workoutExercises,
       'cooldownExercises': cooldownExercises,
+      'owner': owner,
     });
   }
 

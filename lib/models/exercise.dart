@@ -19,7 +19,7 @@ class Exercise extends ChangeNotifier implements InformationObject {
   String description;
   ///how long the workout lasts/estimation by user
   @override
-  int time;
+  int get workoutDurationInMinutes => null;
   ///ImageURL of the exercise
   @override
   String imageURL;
@@ -35,6 +35,7 @@ class Exercise extends ChangeNotifier implements InformationObject {
   /// creates an empty exercise as placeholder
   Exercise.empty({StorageProvider storageProvider})
       : _storage = storageProvider ??= StorageProvider.instance {
+    owner = '';
     title = '';
     description = '';
     imageURL = '';
@@ -46,6 +47,7 @@ class Exercise extends ChangeNotifier implements InformationObject {
   Exercise.fromMap(Map<String, dynamic> map,
       {this.reference, StorageProvider storageProvider})
       : _storage = storageProvider ??= StorageProvider.instance,
+        owner = map.containsKey('owner') ? map['owner'] as String : '',
         title = map.containsKey('title') ? map['title'] as String : '',
         description = map.containsKey('description') ? map['description'] as String : '',
         imageURL = map.containsKey('imageURL') ? map['imageURL'] as String : '',
@@ -68,6 +70,7 @@ class Exercise extends ChangeNotifier implements InformationObject {
       'title': title,
       'description': description,
       'imageURL': imageURL,
+      'owner' : owner,
     });
   }
 

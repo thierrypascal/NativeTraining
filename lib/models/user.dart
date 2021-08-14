@@ -106,9 +106,6 @@ class User extends ChangeNotifier {
     return true;
   }
 
-  //TODO: _workout needs to be updated together with workout object
-  //TODO: _exercises needs to be updated together with exercise object
-
   ///changes any field of the [User].
   ///Afterwards the changes are saved to the database
   ///and the listeners will be informed if the flag [informListeners] is set.
@@ -118,11 +115,15 @@ class User extends ChangeNotifier {
       String newMail,
       String newImageURL,
       String newAddress,
+      Set newWorkoutList,
+      Set newExerciseList,
       bool informListeners = true}) {
     if (newName != null) name = newName;
     if (newSurname != null) surname = newSurname;
     if (newImageURL != null) imageURL = newImageURL;
     if (newMail != null) mail = newMail;
+    if (newWorkoutList != null && newWorkoutList.isNotEmpty) _workouts = newWorkoutList;
+    if (newExerciseList != null && newExerciseList.isNotEmpty) _exercises = newExerciseList;
     saveUser();
     if (informListeners) {
       notifyListeners();

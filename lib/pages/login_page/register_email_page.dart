@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:native_training/components/privacy_agreement.dart';
 import 'package:native_training/components/screen_with_logo_and_waves.dart';
 import 'package:native_training/models/user.dart';
-import 'package:native_training/pages/my_workouts_page.dart';
+import 'package:native_training/pages/workout_page/my_workouts_page.dart';
 import 'package:provider/provider.dart';
 
 /// The page where you can insert your data to register with email and password

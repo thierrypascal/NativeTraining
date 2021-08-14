@@ -51,6 +51,7 @@ dependencies:
 
   material_design_icons_flutter:
   font_awesome_flutter:
+  animations: ^2.0.1
 
 
 dev_dependencies:

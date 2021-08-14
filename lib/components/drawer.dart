@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:native_training/components/white_redirect_page.dart';
 import 'package:native_training/models/user.dart';
 import 'package:native_training/pages/account_page/account_page.dart';
+import 'package:native_training/pages/exercise_page/my_exercises_page.dart';
 import 'package:native_training/pages/login_page/login_page.dart';
-import 'package:native_training/pages/my_workouts_page.dart';
+import 'package:native_training/pages/workout_page/my_workouts_page.dart';
 import 'package:provider/provider.dart';
 
 /// The Drawer which is located at the right side of the screen
@@ -75,7 +76,22 @@ class MyDrawer extends StatelessWidget {
                           ),
                           ListTile(
                             title: const Text('Meine \u00DCbungen'),
-                            onTap: () {},
+                            onTap: () {
+                              if (Provider.of<User>(context, listen: false)
+                                  .isLoggedIn) {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => MyExercisePage()));
+                              } else {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => WhiteRedirectPage(
+                                          'Bitte melde Dich zuerst an', LoginPage())),
+                                );
+                              }
+                            },
                           ),
                           Divider(thickness: 2,),
                           ListTile(

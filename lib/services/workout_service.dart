@@ -39,22 +39,6 @@ class WorkoutService extends ChangeNotifier {
     notifyListeners();
   }
 
-  // ///handles the routing to MyworkoutAdd, if logged in: redirects to MyworkoutAdd, if not: redirect to LoginPage
-  // void handle_create_workout(BuildContext context) {
-  //   if (Provider.of<User>(context, listen: false).isLoggedIn) {
-  //     Navigator.push(
-  //         context,
-  //         MaterialPageRoute(
-  //             builder: (context) => MyWorkoutAdd()));
-  //   } else {
-  //     Navigator.pushReplacement(
-  //         context,
-  //         MaterialPageRoute(
-  //             builder: (context) => WhiteRedirectPage(
-  //                 'Bitte melde Dich zuerst an', LoginPage())));
-  //   }
-  // }
-
   /// Returns a list of workouts which the provided User has
   List<Workout> getAllWorkoutsFromUser(User user) {
     return _workouts.where((workout) => workout.owner == user.userUUID).toList();
