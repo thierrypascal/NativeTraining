@@ -22,6 +22,10 @@ class Workout extends ChangeNotifier {
   List<Exercise> cooldownExercises;
   /// reference where the object is stored in the database
   DocumentReference reference;
+  /// which [Workout] are contained in this workout
+  Map<String, int> ownedObjects;
+  /// reference to the associated User
+  String owner;
 
   bool _isEmpty;
 

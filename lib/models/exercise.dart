@@ -13,6 +13,8 @@ class Exercise extends ChangeNotifier {
   String description;
   ///ImageURL of the exercise
   String imageURL;
+  ///Owner of the exercise
+  String owner;
   /// reference where the object is stored in the database
   DocumentReference reference;
 
