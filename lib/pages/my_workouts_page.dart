@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:native_training/components/drawer.dart';
 import 'package:native_training/components/information_object_list_widget.dart';

@@ -2,21 +2,26 @@ import 'dart:core';
 import 'dart:developer' as logging;
 
 import 'package:flutter/cupertino.dart';
+import 'package:native_training/models/information_object.dart';
 import 'package:native_training/services/storage_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
 
-class Exercise extends ChangeNotifier {
+class Exercise extends ChangeNotifier implements InformationObject {
   /// reference where the object is stored in the database
   String owner;
 
   ///Title of the exercise
+  @override
   String title;
   ///Description of the exercise
+  @override
   String description;
   ///how long the workout lasts/estimation by user
+  @override
   int time;
   ///ImageURL of the exercise
+  @override
   String imageURL;
 
   ///Owner of the exercise

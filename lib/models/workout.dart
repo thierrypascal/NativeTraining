@@ -3,20 +3,27 @@ import 'dart:developer' as logging;
 
 import 'package:flutter/cupertino.dart';
 import 'package:native_training/models/exercise.dart';
+import 'package:native_training/models/information_object.dart';
 import 'package:native_training/services/storage_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
 
-class Workout extends ChangeNotifier {
+class Workout extends ChangeNotifier implements InformationObject{
   /// reference to the associated User
   String owner;
 
   ///Title of the workout
+  @override
   String title;
   ///Description of the workout
+  @override
   String description;
   ///how long the workout lasts/estimation by user
+  @override
   int time;
+  ///ImageURL of the exercise
+  @override
+  String get imageURL => null;
 
   ///dateTime of when this workout was last used
   DateTime lastUsed;
@@ -86,4 +93,5 @@ class Workout extends ChangeNotifier {
 
   /// is true if this workout is an empty placeholder
   bool get isEmpty => _isEmpty;
+
 }
