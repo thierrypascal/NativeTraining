@@ -7,15 +7,19 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
 
 class Exercise extends ChangeNotifier {
+  /// reference where the object is stored in the database
+  String owner;
+
   ///Title of the exercise
   String title;
   ///Description of the exercise
   String description;
+  ///how long the workout lasts/estimation by user
+  int time;
   ///ImageURL of the exercise
   String imageURL;
+
   ///Owner of the exercise
-  String owner;
-  /// reference where the object is stored in the database
   DocumentReference reference;
 
   bool _isEmpty;

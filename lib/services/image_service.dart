@@ -50,7 +50,7 @@ class ImageService extends ChangeNotifier {
   }
 
   /// Returns an image which is loaded dynamically from the database/firestore
-  Widget getImage(String name, String type,
+  Widget getImage(String name,
       {int imageNr,
       double width = double.infinity,
       double height,
@@ -67,7 +67,7 @@ class ImageService extends ChangeNotifier {
         fit: fit,
         imageUrl: url,
         errorWidget: (context, str, err) =>
-            errorWidget ?? getImage('default-1', 'error'),
+            errorWidget ?? getImage('default-1'),
       );
     }
 
@@ -94,7 +94,7 @@ class ImageService extends ChangeNotifier {
     }
 
     return FutureBuilder(
-      future: getImageURL(name, type, imageNr: imageNr),
+      future: getImageURL(name, imageNr: imageNr),
       builder: (context, url) {
         if (url.connectionState == ConnectionState.done &&
             !url.hasError &&
@@ -142,21 +142,19 @@ class ImageService extends ChangeNotifier {
       fit: fit,
       imageUrl: url,
       errorWidget: (context, str, error) =>
-          errorWidget ?? getImage('default-1', 'error'),
+          errorWidget ?? getImage('default-1'),
     );
   }
 
   /// returns the associated download link to the name<br>
   /// Example name: Asthaufen<br>
-  /// Example type: biodiversityMeasures
-  Future<String> getImageURL(String name, String type, {int imageNr}) async {
+  Future<String> getImageURL(String name, {int imageNr}) async {
     final key = _key(name, imageNr: imageNr);
     var doc = await _storage.database.doc('imageReferences/$key').get();
     if (!doc.exists) {
       final query = _storage.database
           .collection('imageReferences')
           .where('name', isEqualTo: name)
-          .where('type', isEqualTo: type)
           .where('order', isEqualTo: imageNr ?? 1);
       final docs = await query.get();
       if (docs.docs.isNotEmpty) {
@@ -165,7 +163,7 @@ class ImageService extends ChangeNotifier {
     }
     if (!doc.exists || !doc.data().containsKey('downloadURL')) {
       if (name != 'default') {
-        final url = await getImageURL('default', '');
+        final url = await getImageURL('default');
         if (url != null) _urls[key] = url;
         return url;
       }
@@ -177,8 +175,7 @@ class ImageService extends ChangeNotifier {
   }
 
   /// returns copyright information about the image associated with that name
-  /// and type. <br>
-  /// Example name: Asthaufen<br> Example type: biodiversityMeasures
+  /// Example name: Asthaufen
   Future<String> getImageCopyright(String name, {int imageNr}) async {
     final key = _key(name, imageNr: imageNr);
     if (_copyrightInfo.containsKey(key)) {
@@ -243,13 +240,12 @@ class ImageService extends ChangeNotifier {
     ref.delete();
   }
 
-  /// returns a list of URLs wich are associated to the given name and type
+  /// returns a list of URLs wich are associated to the given name
   Future<List<String>> getListOfImageURLs(
-      {@required String name, String type}) async {
+      {@required String name}) async {
     final docs = await _storage.database
         .collection('imageReferences')
         .where('name', isEqualTo: name)
-        .where('type', isEqualTo: type)
         .get();
     final urls = <String>[];
     for (final doc in docs.docs) {

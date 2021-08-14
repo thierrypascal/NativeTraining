@@ -8,10 +8,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
 
 class Workout extends ChangeNotifier {
+  /// reference to the associated User
+  String owner;
+
   ///Title of the workout
   String title;
+  ///Description of the workout
+  String description;
   ///how long the workout lasts/estimation by user
   int time;
+
   ///dateTime of when this workout was last used
   DateTime lastUsed;
   ///List of exercises for warm-up
@@ -24,8 +30,6 @@ class Workout extends ChangeNotifier {
   DocumentReference reference;
   /// which [Workout] are contained in this workout
   Map<String, int> ownedObjects;
-  /// reference to the associated User
-  String owner;
 
   bool _isEmpty;
 

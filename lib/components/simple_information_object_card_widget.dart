@@ -62,7 +62,7 @@ class SimpleInformationObjectCard extends StatelessWidget {
                     topRight: Radius.circular(3),
                     bottomRight: Radius.circular(3)),
                 child: _serviceProvider.imageService.getImage(
-                    object.title, object.type,
+                    object.title,
                     height: 60, width: 60, fit: BoxFit.cover),
               ),
             ],

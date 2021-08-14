@@ -1,6 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
+import 'package:native_training/pages/login_page/login_page.dart';
 import 'package:native_training/pages/my_workouts_page.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:native_training/services/service_provider.dart';
+import 'package:provider/provider.dart';
+
+import 'models/user.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,12 +34,23 @@ class _AppState extends State<App> {
         }
         // Once complete, show your application
         if (snapshot.connectionState == ConnectionState.done) {
-          return MaterialApp(
-            title: 'Flutter Demo',
-            theme: ThemeData(
-              primarySwatch: Colors.blue,
+          ServiceProvider.instance;
+          return MultiProvider(
+            providers: [
+              ChangeNotifierProvider(
+                create: (context) => User.empty(),
+                lazy: false,
+              ),
+            ],
+            child: MaterialApp(
+              title: 'NativeTraining',
+              theme: ThemeData(
+                primarySwatch: Colors.blue,
+              ),
+              home: auth.FirebaseAuth.instance.currentUser != null
+                  ? MyWorkoutPage()
+                  : LoginPage(),
             ),
-            home: MyWorkoutPage(),
           );
         }
         // Otherwise, show something whilst waiting for initialization to complete

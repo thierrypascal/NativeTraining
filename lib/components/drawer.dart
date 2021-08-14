@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:native_training/components/white_redirect_page.dart';
+import 'package:native_training/models/user.dart';
+import 'package:native_training/pages/login_page/login_page.dart';
+import 'package:native_training/pages/my_workouts_page.dart';
+import 'package:provider/provider.dart';
 
 /// The Drawer which is located at the right side of the screen
 class MyDrawer extends StatelessWidget {
@@ -34,7 +39,22 @@ class MyDrawer extends StatelessWidget {
                         child: Column(children: [
                           ListTile(
                             title: const Text('Meine Trainings'),
-                            onTap: () {},
+                            onTap: () {
+                              if (Provider.of<User>(context, listen: false)
+                                  .isLoggedIn) {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => MyWorkoutPage()));
+                              } else {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => WhiteRedirectPage(
+                                          'Bitte melde Dich zuerst an', LoginPage())),
+                                );
+                              }
+                            },
                           ),
                           ListTile(
                             title: const Text('Meine Übungen'),
@@ -49,6 +69,8 @@ class MyDrawer extends StatelessWidget {
                             title: const Text('Neue Übung'),
                             onTap: () {},
                           ),
+                          Divider(thickness: 2,),
+                          _loginLogoutButton(context),
                         ]),
                       ),
                     ],
@@ -56,5 +78,54 @@ class MyDrawer extends StatelessWidget {
         }),
       ),
     );
+  }
+
+  Widget _loginLogoutButton(BuildContext context) {
+    if (Provider.of<User>(context).isLoggedIn) {
+      return ListTile(
+          title: const Text('Logout'), onTap: () => _signOut(context));
+    } else {
+      return ListTile(
+        title: const Text('Login'),
+        onTap: () => Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => LoginPage()),
+        ),
+      );
+    }
+  }
+
+  void _signOut(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Ausloggen ?'),
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+
+              ElevatedButton(
+                onPressed: () => Navigator.pop(context),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                      const Color(0xFFC05410)),
+                ),
+                child: const Text('Abbrechen'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Provider.of<User>(context, listen: false).signOut();
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => LoginPage()));
+                },
+                style: ButtonStyle(
+                  backgroundColor:
+                  MaterialStateProperty.all<Color>(const Color(0xFFC05410)),
+                ),
+                child: const Text('Ausloggen'),
+              ),
+            ],
+          ),
+        ));
   }
 }
