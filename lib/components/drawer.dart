@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:native_training/components/white_redirect_page.dart';
 import 'package:native_training/models/user.dart';
+import 'package:native_training/pages/account_page/account_page.dart';
 import 'package:native_training/pages/login_page/login_page.dart';
 import 'package:native_training/pages/my_workouts_page.dart';
 import 'package:provider/provider.dart';
@@ -20,8 +21,24 @@ class MyDrawer extends StatelessWidget {
           actions: [
             Padding(
               padding: const EdgeInsets.only(right: 8),
-              child:
-                  IconButton(icon: const Icon(Icons.person), onPressed: () {}),
+              child: IconButton(
+                  icon: const Icon(Icons.person),
+                  onPressed: () {
+                    if (Provider.of<User>(context, listen: false)
+                        .isLoggedIn) {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AccountPage()));
+                    } else {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => WhiteRedirectPage(
+                                'Bitte melde Dich zuerst an', LoginPage())),
+                      );
+                    }
+                  }),
             )
           ],
         ),
@@ -57,7 +74,7 @@ class MyDrawer extends StatelessWidget {
                             },
                           ),
                           ListTile(
-                            title: const Text('Meine Übungen'),
+                            title: const Text('Meine \u00DCbungen'),
                             onTap: () {},
                           ),
                           Divider(thickness: 2,),
