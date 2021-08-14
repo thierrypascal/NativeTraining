@@ -38,59 +38,65 @@ class SelectExerciseImage extends StatefulWidget {
 class _SelectExerciseImageState extends State<SelectExerciseImage> {
   @override
   Widget build(BuildContext context) {
-    return OutlinedButton(
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ImagePickerPage(
-              originalImageURL: widget.exercise.imageURL,
-              deleteImageFunction: widget.deleteFunction,
-              saveImageFunction: widget.saveFunction,
+    return SizedBox(
+      height: 150,
+      child: OutlinedButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ImagePickerPage(
+                originalImageURL: widget.exercise.imageURL,
+                deleteImageFunction: widget.deleteFunction,
+                saveImageFunction: widget.saveFunction,
+              ),
             ),
-          ),
-        );
-      },
-      child: Stack(
-        alignment: AlignmentDirectional.center,
-        children: [
-          ColorFiltered(
-            colorFilter: ColorFilter.mode(
-                Theme.of(context).canvasColor.withOpacity(0.25),
-                BlendMode.dstATop),
-            child: getDisplayedImage(),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(
-                Icons.image_outlined,
-                color: Colors.black,
-              ),
-              Text(
-                widget.displayText,
-                style: const TextStyle(color: Colors.black),
-                textScaleFactor: 1.5,
-              ),
-            ],
-          )
-        ],
+          );
+        },
+        child: Stack(
+          alignment: AlignmentDirectional.center,
+          children: [
+            ColorFiltered(
+              colorFilter: ColorFilter.mode(
+                  Theme.of(context).canvasColor.withOpacity(0.25),
+                  BlendMode.dstATop),
+              child: SizedBox(width: double.infinity,child: getDisplayedImage()),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(
+                  Icons.image_outlined,
+                  color: Colors.black,
+                ),
+                Text(
+                  widget.displayText,
+                  style: const TextStyle(color: Colors.black),
+                  textScaleFactor: 1.5,
+                ),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
 
   Widget getDisplayedImage() {
     if (widget.toSaveImage == null &&
-        (widget.exercise.imageURL == null || widget.exercise.imageURL.isEmpty)) {
+        (widget.exercise.imageURL == null ||
+            widget.exercise.imageURL.isEmpty)) {
       return Image(
+          fit: BoxFit.fitWidth,
           color: Theme.of(context).canvasColor.withOpacity(1),
           colorBlendMode: BlendMode.saturation,
           image: const AssetImage('res/Logo.png'));
     } else if (widget.toSaveImage != null) {
-      return Image.memory(widget.toSaveImage);
+      return Image.memory(widget.toSaveImage, fit: BoxFit.fitWidth,);
     } else {
       return Image.network(widget.exercise.imageURL,
           errorBuilder: (context, _, __) => Image(
+              fit: BoxFit.fitWidth,
               color: Theme.of(context).canvasColor.withOpacity(1),
               colorBlendMode: BlendMode.saturation,
               image: const AssetImage('res/Logo.png')));

@@ -57,14 +57,10 @@ class _InformationObjectListWidgetState
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const [
                           Text(
-                            'Leider keine Einträge vorhanden',
+                            'Noch kein Eintrag vorhanden, m\u00F6chtest du einen neuen anlegen?',
                             textScaleFactor: 2,
                             textAlign: TextAlign.center,
                           ),
-                          Icon(
-                            Icons.dangerous,
-                            size: 80,
-                          )
                         ],
                       ),
                     )
@@ -77,6 +73,7 @@ class _InformationObjectListWidgetState
                         return SimpleInformationObjectCard(
                                 element,
                                 serviceProvider: widget._serviceProvider,
+                          onTapHandler: () {},
                               );
                       },
                       separatorBuilder: (context, index) {

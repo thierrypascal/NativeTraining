@@ -162,7 +162,7 @@ class _ImagePickerPageState extends State<ImagePickerPage> {
           child: Image(
               color: Theme.of(context).canvasColor.withOpacity(1),
               colorBlendMode: BlendMode.saturation,
-              image: const AssetImage('res/Logo_basic.png'))),
+              image: const AssetImage('res/Logo.png'))),
     );
   }
 
