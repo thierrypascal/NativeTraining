@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart' hide User;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:native_training/components/card_edit_dialog.dart';
+import 'package:native_training/components/edit_dialog.dart';
 import 'package:native_training/components/white_redirect_page.dart';
 import 'package:native_training/models/user.dart';
 import 'package:native_training/pages/login_page/login_page.dart';
@@ -25,7 +25,7 @@ class _MyAccountDeleteState extends State<MyAccountDelete> {
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context, listen: false);
 
-    return CardEditDialog(
+    return EditDialog(
       title: 'Account löschen',
       abortCallback: () {
         Navigator.pop(context);

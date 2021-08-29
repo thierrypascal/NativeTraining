@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:native_training/components/drawer.dart';
 
 /// Simple class to display a save-abort dialog
-class NormalEditDialog extends StatelessWidget {
+class EditDialog extends StatelessWidget {
   /// Text which is displayed on the abort button
   final String abort;
 
@@ -28,20 +28,23 @@ class NormalEditDialog extends StatelessWidget {
   /// content to display on the page
   final Widget body;
 
+  /// if card needs to be inset on the left to display object type
+  final bool needsInset;
+
   /// Simple class to display a save-abort dialog
-  NormalEditDialog(
+  EditDialog(
       {this.abort = 'Abbrechen',
       this.save = 'Speichern',
       this.saveIcon = Icons.save,
       this.abortIcon = Icons.clear,
+      this.needsInset = true,
       @required this.title,
       @required this.abortCallback,
       @required this.saveCallback,
       Function cancelCallback,
       @required this.body,
       Key key})
-      :
-        super(key: key);
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +53,9 @@ class NormalEditDialog extends StatelessWidget {
       drawer: MyDrawer(),
       appBar: AppBar(title: Text(title)),
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(8, 10, 8, 8),
+        padding: needsInset
+            ? const EdgeInsets.fromLTRB(40, 10, 8, 8)
+            : const EdgeInsets.fromLTRB(8, 10, 8, 8),
         child: Card(
           elevation: 5,
           child: Column(

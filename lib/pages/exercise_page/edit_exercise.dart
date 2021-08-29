@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:native_training/components/card_edit_dialog.dart';
+import 'package:native_training/components/edit_dialog.dart';
 import 'package:native_training/components/select_image_for_exercise.dart';
 import 'package:native_training/components/white_redirect_page.dart';
 import 'package:native_training/models/exercise.dart';
@@ -36,7 +36,7 @@ class _EditExerciseState extends State<EditExercise> {
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context, listen: false);
 
-    return CardEditDialog(
+    return EditDialog(
       title: '\u00DCbung bearbeiten',
       abortCallback: () {
         Navigator.pop(context);

@@ -9,23 +9,25 @@ import 'package:native_training/services/service_provider.dart';
 import 'package:provider/provider.dart';
 
 /// Simple class to display a dialog
-class CardShowDialog extends StatefulWidget {
-  CardShowDialog(
+class ShowDialog extends StatefulWidget {
+  ShowDialog(
       {@required this.exercise,
         @required this.title,
         @required this.body,
+        this.needsInset = true,
         Key key})
       : super(key: key);
 
   final Exercise exercise;
   final String title;
   final Widget body;
+  final bool needsInset;
 
   @override
-  _CardShowDialogState createState() => _CardShowDialogState();
+  _ShowDialogState createState() => _ShowDialogState();
 }
 
-class _CardShowDialogState extends State<CardShowDialog> {
+class _ShowDialogState extends State<ShowDialog> {
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +75,7 @@ class _CardShowDialogState extends State<CardShowDialog> {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(40, 10, 8, 8),
+        padding: widget.needsInset ? const EdgeInsets.fromLTRB(40, 10, 8, 8) : const EdgeInsets.fromLTRB(8, 10, 8, 8),
         child: Card(
           elevation: 5,
           child: Column(

@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:native_training/components/card_edit_dialog.dart';
+import 'package:native_training/components/edit_dialog.dart';
 import 'package:native_training/components/image_picker_page.dart';
-import 'package:native_training/components/normal_edit_dialog.dart';
 import 'package:native_training/components/white_redirect_page.dart';
 import 'package:native_training/models/user.dart';
 import 'package:native_training/pages/account_page/account_page.dart';
@@ -29,7 +28,8 @@ class _EditProfilePage extends State<EditProfilePage> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context, listen: false);
-    return NormalEditDialog(
+    return EditDialog(
+        needsInset: false,
         title: 'Profil bearbeiten',
         abortCallback: () => Navigator.of(context).pop(),
         saveCallback: () {

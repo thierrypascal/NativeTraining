@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:native_training/components/card_edit_dialog.dart';
-import 'package:native_training/components/normal_edit_dialog.dart';
+import 'package:native_training/components/edit_dialog.dart';
 import 'package:native_training/components/white_redirect_page.dart';
 import 'package:native_training/models/user.dart';
 import 'package:native_training/pages/account_page/account_page.dart';
@@ -24,7 +23,8 @@ class _ChangePasswordPage extends State<ChangePasswordPage> {
 
   @override
   Widget build(BuildContext context) {
-    return NormalEditDialog(
+    return EditDialog(
+      needsInset: false,
       title: 'Passwort ändern',
       abortCallback: () => Navigator.of(context).pop(),
       saveCallback: () async {
