@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:native_training/components/drawer.dart';
 
 /// Simple class to display a save-abort dialog
-class EditDialog extends StatelessWidget {
+class NormalEditDialog extends StatelessWidget {
   /// Text which is displayed on the abort button
   final String abort;
 
@@ -29,7 +29,7 @@ class EditDialog extends StatelessWidget {
   final Widget body;
 
   /// Simple class to display a save-abort dialog
-  EditDialog(
+  NormalEditDialog(
       {this.abort = 'Abbrechen',
       this.save = 'Speichern',
       this.saveIcon = Icons.save,
@@ -50,7 +50,7 @@ class EditDialog extends StatelessWidget {
       drawer: MyDrawer(),
       appBar: AppBar(title: Text(title)),
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(40, 10, 8, 8),
+        padding: const EdgeInsets.fromLTRB(8, 10, 8, 8),
         child: Card(
           elevation: 5,
           child: Column(

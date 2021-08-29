@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:native_training/components/show_dialog.dart';
+import 'package:native_training/components/card_show_dialog.dart';
 import 'package:native_training/components/simple_information_object_card_widget.dart';
 import 'package:native_training/models/information_object.dart';
 import 'package:native_training/pages/exercise_page/my_exercises_page.dart';

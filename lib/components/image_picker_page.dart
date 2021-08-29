@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_editor/image_editor.dart';
 import 'package:image_picker/image_picker.dart' as picker;
-import 'package:native_training/components/edit_dialog.dart';
+import 'package:native_training/components/card_edit_dialog.dart';
 
 /// Picks an Image from either the camera or the gallery and enables the user to edit those
 class ImagePickerPage extends StatefulWidget {
@@ -74,7 +74,7 @@ class _ImagePickerPageState extends State<ImagePickerPage> {
 
   @override
   Widget build(BuildContext context) {
-    return EditDialog(
+    return CardEditDialog(
       abortCallback: () {
         Navigator.of(context).pop();
       },

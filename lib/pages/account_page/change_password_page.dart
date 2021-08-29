@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:native_training/components/edit_dialog.dart';
+import 'package:native_training/components/card_edit_dialog.dart';
+import 'package:native_training/components/normal_edit_dialog.dart';
 import 'package:native_training/components/white_redirect_page.dart';
 import 'package:native_training/models/user.dart';
 import 'package:native_training/pages/account_page/account_page.dart';
@@ -23,7 +24,7 @@ class _ChangePasswordPage extends State<ChangePasswordPage> {
 
   @override
   Widget build(BuildContext context) {
-    return EditDialog(
+    return NormalEditDialog(
       title: 'Passwort ändern',
       abortCallback: () => Navigator.of(context).pop(),
       saveCallback: () async {
@@ -52,62 +53,64 @@ class _ChangePasswordPage extends State<ChangePasswordPage> {
       },
       body: Padding(
         padding: const EdgeInsets.fromLTRB(15, 8, 15, 8),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: TextFormField(
-                  onSaved: (value) => _curPassword = value,
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Bitte gib ein Passwort ein';
-                    } else {
-                      return null;
-                    }
-                  },
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    labelText: 'Aktuelles Passwort',
+        child: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: TextFormField(
+                    onSaved: (value) => _curPassword = value,
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Bitte gib ein Passwort ein';
+                      } else {
+                        return null;
+                      }
+                    },
+                    obscureText: true,
+                    decoration: const InputDecoration(
+                      labelText: 'Aktuelles Passwort',
+                    ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: TextFormField(
-                  onSaved: (value) => _firstPassword = value,
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Bitte gib ein Passwort ein';
-                    } else {
-                      return null;
-                    }
-                  },
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    labelText: 'Neues Passwort',
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: TextFormField(
+                    onSaved: (value) => _firstPassword = value,
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Bitte gib ein Passwort ein';
+                      } else {
+                        return null;
+                      }
+                    },
+                    obscureText: true,
+                    decoration: const InputDecoration(
+                      labelText: 'Neues Passwort',
+                    ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: TextFormField(
-                  onSaved: (value) => _secondPassword = value,
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Bitte gib ein Passwort ein';
-                    } else {
-                      return null;
-                    }
-                  },
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    labelText: 'Neues Passwort wiederholen',
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: TextFormField(
+                    onSaved: (value) => _secondPassword = value,
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Bitte gib ein Passwort ein';
+                      } else {
+                        return null;
+                      }
+                    },
+                    obscureText: true,
+                    decoration: const InputDecoration(
+                      labelText: 'Neues Passwort wiederholen',
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

@@ -26,8 +26,7 @@ class MyDrawer extends StatelessWidget {
               child: IconButton(
                   icon: const Icon(Icons.person),
                   onPressed: () {
-                    if (Provider.of<User>(context, listen: false)
-                        .isLoggedIn) {
+                    if (Provider.of<User>(context, listen: false).isLoggedIn) {
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
@@ -70,7 +69,8 @@ class MyDrawer extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => WhiteRedirectPage(
-                                          'Bitte melde Dich zuerst an', LoginPage())),
+                                          'Bitte melde Dich zuerst an',
+                                          LoginPage())),
                                 );
                               }
                             },
@@ -83,18 +83,22 @@ class MyDrawer extends StatelessWidget {
                                 Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => MyExercisePage()));
+                                        builder: (context) =>
+                                            MyExercisePage()));
                               } else {
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => WhiteRedirectPage(
-                                          'Bitte melde Dich zuerst an', LoginPage())),
+                                          'Bitte melde Dich zuerst an',
+                                          LoginPage())),
                                 );
                               }
                             },
                           ),
-                          Divider(thickness: 2,),
+                          Divider(
+                            thickness: 2,
+                          ),
                           ListTile(
                             title: const Text('Neues Training'),
                             onTap: () {},
@@ -106,11 +110,13 @@ class MyDrawer extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => CreateExercise(
-                                        route: MyExercisePage(),
-                                      )));
+                                            route: MyExercisePage(),
+                                          )));
                             },
                           ),
-                          Divider(thickness: 2,),
+                          Divider(
+                            thickness: 2,
+                          ),
                           _loginLogoutButton(context),
                         ]),
                       ),
@@ -140,33 +146,41 @@ class MyDrawer extends StatelessWidget {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: const Text('Ausloggen ?'),
-          content: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-
-              ElevatedButton(
-                onPressed: () => Navigator.pop(context),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(
-                      const Color(0xFFC05410)),
-                ),
-                child: const Text('Abbrechen'),
+              title: const Text('Ausloggen?'),
+              content: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () => Navigator.pop(context),
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            Theme.of(context).primaryColor),
+                      ),
+                      child: const Text('Abbrechen'),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Provider.of<User>(context, listen: false).signOut();
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoginPage()));
+                      },
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            Theme.of(context).errorColor),
+                      ),
+                      child: const Text('Ausloggen'),
+                    ),
+                  ),
+                ],
               ),
-              ElevatedButton(
-                onPressed: () {
-                  Provider.of<User>(context, listen: false).signOut();
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => LoginPage()));
-                },
-                style: ButtonStyle(
-                  backgroundColor:
-                  MaterialStateProperty.all<Color>(const Color(0xFFC05410)),
-                ),
-                child: const Text('Ausloggen'),
-              ),
-            ],
-          ),
-        ));
+            ));
   }
 }

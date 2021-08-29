@@ -9,8 +9,8 @@ import 'package:native_training/services/service_provider.dart';
 import 'package:provider/provider.dart';
 
 /// Simple class to display a dialog
-class ShowDialog extends StatefulWidget {
-  ShowDialog(
+class CardShowDialog extends StatefulWidget {
+  CardShowDialog(
       {@required this.exercise,
         @required this.title,
         @required this.body,
@@ -22,10 +22,10 @@ class ShowDialog extends StatefulWidget {
   final Widget body;
 
   @override
-  _ShowDialogState createState() => _ShowDialogState();
+  _CardShowDialogState createState() => _CardShowDialogState();
 }
 
-class _ShowDialogState extends State<ShowDialog> {
+class _CardShowDialogState extends State<CardShowDialog> {
 
   @override
   Widget build(BuildContext context) {

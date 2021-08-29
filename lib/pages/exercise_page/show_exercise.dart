@@ -1,9 +1,9 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:native_training/components/edit_dialog.dart';
+import 'package:native_training/components/card_edit_dialog.dart';
 import 'package:native_training/components/select_image_for_exercise.dart';
-import 'package:native_training/components/show_dialog.dart';
+import 'package:native_training/components/card_show_dialog.dart';
 import 'package:native_training/components/white_redirect_page.dart';
 import 'package:native_training/models/exercise.dart';
 import 'package:native_training/models/information_object.dart';
@@ -25,7 +25,7 @@ class ShowExercise extends StatefulWidget {
 class _ShowExerciseState extends State<ShowExercise> {
   @override
   Widget build(BuildContext context) {
-    return ShowDialog(
+    return CardShowDialog(
       exercise: widget.exercise,
       title: widget.exercise.title,
       body: SingleChildScrollView(
