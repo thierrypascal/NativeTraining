@@ -17,9 +17,25 @@ class MyExercisePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Meine \u00DCbungen')),
       drawer: MyDrawer(),
-      body: InformationObjectListWidget(
-        objects: ServiceProvider.instance.exerciseService
-            .getAllExercisesFromUser(user),
+      body: Column(
+        children: <Widget> [
+          InformationObjectListWidget(
+            objects: ServiceProvider.instance.exerciseService
+                .getAllExercisesFromUserOfType(user, 0),
+          ),
+          InformationObjectListWidget(
+            objects: ServiceProvider.instance.exerciseService
+                .getAllExercisesFromUserOfType(user, 1),
+          ),
+          InformationObjectListWidget(
+            objects: ServiceProvider.instance.exerciseService
+                .getAllExercisesFromUserOfType(user, 2),
+          ),
+          InformationObjectListWidget(
+            objects: ServiceProvider.instance.exerciseService
+                .getAllExercisesFromUserOfType(user, 3),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
