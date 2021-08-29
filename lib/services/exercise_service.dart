@@ -83,4 +83,44 @@ class ExerciseService extends ChangeNotifier {
     }
     _exercises.remove(exercise);
   }
+
+  /// returns the numerical value of the type
+  int getAbstractFromType(String type) {
+    int abstrType = 0;
+    switch (type) {
+      case 'Anderes':
+        abstrType = 0;
+        break;
+      case 'Aufw\u00E4rmen':
+        abstrType = 1;
+        break;
+      case 'Training':
+        abstrType = 2;
+        break;
+      case 'Dehnen':
+        abstrType = 3;
+        break;
+    }
+    return abstrType;
+  }
+
+  ///returns the String representation of the type
+  String getTypeFromAbstract(int abstrType) {
+    String type = 'Anderes';
+    switch (abstrType) {
+      case 0:
+        type = 'Anderes';
+        break;
+      case 1:
+        type = 'Aufw\u00E4rmen';
+        break;
+      case 2:
+        type = 'Training';
+        break;
+      case 3:
+        type = 'Dehnen';
+        break;
+    }
+    return type;
+  }
 }

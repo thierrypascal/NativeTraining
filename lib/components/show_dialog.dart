@@ -28,6 +28,29 @@ class ShowDialog extends StatefulWidget {
 }
 
 class _ShowDialogState extends State<ShowDialog> {
+  Color gradientStart;
+
+  @override
+  void initState() {
+    switch (widget.exercise.type) {
+      case 0:
+        gradientStart = Colors.grey;
+        break;
+      case 1:
+        gradientStart = Colors.green;
+        break;
+      case 2:
+        gradientStart = Colors.deepOrange;
+        break;
+      case 3:
+        gradientStart = Colors.deepPurple;
+        break;
+      default:
+        gradientStart = Colors.grey;
+        break;
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,36 +97,46 @@ class _ShowDialogState extends State<ShowDialog> {
           ),
         ],
       ),
-      body: Padding(
-        padding: widget.needsInset ? const EdgeInsets.fromLTRB(40, 10, 8, 8) : const EdgeInsets.fromLTRB(8, 10, 8, 8),
-        child: Card(
-          elevation: 5,
-          child: Column(
-            children: [
-              Expanded(
-                child: widget.body,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 15.0,
-                  right: 15,
-                  bottom: 10,
+      body: Container(
+        decoration: new BoxDecoration(
+          gradient: new LinearGradient(colors: [gradientStart, Theme.of(context).scaffoldBackgroundColor],
+              begin: const FractionalOffset(0.0, 1.0),
+              end: const FractionalOffset(1.0, 1.0),
+              stops: [0.0,1.0],
+              tileMode: TileMode.clamp,
+          ),
+        ),
+        child: Padding(
+          padding: widget.needsInset ? const EdgeInsets.fromLTRB(40, 10, 8, 8) : const EdgeInsets.fromLTRB(8, 10, 8, 8),
+          child: Card(
+            elevation: 5,
+            child: Column(
+              children: [
+                Expanded(
+                  child: widget.body,
                 ),
-                child: Row(
-                  children: [
-                    ElevatedButton.icon(
-                      label: Text('Zur\u00FCck'),
-                      icon: Icon(Icons.arrow_back),
-                      style: ButtonStyle(
-                          visualDensity: VisualDensity.adaptivePlatformDensity),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ],
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: 15.0,
+                    right: 15,
+                    bottom: 10,
+                  ),
+                  child: Row(
+                    children: [
+                      ElevatedButton.icon(
+                        label: Text('Zur\u00FCck'),
+                        icon: Icon(Icons.arrow_back),
+                        style: ButtonStyle(
+                            visualDensity: VisualDensity.adaptivePlatformDensity),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

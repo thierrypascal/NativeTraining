@@ -30,6 +30,8 @@ class _CreateExerciseState extends State<CreateExercise> {
   bool _saveRequested = false;
   String _title;
   String _description;
+  String _selectedType;
+  final _type = ['Anderes', 'Aufw\u00E4rmen', 'Training', 'Dehnen'];
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +68,7 @@ class _CreateExerciseState extends State<CreateExercise> {
             exercise.title = _title;
             exercise.description = _description;
             exercise.owner = user.userUUID;
+            exercise.type = ServiceProvider.instance.exerciseService.getAbstractFromType(_selectedType);
             await exercise.saveExercise();
             user.addExercise(exercise);
             Navigator.of(context).pushReplacement(MaterialPageRoute(
@@ -106,6 +109,23 @@ class _CreateExerciseState extends State<CreateExercise> {
                       labelText: 'Titel',
                       contentPadding: EdgeInsets.symmetric(vertical: 4)),
                   onSaved: (value) => _title = value,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(15, 8, 15, 8),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton(
+                    isExpanded: true,
+                    value: _selectedType,
+                    onChanged: (value) => setState(() => _selectedType = value),
+                    hint: const Text('Typ auswählen'),
+                    items: _type.map((String dropDownStringItem) {
+                      return DropdownMenuItem<String>(
+                        value: dropDownStringItem,
+                        child: Text(dropDownStringItem),
+                      );
+                    }).toList(),
+                  ),
                 ),
               ),
               Padding(

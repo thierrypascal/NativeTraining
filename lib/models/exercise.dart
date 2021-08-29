@@ -24,6 +24,9 @@ class Exercise extends ChangeNotifier implements InformationObject {
   @override
   String imageURL;
 
+  ///The type of the exercise, 0 = undefined, 1 = warmup, 2 = workout, 3 = cooldown
+  int type;
+
   ///Owner of the exercise
   DocumentReference reference;
 
@@ -39,6 +42,7 @@ class Exercise extends ChangeNotifier implements InformationObject {
     title = '';
     description = '';
     imageURL = '';
+    type = 0;
     _isEmpty = true;
   }
 
@@ -51,6 +55,7 @@ class Exercise extends ChangeNotifier implements InformationObject {
         title = map.containsKey('title') ? map['title'] as String : '',
         description = map.containsKey('description') ? map['description'] as String : '',
         imageURL = map.containsKey('imageURL') ? map['imageURL'] as String : '',
+        type = map.containsKey('type') ? map['type'] as int : 0,
         _isEmpty = false;
 
   /// loads an exercise form a database snapshot
@@ -70,6 +75,7 @@ class Exercise extends ChangeNotifier implements InformationObject {
       'title': title,
       'description': description,
       'imageURL': imageURL,
+      'type': type,
       'owner' : owner,
     });
   }

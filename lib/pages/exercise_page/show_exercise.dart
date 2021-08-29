@@ -16,7 +16,7 @@ import 'package:uuid/uuid.dart';
 class ShowExercise extends StatefulWidget {
   ShowExercise(this.exercise, {Key key}) : super(key: key);
 
-  final InformationObject exercise;
+  final Exercise exercise;
 
   @override
   _ShowExerciseState createState() => _ShowExerciseState();
@@ -33,8 +33,8 @@ class _ShowExerciseState extends State<ShowExercise> {
           children: [
             SizedBox(
               height: 150,
-              child: ServiceProvider.instance.imageService.getImageByUrl(
-                  widget.exercise.imageURL, fit: BoxFit.cover),
+              child: ServiceProvider.instance.imageService
+                  .getImageByUrl(widget.exercise.imageURL, fit: BoxFit.cover),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(15, 8, 15, 8),
@@ -43,6 +43,17 @@ class _ShowExerciseState extends State<ShowExercise> {
                 initialValue: widget.exercise.title,
                 decoration: const InputDecoration(
                     labelText: 'Titel',
+                    contentPadding: EdgeInsets.symmetric(vertical: 4)),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(15, 8, 15, 8),
+              child: TextFormField(
+                enabled: false,
+                initialValue: ServiceProvider.instance.exerciseService
+                    .getTypeFromAbstract(widget.exercise.type),
+                decoration: const InputDecoration(
+                    labelText: 'Typ',
                     contentPadding: EdgeInsets.symmetric(vertical: 4)),
               ),
             ),

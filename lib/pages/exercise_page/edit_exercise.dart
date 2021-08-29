@@ -25,12 +25,21 @@ class EditExercise extends StatefulWidget {
 
 class _EditExerciseState extends State<EditExercise> {
   final _formKey = GlobalKey<FormState>();
+  final exerciseProvider = ServiceProvider.instance.exerciseService;
   String _toDeleteURL;
   bool _deleteRequested = false;
   Uint8List _toSaveImage;
   bool _saveRequested = false;
   String _title;
   String _description;
+  String _selectedType;
+  final _type = ['Anderes', 'Aufw\u00E4rmen', 'Training', 'Dehnen'];
+
+  @override
+  void initState() {
+    _selectedType = exerciseProvider.getTypeFromAbstract(widget.exercise.type);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,17 +66,19 @@ class _EditExerciseState extends State<EditExercise> {
             content: Text('Du musst deiner \u00DCbung einen Namen geben'),
           ));
         } else {
-            widget.exercise.title = _title;
-            widget.exercise.description = _description;
-            widget.exercise.owner = user.userUUID;
-            await widget.exercise.saveExercise();
-            user.saveUser();
-            Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) => WhiteRedirectPage(
-                      'Die \u00DCbung $_title wurde gespeichert.',
-                      widget.route ?? MyExercisePage(),
-                      duration: 2,
-                    )));
+          widget.exercise.title = _title;
+          widget.exercise.description = _description;
+          widget.exercise.owner = user.userUUID;
+          widget.exercise.type =
+              exerciseProvider.getAbstractFromType(_selectedType);
+          await widget.exercise.saveExercise();
+          user.saveUser();
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => WhiteRedirectPage(
+                    'Die \u00DCbung $_title wurde gespeichert.',
+                    widget.route ?? MyExercisePage(),
+                    duration: 2,
+                  )));
         }
       },
       body: SingleChildScrollView(
@@ -99,6 +110,23 @@ class _EditExerciseState extends State<EditExercise> {
                       labelText: 'Titel',
                       contentPadding: EdgeInsets.symmetric(vertical: 4)),
                   onSaved: (value) => _title = value,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(15, 8, 15, 8),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton(
+                    isExpanded: true,
+                    value: _selectedType,
+                    onChanged: (value) => setState(() => _selectedType = value),
+                    hint: const Text('Typ auswählen'),
+                    items: _type.map((String dropDownStringItem) {
+                      return DropdownMenuItem<String>(
+                        value: dropDownStringItem,
+                        child: Text(dropDownStringItem),
+                      );
+                    }).toList(),
+                  ),
                 ),
               ),
               Padding(
