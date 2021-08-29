@@ -1,15 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:native_training/components/drawer.dart';
+import 'package:native_training/models/exercise.dart';
+import 'package:native_training/models/user.dart';
+import 'package:native_training/pages/exercise_page/edit_exercise.dart';
+import 'package:native_training/pages/exercise_page/my_exercises_page.dart';
+import 'package:native_training/services/service_provider.dart';
+import 'package:provider/provider.dart';
 
 /// Simple class to display a dialog
 class ShowDialog extends StatefulWidget {
   ShowDialog(
-      {@required this.title,
+      {@required this.exercise,
+        @required this.title,
         @required this.body,
         Key key})
       : super(key: key);
 
+  final Exercise exercise;
   final String title;
   final Widget body;
 
@@ -106,15 +114,53 @@ class _ShowDialogState extends State<ShowDialog> {
       case 'EditExercise':
         {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => (null)));
+              MaterialPageRoute(builder: (context) => (EditExercise(widget.exercise))));
           break;
         }
       case 'DeleteExercise':
         {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => (null)));
+          deleteExercise(widget.exercise, context);
           break;
         }
     }
+  }
+
+  ///Handles the deletation dialog of the exercise
+  void deleteExercise(Exercise exercise, BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Bist du dir sicher?'),
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () => Navigator.pop(context),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(Theme.of(context).primaryColor),
+                  ),
+                  child: const Text('Abbrechen'),
+                ),
+              ),
+              SizedBox(width: 10,),
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () {
+                    ServiceProvider.instance.exerciseService.deleteExercise(widget.exercise);
+                    Provider.of<User>(context, listen: false).deleteExercise(widget.exercise);
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => MyExercisePage()));
+                  },
+                  style: ButtonStyle(
+                    backgroundColor:
+                    MaterialStateProperty.all<Color>(Theme.of(context).errorColor),
+                  ),
+                  child: const Text('L\u00F6schen'),
+                ),
+              ),
+            ],
+          ),
+        ));
   }
 }

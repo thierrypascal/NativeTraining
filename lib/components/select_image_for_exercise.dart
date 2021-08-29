@@ -87,16 +87,16 @@ class _SelectExerciseImageState extends State<SelectExerciseImage> {
         (widget.exercise.imageURL == null ||
             widget.exercise.imageURL.isEmpty)) {
       return Image(
-          fit: BoxFit.fitWidth,
+          fit: BoxFit.cover,
           color: Theme.of(context).canvasColor.withOpacity(1),
           colorBlendMode: BlendMode.saturation,
           image: const AssetImage('res/Logo.png'));
     } else if (widget.toSaveImage != null) {
-      return Image.memory(widget.toSaveImage, fit: BoxFit.fitWidth,);
+      return Image.memory(widget.toSaveImage, fit: BoxFit.cover,);
     } else {
       return Image.network(widget.exercise.imageURL,
           errorBuilder: (context, _, __) => Image(
-              fit: BoxFit.fitWidth,
+              fit: BoxFit.cover,
               color: Theme.of(context).canvasColor.withOpacity(1),
               colorBlendMode: BlendMode.saturation,
               image: const AssetImage('res/Logo.png')));
