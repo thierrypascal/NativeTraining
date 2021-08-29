@@ -72,7 +72,7 @@ class _SelectExerciseImageState extends State<SelectExerciseImage> {
                 Text(
                   widget.displayText,
                   style: const TextStyle(color: Colors.black),
-                  textScaleFactor: 1.5,
+                  textScaleFactor: 1.2,
                 ),
               ],
             )

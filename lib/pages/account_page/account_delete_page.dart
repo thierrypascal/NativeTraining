@@ -26,7 +26,6 @@ class _MyAccountDeleteState extends State<MyAccountDelete> {
     final user = Provider.of<User>(context, listen: false);
 
     return EditDialog(
-      isScrollable: false,
       title: 'Account löschen',
       abortCallback: () {
         Navigator.pop(context);

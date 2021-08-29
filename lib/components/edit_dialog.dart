@@ -25,14 +25,8 @@ class EditDialog extends StatelessWidget {
   /// callback function which is called upon save
   final Function saveCallback;
 
-  /// callback which is used with the cross at the top of the page
-  final Function cancelCallback;
-
   /// content to display on the page
   final Widget body;
-
-  /// scroll physics for the body
-  final bool isScrollable;
 
   /// Simple class to display a save-abort dialog
   EditDialog(
@@ -44,59 +38,31 @@ class EditDialog extends StatelessWidget {
       @required this.abortCallback,
       @required this.saveCallback,
       Function cancelCallback,
-      this.isScrollable = true,
       @required this.body,
       Key key})
-      : cancelCallback = cancelCallback ?? abortCallback,
+      :
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      // resizeToAvoidBottomInset: false,
       drawer: MyDrawer(),
       appBar: AppBar(title: Text(title)),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          decoration: BoxDecoration(
-              border:
-                  Border.all(color: Theme.of(context).colorScheme.onSurface),
-              borderRadius: const BorderRadius.all(Radius.circular(5))),
+        padding: const EdgeInsets.fromLTRB(40, 10, 8, 8),
+        child: Card(
+          elevation: 5,
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  IconButton(
-                      icon: Icon(
-                        Icons.clear,
-                        size: 20,
-                        color: Theme.of(context).colorScheme.onSurface,
-                      ),
-                      visualDensity: VisualDensity.compact,
-                      padding: EdgeInsets.zero,
-                      onPressed: cancelCallback),
-                ],
-              ),
               Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15),
-                  child: isScrollable
-                      ? ListView(
-                          shrinkWrap: true,
-                          children: [
-                            body,
-                          ],
-                        )
-                      : body,
-                ),
+                child: body,
               ),
               Padding(
                 padding: const EdgeInsets.only(
                   left: 15.0,
                   right: 15,
-                  bottom: 20,
+                  bottom: 10,
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

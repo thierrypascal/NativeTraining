@@ -93,7 +93,6 @@ class _ImagePickerPageState extends State<ImagePickerPage> {
             }
           : null,
       title: 'Bild auswählen',
-      isScrollable: false,
       body: SizedBox(
         child: Column(
           children: <Widget>[

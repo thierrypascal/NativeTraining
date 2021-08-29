@@ -44,73 +44,83 @@ class _CreateExerciseState extends State<CreateExercise> {
         if (_saveRequested) {
           exercise.imageURL = await ServiceProvider.instance.imageService
               .uploadImage(_toSaveImage, 'exercisepictures',
-              filename: '${exercise.title}_${const Uuid().v4()}');
+                  filename: '${exercise.title}_${const Uuid().v4()}');
         }
         if (_deleteRequested) {
           ServiceProvider.instance.imageService
               .deleteImage(imageURL: _toDeleteURL);
         }
         _formKey.currentState.save();
-        if (user.exercises.contains(_title)) {
+        if (_title.isEmpty) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text('Du hast bereits eine \u00DCbung mit dem Titel $_title.\n'
-                'Wähle bitte einen Anderen.'),
+            content: Text('Du musst deiner \u00DCbung einen Namen geben'),
           ));
         } else {
-          exercise.title = _title;
-          exercise.description = _description;
-          exercise.owner = user.userUUID;
-          await exercise.saveExercise();
-          user.addExercise(exercise);
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => WhiteRedirectPage(
-                'Die \u00DCbung $_title wurde erstellt.',
-                widget.route ?? MyExercisePage(),
-                duration: 2,
-              )));
+          if (user.exercises.contains(_title)) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(
+                  'Du hast bereits eine \u00DCbung mit dem Titel $_title.\n'
+                  'Wähle bitte einen Anderen.'),
+            ));
+          } else {
+            exercise.title = _title;
+            exercise.description = _description;
+            exercise.owner = user.userUUID;
+            await exercise.saveExercise();
+            user.addExercise(exercise);
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) => WhiteRedirectPage(
+                      'Die \u00DCbung $_title wurde erstellt.',
+                      widget.route ?? MyExercisePage(),
+                      duration: 2,
+                    )));
+          }
         }
       },
-      body: Form(
-        key: _formKey,
-        child: Column(
-          children: [
-            SelectExerciseImage(
-              deleteFunction: (toDeleteURL) {
-                _toDeleteURL = toDeleteURL;
-                _deleteRequested = true;
-              },
-              saveFunction: (imageFile) {
-                setState(() {
-                  _toSaveImage = imageFile;
-                  _saveRequested = true;
-                });
-                Navigator.of(context).pop();
-              },
-              toSaveImage: _toSaveImage,
-              exercise: exercise,
-              displayText: 'Bild hinzufügen',
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: TextFormField(
-                initialValue: exercise.title,
-                decoration: const InputDecoration(
-                    labelText: 'Titel',
-                    contentPadding: EdgeInsets.symmetric(vertical: 4)),
-                onSaved: (value) => _title = value,
+      body: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              SelectExerciseImage(
+                deleteFunction: (toDeleteURL) {
+                  _toDeleteURL = toDeleteURL;
+                  _deleteRequested = true;
+                },
+                saveFunction: (imageFile) {
+                  setState(() {
+                    _toSaveImage = imageFile;
+                    _saveRequested = true;
+                  });
+                  Navigator.of(context).pop();
+                },
+                toSaveImage: _toSaveImage,
+                exercise: exercise,
+                displayText: 'Bild hinzufügen',
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: TextFormField(
-                initialValue: exercise.description,
-                decoration: const InputDecoration(
-                    labelText: 'Beschreibung',
-                    contentPadding: EdgeInsets.symmetric(vertical: 4)),
-                onSaved: (value) => _description = value,
+              Padding(
+                padding: const EdgeInsets.fromLTRB(15, 8, 15, 8),
+                child: TextFormField(
+                  initialValue: exercise.title,
+                  decoration: const InputDecoration(
+                      labelText: 'Titel',
+                      contentPadding: EdgeInsets.symmetric(vertical: 4)),
+                  onSaved: (value) => _title = value,
+                ),
               ),
-            ),
-          ],
+              Padding(
+                padding: const EdgeInsets.fromLTRB(15, 8, 15, 8),
+                child: TextFormField(
+                  maxLines: null,
+                  initialValue: exercise.description,
+                  decoration: const InputDecoration(
+                      labelText: 'Beschreibung',
+                      contentPadding: EdgeInsets.symmetric(vertical: 4)),
+                  onSaved: (value) => _description = value,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

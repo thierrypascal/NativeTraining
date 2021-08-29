@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:native_training/components/show_dialog.dart';
 import 'package:native_training/components/simple_information_object_card_widget.dart';
 import 'package:native_training/models/information_object.dart';
+import 'package:native_training/pages/exercise_page/my_exercises_page.dart';
+import 'package:native_training/pages/exercise_page/show_exercise.dart';
 import 'package:native_training/services/service_provider.dart';
 
 /// Creates a List Widget displaying all provided InformationObjects
 class InformationObjectListWidget extends StatefulWidget {
-
   /// if this flag is set, the buttons bearbeiten and löschen will be removed
   final bool showDeleteAndEdit;
 
@@ -71,10 +73,16 @@ class _InformationObjectListWidgetState
                       itemBuilder: (context, index) {
                         final element = items.elementAt(index);
                         return SimpleInformationObjectCard(
-                                element,
-                                serviceProvider: widget._serviceProvider,
-                          onTapHandler: () {},
-                              );
+                          element,
+                          serviceProvider: widget._serviceProvider,
+                          onTapHandler: () {
+                            //TODO: use animations_package to detailview
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ShowExercise(element)));
+                          },
+                        );
                       },
                       separatorBuilder: (context, index) {
                         return const SizedBox(height: 5);
