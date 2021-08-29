@@ -67,7 +67,7 @@ class ImageService extends ChangeNotifier {
         fit: fit,
         imageUrl: url,
         errorWidget: (context, str, err) =>
-            errorWidget ?? getImage('default-1'),
+            errorWidget ?? Image.asset('res/Logo.png'),
       );
     }
 
@@ -142,7 +142,7 @@ class ImageService extends ChangeNotifier {
       fit: fit,
       imageUrl: url,
       errorWidget: (context, str, error) =>
-          errorWidget ?? getImage('default-1'),
+          errorWidget ?? Image.asset('res/Logo.png'),
     );
   }
 
@@ -241,8 +241,7 @@ class ImageService extends ChangeNotifier {
   }
 
   /// returns a list of URLs wich are associated to the given name
-  Future<List<String>> getListOfImageURLs(
-      {@required String name}) async {
+  Future<List<String>> getListOfImageURLs({@required String name}) async {
     final docs = await _storage.database
         .collection('imageReferences')
         .where('name', isEqualTo: name)
