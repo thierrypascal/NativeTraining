@@ -149,7 +149,7 @@ class _ShowDialogState extends State<ShowDialog> {
       case 'EditExercise':
         {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => (EditExercise(widget.exercise))));
+              MaterialPageRoute(builder: (context) => (EditExercise(isEdit: true, exercise: widget.exercise,))));
           break;
         }
       case 'DeleteExercise':

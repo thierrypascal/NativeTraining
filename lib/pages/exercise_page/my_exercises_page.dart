@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:native_training/components/drawer.dart';
 import 'package:native_training/components/information_object_list_widget.dart';
 import 'package:native_training/models/user.dart';
-import 'package:native_training/pages/exercise_page/create_exercise.dart';
+import 'package:native_training/pages/exercise_page/edit_exercise.dart';
 import 'package:native_training/services/service_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -26,7 +26,8 @@ class MyExercisePage extends StatelessWidget {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => CreateExercise(
+                  builder: (context) => EditExercise(
+                    isEdit: false,
                         route: MyExercisePage(),
                       )));
         },

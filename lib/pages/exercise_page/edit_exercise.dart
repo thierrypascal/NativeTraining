@@ -11,12 +11,18 @@ import 'package:native_training/services/service_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
+//TODO: Edit/Create as one workflow
+
 class EditExercise extends StatefulWidget {
-  EditExercise(this.exercise, {this.route, Key key}) : super(key: key);
+  EditExercise({@required this.isEdit, this.exercise, this.route, Key key}) : super(key: key);
+
+  /// if this workflow is used to edit
+  final bool isEdit;
 
   /// the Page which you will be redirected to after the timeout
   final Widget route;
 
+  ///The exercise that will be modified/created
   final Exercise exercise;
 
   @override
@@ -26,6 +32,7 @@ class EditExercise extends StatefulWidget {
 class _EditExerciseState extends State<EditExercise> {
   final _formKey = GlobalKey<FormState>();
   final exerciseProvider = ServiceProvider.instance.exerciseService;
+  Exercise exercise;
   String _toDeleteURL;
   bool _deleteRequested = false;
   Uint8List _toSaveImage;
@@ -37,7 +44,8 @@ class _EditExerciseState extends State<EditExercise> {
 
   @override
   void initState() {
-    _selectedType = exerciseProvider.getTypeFromAbstract(widget.exercise.type);
+    (widget.exercise != null) ? exercise = widget.exercise : exercise = Exercise.empty();
+    (widget.exercise != null) ? _selectedType = exerciseProvider.getTypeFromAbstract(widget.exercise.type) : _selectedType = _type.elementAt(2);
     super.initState();
   }
 
@@ -46,15 +54,15 @@ class _EditExerciseState extends State<EditExercise> {
     final user = Provider.of<User>(context, listen: false);
 
     return EditDialog(
-      title: '\u00DCbung bearbeiten',
+      title: widget.isEdit ? '\u00DCbung bearbeiten' : 'Neue \u00DCbung',
       abortCallback: () {
         Navigator.pop(context);
       },
       saveCallback: () async {
         if (_saveRequested) {
-          widget.exercise.imageURL = await ServiceProvider.instance.imageService
+          exercise.imageURL = await ServiceProvider.instance.imageService
               .uploadImage(_toSaveImage, 'exercisepictures',
-                  filename: '${widget.exercise.title}_${const Uuid().v4()}');
+                  filename: '${exercise.title}_${const Uuid().v4()}');
         }
         if (_deleteRequested) {
           ServiceProvider.instance.imageService
@@ -66,12 +74,19 @@ class _EditExerciseState extends State<EditExercise> {
             content: Text('Du musst deiner \u00DCbung einen Namen geben'),
           ));
         } else {
-          widget.exercise.title = _title;
-          widget.exercise.description = _description;
-          widget.exercise.owner = user.userUUID;
-          widget.exercise.type =
+          if (!widget.isEdit && user.exercises.contains(_title)) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(
+                  'Du hast bereits eine \u00DCbung mit dem Titel $_title.\n'
+                      'Wähle bitte einen Anderen.'),
+            ));
+          }
+          exercise.title = _title;
+          exercise.description = _description;
+          exercise.owner = user.userUUID;
+          exercise.type =
               exerciseProvider.getAbstractFromType(_selectedType);
-          await widget.exercise.saveExercise();
+          await exercise.saveExercise();
           user.saveUser();
           Navigator.of(context).pushReplacement(MaterialPageRoute(
               builder: (context) => WhiteRedirectPage(
@@ -99,13 +114,13 @@ class _EditExerciseState extends State<EditExercise> {
                   Navigator.of(context).pop();
                 },
                 toSaveImage: _toSaveImage,
-                exercise: widget.exercise,
+                exercise: exercise,
                 displayText: 'Bild hinzufügen',
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(15, 8, 15, 8),
                 child: TextFormField(
-                  initialValue: widget.exercise.title,
+                  initialValue: exercise.title,
                   decoration: const InputDecoration(
                       labelText: 'Titel',
                       contentPadding: EdgeInsets.symmetric(vertical: 4)),
@@ -133,7 +148,7 @@ class _EditExerciseState extends State<EditExercise> {
                 padding: const EdgeInsets.fromLTRB(15, 8, 15, 8),
                 child: TextFormField(
                   maxLines: null,
-                  initialValue: widget.exercise.description,
+                  initialValue: exercise.description,
                   decoration: const InputDecoration(
                       labelText: 'Beschreibung',
                       contentPadding: EdgeInsets.symmetric(vertical: 4)),

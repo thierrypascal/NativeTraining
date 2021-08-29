@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:native_training/components/white_redirect_page.dart';
 import 'package:native_training/models/user.dart';
 import 'package:native_training/pages/account_page/account_page.dart';
-import 'package:native_training/pages/exercise_page/create_exercise.dart';
+import 'package:native_training/pages/exercise_page/edit_exercise.dart';
 import 'package:native_training/pages/exercise_page/my_exercises_page.dart';
 import 'package:native_training/pages/login_page/login_page.dart';
 import 'package:native_training/pages/workout_page/my_workouts_page.dart';
@@ -109,7 +109,8 @@ class MyDrawer extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => CreateExercise(
+                                      builder: (context) => EditExercise(
+                                            isEdit: false,
                                             route: MyExercisePage(),
                                           )));
                             },
