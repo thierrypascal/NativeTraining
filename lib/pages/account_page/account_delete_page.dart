@@ -37,53 +37,56 @@ class _MyAccountDeleteState extends State<MyAccountDelete> {
               _confirm_delete(context);
             }
           : null,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Form(
-            key: _formKey,
-            child: TextFormField(
-                obscureText: true,
-                decoration: const InputDecoration(
-                  helperText:
-                      'Bitte gib Dein Passwort ein um deinen Account zu löschen',
-                  labelText: 'Passwort',
-                ),
-                onSaved: (password) async {
-                  EmailAuthCredential credential = EmailAuthProvider.credential(
-                      email: user.mail, password: password);
-                  if (password == '') {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text('Bitte gib ein Passwort ein')));
-                  } else {
-                    try {
-                      await FirebaseAuth.instance.currentUser
-                          .reauthenticateWithCredential(credential);
-                      setState(() {
-                        _password_ok = true;
-                      });
-                    } on FirebaseAuthException catch (e) {
-                      if (e.code == 'wrong-password') {
-                        _password_ok = false;
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(15, 8, 15, 8),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Form(
+              key: _formKey,
+              child: TextFormField(
+                  obscureText: true,
+                  decoration: const InputDecoration(
+                    helperText:
+                        'Bitte gib Dein Passwort ein um deinen Account zu löschen',
+                    labelText: 'Passwort',
+                  ),
+                  onSaved: (password) async {
+                    EmailAuthCredential credential = EmailAuthProvider.credential(
+                        email: user.mail, password: password);
+                    if (password == '') {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text('Bitte gib ein Passwort ein')));
+                    } else {
+                      try {
+                        await FirebaseAuth.instance.currentUser
+                            .reauthenticateWithCredential(credential);
+                        setState(() {
+                          _password_ok = true;
+                        });
+                      } on FirebaseAuthException catch (e) {
+                        if (e.code == 'wrong-password') {
+                          _password_ok = false;
 
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text('Das Passwort ist falsch')));
-                      } else {
-                        _password_ok = false;
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text('Etwas ist schiefgelaufen')));
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text('Das Passwort ist falsch')));
+                        } else {
+                          _password_ok = false;
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text('Etwas ist schiefgelaufen')));
+                        }
                       }
                     }
-                  }
-                }),
-          ),
-          ElevatedButton(
-              onPressed: () => _formKey.currentState.save(),
-              child: const Text('Passwort bestätigen')),
-        ],
+                  }),
+            ),
+            ElevatedButton(
+                onPressed: () => _formKey.currentState.save(),
+                child: const Text('Passwort bestätigen')),
+          ],
+        ),
       ),
     );
   }

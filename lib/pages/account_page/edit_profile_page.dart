@@ -47,86 +47,89 @@ class _EditProfilePage extends State<EditProfilePage> {
                       'Die Profilinformationen wurden angepasst',
                       AccountPage())));
         },
-        body: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              CircleAvatar(
-                radius: 40,
-                backgroundColor: Colors.white,
-                child: Image.network(user.imageURL,
-                    errorBuilder: (context, error, trace) {
-                  return const Icon(
-                    Icons.person,
-                    size: 80,
-                  );
-                }),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ImagePickerPage(
-                        aspectRatio: 1,
-                        originalImageURL: user.imageURL,
-                        deleteImageFunction: (toDeleteURL) {
-                          ServiceProvider.instance.imageService
-                              .deleteImage(imageURL: toDeleteURL);
-                        },
-                        saveImageFunction: (imageFile) async {
-                          _imageURL = await ServiceProvider
-                              .instance.imageService
-                              .uploadImage(imageFile, 'profilepictures',
-                                  filename:
-                                      '${user.name}_${user.surname}_${const Uuid().v4()}');
-                          user.updateUserData(newImageURL: _imageURL);
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => WhiteRedirectPage(
-                                  'Das Profilbild wurde aktualisiert',
-                                  AccountPage()),
-                            ),
-                          );
-                        },
+        body: Padding(
+          padding: const EdgeInsets.fromLTRB(15, 8, 15, 8),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                CircleAvatar(
+                  radius: 40,
+                  backgroundColor: Colors.white,
+                  child: Image.network(user.imageURL,
+                      errorBuilder: (context, error, trace) {
+                    return const Icon(
+                      Icons.person,
+                      size: 80,
+                    );
+                  }),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ImagePickerPage(
+                          aspectRatio: 1,
+                          originalImageURL: user.imageURL,
+                          deleteImageFunction: (toDeleteURL) {
+                            ServiceProvider.instance.imageService
+                                .deleteImage(imageURL: toDeleteURL);
+                          },
+                          saveImageFunction: (imageFile) async {
+                            _imageURL = await ServiceProvider
+                                .instance.imageService
+                                .uploadImage(imageFile, 'profilepictures',
+                                    filename:
+                                        '${user.name}_${user.surname}_${const Uuid().v4()}');
+                            user.updateUserData(newImageURL: _imageURL);
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => WhiteRedirectPage(
+                                    'Das Profilbild wurde aktualisiert',
+                                    AccountPage()),
+                              ),
+                            );
+                          },
+                        ),
                       ),
-                    ),
-                  );
-                },
-                child: const Text('Profilbild ändern'),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: TextFormField(
-                  initialValue: user.name,
-                  decoration: const InputDecoration(
-                      labelText: 'Vorname',
-                      contentPadding: EdgeInsets.symmetric(vertical: 4)),
-                  onSaved: (value) => _name = value,
+                    );
+                  },
+                  child: const Text('Profilbild ändern'),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: TextFormField(
-                  initialValue: user.surname,
-                  decoration: const InputDecoration(
-                      labelText: 'Nachname',
-                      contentPadding: EdgeInsets.symmetric(vertical: 4)),
-                  onSaved: (value) => _surname = value,
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: TextFormField(
+                    initialValue: user.name,
+                    decoration: const InputDecoration(
+                        labelText: 'Vorname',
+                        contentPadding: EdgeInsets.symmetric(vertical: 4)),
+                    onSaved: (value) => _name = value,
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: TextFormField(
-                  initialValue: user.mail,
-                  decoration: const InputDecoration(
-                      labelText: 'Email',
-                      contentPadding: EdgeInsets.symmetric(vertical: 4)),
-                  onSaved: (value) => _email = value,
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: TextFormField(
+                    initialValue: user.surname,
+                    decoration: const InputDecoration(
+                        labelText: 'Nachname',
+                        contentPadding: EdgeInsets.symmetric(vertical: 4)),
+                    onSaved: (value) => _surname = value,
+                  ),
                 ),
-              ),
-            ],
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: TextFormField(
+                    initialValue: user.mail,
+                    decoration: const InputDecoration(
+                        labelText: 'Email',
+                        contentPadding: EdgeInsets.symmetric(vertical: 4)),
+                    onSaved: (value) => _email = value,
+                  ),
+                ),
+              ],
+            ),
           ),
         ));
   }

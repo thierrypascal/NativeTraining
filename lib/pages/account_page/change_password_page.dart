@@ -50,62 +50,65 @@ class _ChangePasswordPage extends State<ChangePasswordPage> {
           }
         }
       },
-      body: Form(
-        key: _formKey,
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: TextFormField(
-                onSaved: (value) => _curPassword = value,
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Bitte gib ein Passwort ein';
-                  } else {
-                    return null;
-                  }
-                },
-                obscureText: true,
-                decoration: const InputDecoration(
-                  labelText: 'Aktuelles Passwort',
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(15, 8, 15, 8),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: TextFormField(
+                  onSaved: (value) => _curPassword = value,
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Bitte gib ein Passwort ein';
+                    } else {
+                      return null;
+                    }
+                  },
+                  obscureText: true,
+                  decoration: const InputDecoration(
+                    labelText: 'Aktuelles Passwort',
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: TextFormField(
-                onSaved: (value) => _firstPassword = value,
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Bitte gib ein Passwort ein';
-                  } else {
-                    return null;
-                  }
-                },
-                obscureText: true,
-                decoration: const InputDecoration(
-                  labelText: 'Neues Passwort',
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: TextFormField(
+                  onSaved: (value) => _firstPassword = value,
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Bitte gib ein Passwort ein';
+                    } else {
+                      return null;
+                    }
+                  },
+                  obscureText: true,
+                  decoration: const InputDecoration(
+                    labelText: 'Neues Passwort',
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: TextFormField(
-                onSaved: (value) => _secondPassword = value,
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Bitte gib ein Passwort ein';
-                  } else {
-                    return null;
-                  }
-                },
-                obscureText: true,
-                decoration: const InputDecoration(
-                  labelText: 'Neues Passwort wiederholen',
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: TextFormField(
+                  onSaved: (value) => _secondPassword = value,
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Bitte gib ein Passwort ein';
+                    } else {
+                      return null;
+                    }
+                  },
+                  obscureText: true,
+                  decoration: const InputDecoration(
+                    labelText: 'Neues Passwort wiederholen',
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
