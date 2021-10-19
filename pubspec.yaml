@@ -25,14 +25,14 @@ dependencies:
     sdk: flutter
 
   firebase_core: ^1.0.3
-  firebase_storage: ^8.0.1
+  firebase_storage: ^10.0.5
   cloud_firestore: ^2.2.1
-  firebase_auth: ^1.0.3
+  firebase_auth: ^3.1.3
 
   image: any
   image_editor: ^1.0.0
-  extended_image: ^4.0.1
-  provider: ^5.0.0
+  extended_image: ^5.1.2
+  provider: ^6.0.1
   cached_network_image:
   http:
   image_picker:
