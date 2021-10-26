@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:native_training/components/drawer.dart';
 import 'package:native_training/components/information_object_list_widget.dart';
@@ -25,39 +26,56 @@ class MyExercisePage extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-            child: Divider(thickness: 2,),
+            child: Divider(
+              thickness: 2,
+            ),
           ),
           InformationObjectListWidget(
             objects: exerciseService.getAllExercisesFromUserOfType(user, 1),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-            child: Divider(thickness: 2,),
+            child: Divider(
+              thickness: 2,
+            ),
           ),
           InformationObjectListWidget(
             objects: exerciseService.getAllExercisesFromUserOfType(user, 2),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-            child: Divider(thickness: 2,),
+            child: Divider(
+              thickness: 2,
+            ),
           ),
           InformationObjectListWidget(
             objects: exerciseService.getAllExercisesFromUserOfType(user, 3),
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => EditExercise(
-                        isEdit: false,
-                        route: MyExercisePage(),
-                      )));
+      floatingActionButton: OpenContainer(
+        closedColor: Theme.of(context).primaryColor,
+        transitionDuration: Duration(milliseconds: 500),
+        closedBuilder: (BuildContext c, VoidCallback action) {
+          return SizedBox(
+            height: 56,
+            width: 56,
+            child: Center(
+              //TODO: use theme color
+              child: Icon(Icons.add, color: Colors.white),
+            ),
+          );
         },
-        tooltip: 'Neue \u00DCbung',
-        child: Icon(Icons.add),
+        openBuilder: (BuildContext c, VoidCallback action) => EditExercise(
+          isEdit: false,
+          route: MyExercisePage(),
+        ),
+        closedElevation: 6.0,
+        closedShape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(56 / 2),
+          ),
+        ),
       ),
     );
   }
