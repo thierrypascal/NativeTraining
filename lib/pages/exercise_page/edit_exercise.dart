@@ -54,6 +54,7 @@ class _EditExerciseState extends State<EditExercise> {
     final user = Provider.of<User>(context, listen: false);
 
     return EditDialog(
+      //TODO: modify EditDialog to show color of selected type
       title: widget.isEdit ? '\u00DCbung bearbeiten' : 'Neue \u00DCbung',
       abortCallback: () {
         Navigator.pop(context);

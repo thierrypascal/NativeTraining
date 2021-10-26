@@ -13,27 +13,36 @@ class MyExercisePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
+    final exerciseService = ServiceProvider.instance.exerciseService;
 
     return Scaffold(
       appBar: AppBar(title: const Text('Meine \u00DCbungen')),
       drawer: MyDrawer(),
       body: Column(
-        children: <Widget> [
+        children: <Widget>[
           InformationObjectListWidget(
-            objects: ServiceProvider.instance.exerciseService
-                .getAllExercisesFromUserOfType(user, 0),
+            objects: exerciseService.getAllExercisesFromUserOfType(user, 0),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+            child: Divider(thickness: 2,),
           ),
           InformationObjectListWidget(
-            objects: ServiceProvider.instance.exerciseService
-                .getAllExercisesFromUserOfType(user, 1),
+            objects: exerciseService.getAllExercisesFromUserOfType(user, 1),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+            child: Divider(thickness: 2,),
           ),
           InformationObjectListWidget(
-            objects: ServiceProvider.instance.exerciseService
-                .getAllExercisesFromUserOfType(user, 2),
+            objects: exerciseService.getAllExercisesFromUserOfType(user, 2),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+            child: Divider(thickness: 2,),
           ),
           InformationObjectListWidget(
-            objects: ServiceProvider.instance.exerciseService
-                .getAllExercisesFromUserOfType(user, 3),
+            objects: exerciseService.getAllExercisesFromUserOfType(user, 3),
           ),
         ],
       ),
@@ -43,7 +52,7 @@ class MyExercisePage extends StatelessWidget {
               context,
               MaterialPageRoute(
                   builder: (context) => EditExercise(
-                    isEdit: false,
+                        isEdit: false,
                         route: MyExercisePage(),
                       )));
         },
