@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -46,14 +47,14 @@ class _EditWorkoutState extends State<EditWorkout> {
     (widget.workout != null)
         ? workout = widget.workout
         : workout = Workout.empty();
-    if (widget.workout.warmupExercises != null) {
-      _selectedWarmupExercises.addAll(widget.workout.warmupExercises);
+    if (workout.warmupExercises.isNotEmpty) {
+      _selectedWarmupExercises.addAll(workout.warmupExercises);
     }
-    if (widget.workout.workoutExercises != null) {
-      _selectedWorkoutExercises.addAll(widget.workout.workoutExercises);
+    if (workout.workoutExercises.isNotEmpty) {
+      _selectedWorkoutExercises.addAll(workout.workoutExercises);
     }
-    if (widget.workout.cooldownExercises != null) {
-      _selectedCooldownExercises.addAll(widget.workout.cooldownExercises);
+    if (workout.cooldownExercises.isNotEmpty) {
+      _selectedCooldownExercises.addAll(workout.cooldownExercises);
     }
     super.initState();
   }
@@ -121,11 +122,11 @@ class _EditWorkoutState extends State<EditWorkout> {
                   onSaved: (value) => _description = value,
                 ),
               ),
-              (widget.workout.warmupExercises.isNotEmpty)
+              (workout.warmupExercises.isNotEmpty)
                   ? InformationObjectListWidget(
                       objects: _selectedWarmupExercises,
                     )
-              //TODO
+              //TODO: change to color of Theme
                   : Text("empty"),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, right: 8.0),
@@ -133,18 +134,22 @@ class _EditWorkoutState extends State<EditWorkout> {
                   thickness: 2,
                 ),
               ),
-              InformationObjectListWidget(
+              (workout.workoutExercises.isNotEmpty)
+                  ? InformationObjectListWidget(
                 objects: _selectedWorkoutExercises,
-              ),
+              )
+                  : Text("empty"),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                 child: Divider(
                   thickness: 2,
                 ),
               ),
-              InformationObjectListWidget(
+              (workout.cooldownExercises.isNotEmpty)
+                  ? InformationObjectListWidget(
                 objects: _selectedCooldownExercises,
-              ),
+              )
+                  : Text("empty"),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                 child: Divider(
