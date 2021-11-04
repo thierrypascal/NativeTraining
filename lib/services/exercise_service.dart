@@ -48,6 +48,11 @@ class ExerciseService extends ChangeNotifier {
     return _exercises.where((exercise) => exercise.owner == user.userUUID).where((exercise) => exercise.type == type).toList();
   }
 
+  /// Returns a list of exercises of a type which the provided User has
+  List<Exercise> getAllExercisesFromUserOfTypePlusType0(User user, int type) {
+    return _exercises.where((exercise) => exercise.owner == user.userUUID).where((exercise) => exercise.type == type || exercise.type == 0).toList();
+  }
+
   ///Delete all exercises from the user when the account is being deleted
   void deleteAllExercisesFromUser(User user) {
     final exercises = [];

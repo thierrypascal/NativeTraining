@@ -20,6 +20,7 @@ class MyWorkoutPage extends StatelessWidget {
       appBar: AppBar(title: const Text("Meine Trainings")),
       drawer: MyDrawer(),
       body: InformationObjectListWidget(
+        false,
         objects: ServiceProvider.instance.workoutService
             .getAllWorkoutsFromUser(user),
       ),

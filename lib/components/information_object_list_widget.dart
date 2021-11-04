@@ -17,8 +17,11 @@ class InformationObjectListWidget extends StatefulWidget {
   ///ScrollPhysics for the list of Info
   final ScrollPhysics physics;
 
+  /// what should happen if you tap on the card, only to be given to siocw
+  final bool toReturnSelected;
+
   /// Creates a List Widget displaying all provided InformationObjects
-  InformationObjectListWidget(
+  InformationObjectListWidget(this.toReturnSelected,
       {Key key,
       this.objects,
       this.showDeleteAndEdit = false,
@@ -70,17 +73,28 @@ class _InformationObjectListWidgetState
                       itemCount: items.length,
                       itemBuilder: (context, index) {
                         final element = items.elementAt(index);
-                        return SimpleInformationObjectCard(
-                          element,
-                          serviceProvider: widget._serviceProvider,
-                          onTapHandler: () {
-                            //TODO: use animations_package to detailview
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ShowExercise(element)));
-                          },
-                        );
+                        return (widget.toReturnSelected)
+                            ? SimpleInformationObjectCard(
+                                element,
+                                serviceProvider: widget._serviceProvider,
+                                onTapHandler: () {
+                                  //TODO: implement selected color and return of selected value
+                                  widget._serviceProvider.workoutService
+                                      .addToCurrentlySelectedWorkouts(element);
+                                },
+                              )
+                            : SimpleInformationObjectCard(
+                                element,
+                                serviceProvider: widget._serviceProvider,
+                                onTapHandler: () {
+                                  //TODO: use animations_package to detailview
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ShowExercise(element)));
+                                },
+                              );
                       },
                       separatorBuilder: (context, index) {
                         return const SizedBox(height: 5);

@@ -22,33 +22,40 @@ class MyExercisePage extends StatelessWidget {
       body: Column(
         children: <Widget>[
           InformationObjectListWidget(
+            false,
             objects: exerciseService.getAllExercisesFromUserOfType(user, 0),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 8.0, right: 8.0),
             child: Divider(
               thickness: 2,
+              color: Colors.green,
             ),
           ),
           InformationObjectListWidget(
+            false,
             objects: exerciseService.getAllExercisesFromUserOfType(user, 1),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 8.0, right: 8.0),
             child: Divider(
               thickness: 2,
+              color: Colors.deepOrange,
             ),
           ),
           InformationObjectListWidget(
+            false,
             objects: exerciseService.getAllExercisesFromUserOfType(user, 2),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 8.0, right: 8.0),
             child: Divider(
               thickness: 2,
+              color: Colors.deepPurple,
             ),
           ),
           InformationObjectListWidget(
+            false,
             objects: exerciseService.getAllExercisesFromUserOfType(user, 3),
           ),
         ],

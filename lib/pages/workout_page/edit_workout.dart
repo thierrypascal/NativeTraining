@@ -35,6 +35,7 @@ class EditWorkout extends StatefulWidget {
 class _EditWorkoutState extends State<EditWorkout> {
   final _formKey = GlobalKey<FormState>();
   final workoutProvider = ServiceProvider.instance.workoutService;
+  final exerciseService = ServiceProvider.instance.exerciseService;
   Workout workout;
   String _title;
   String _description;
@@ -67,7 +68,12 @@ class _EditWorkoutState extends State<EditWorkout> {
       //TODO: modify EditDialog to show color of selected type
       title: widget.isEdit ? 'Training bearbeiten' : 'Neues Training',
       abortCallback: () {
+        workoutProvider.clearCurrentlySelectedWorkouts();
         Navigator.pop(context);
+      },
+      cancelCallback: (){
+          workoutProvider.clearCurrentlySelectedWorkouts();
+          Navigator.pop(context);
       },
       saveCallback: () async {
         _formKey.currentState.save();
@@ -86,8 +92,12 @@ class _EditWorkoutState extends State<EditWorkout> {
           workout.title = _title;
           workout.description = _description;
           workout.owner = user.userUUID;
+          workout.warmupExercises = _selectedWarmupExercises;
+          workout.workoutExercises = _selectedWorkoutExercises;
+          workout.cooldownExercises = _selectedCooldownExercises;
           await workout.saveWorkout();
           user.saveUser();
+          workoutProvider.clearCurrentlySelectedWorkouts();
           Navigator.of(context).pushReplacement(MaterialPageRoute(
               builder: (context) => WhiteRedirectPage(
                     'Das Training $_title wurde gespeichert.',
@@ -122,38 +132,79 @@ class _EditWorkoutState extends State<EditWorkout> {
                   onSaved: (value) => _description = value,
                 ),
               ),
-              (workout.warmupExercises.isNotEmpty)
+              (_selectedWarmupExercises.isNotEmpty)
                   ? InformationObjectListWidget(
+                false,
                       objects: _selectedWarmupExercises,
                     )
-              //TODO: change to color of Theme
-                  : Text("empty"),
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        IconButton(onPressed: () {
+                          //TODO: open select Warmup Exercises
+                          showModalBottomSheet(context: context, builder: (context) {
+                            return Container(
+                              child: SingleChildScrollView(
+                                child: InformationObjectListWidget(
+                                  true,
+                                  objects: exerciseService.getAllExercisesFromUserOfTypePlusType0(user, 1),
+                                ),
+                              ),
+                            );
+                          }).whenComplete(() => {
+                            if(workoutProvider.getCurrentlySelectedWorkouts() != null){
+                              _selectedWarmupExercises.addAll(workoutProvider.getCurrentlySelectedWorkouts()),
+                            },
+                            //TODO: enforce setState(){}
+                          });
+                        }, icon: Icon(Icons.add)),
+                      ],
+                    ),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                 child: Divider(
                   thickness: 2,
+                  color: Colors.green,
                 ),
               ),
               (workout.workoutExercises.isNotEmpty)
                   ? InformationObjectListWidget(
-                objects: _selectedWorkoutExercises,
-              )
-                  : Text("empty"),
+                false,
+                      objects: _selectedWorkoutExercises,
+                    )
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        IconButton(onPressed: () {
+                          //TODO: open select Workout Exercises
+                        }, icon: Icon(Icons.add)),
+                      ],
+                    ),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                 child: Divider(
                   thickness: 2,
+                  color: Colors.deepOrange,
                 ),
               ),
               (workout.cooldownExercises.isNotEmpty)
                   ? InformationObjectListWidget(
-                objects: _selectedCooldownExercises,
-              )
-                  : Text("empty"),
+                false,
+                      objects: _selectedCooldownExercises,
+                    )
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        IconButton(onPressed: () {
+                          //TODO: open select Cooldown Exercises
+                        }, icon: Icon(Icons.add)),
+                      ],
+                    ),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                 child: Divider(
                   thickness: 2,
+                  color: Colors.deepPurple,
                 ),
               ),
             ],

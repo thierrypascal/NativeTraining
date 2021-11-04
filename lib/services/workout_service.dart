@@ -15,6 +15,7 @@ class WorkoutService extends ChangeNotifier {
   final List<Workout> _workouts = [];
   StreamSubscription _streamSubscription;
   StorageProvider _storage;
+  List<Exercise> _currentlySelectedExercises = [];
 
   /// init the service, should only be used once
   WorkoutService({StorageProvider storageProvider}) {
@@ -57,6 +58,23 @@ class WorkoutService extends ChangeNotifier {
   /// Returns a list of all registered workouts
   List<Workout> getAllWorkout() {
     return _workouts;
+  }
+
+  /// Returns a list of all currently selected exercises in the workout edit/create workflow
+  List<Exercise> getCurrentlySelectedWorkouts(){
+    return _currentlySelectedExercises;
+  }
+
+  void addToCurrentlySelectedWorkouts(Exercise e){
+    _currentlySelectedExercises.add(e);
+  }
+
+  void setCurrentlySelectedWorkouts(List<Exercise> e){
+    _currentlySelectedExercises.addAll(e);
+  }
+
+  void clearCurrentlySelectedWorkouts(){
+    _currentlySelectedExercises.clear();
   }
 
   ///Returns all elements inside the users active workout
