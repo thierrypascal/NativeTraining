@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:core';
 import 'dart:developer' as logging;
 
@@ -8,33 +9,41 @@ import 'package:native_training/services/storage_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
 
-class Workout extends ChangeNotifier implements InformationObject{
+class Workout extends ChangeNotifier implements InformationObject {
   /// reference to the associated User
   String owner;
 
   ///Title of the workout
   @override
   String title;
+
   ///Description of the workout
   @override
   String description;
+
   ///how long the workout lasts/estimation by user
   @override
   int workoutDurationInMinutes;
+
   ///ImageURL of the exercise
   @override
   String get imageURL => null;
 
   ///dateTime of when this workout was last used
   DateTime lastUsed;
+
   ///List of exercises for warm-up
   List<Exercise> warmupExercises;
+
   ///List of exercises for workout
   List<Exercise> workoutExercises;
+
   ///List of exercises for cooldown
   List<Exercise> cooldownExercises;
+
   /// reference where the object is stored in the database
   DocumentReference reference;
+
   /// which [Workout] are contained in this workout
   Map<String, int> ownedObjects;
 
@@ -42,10 +51,9 @@ class Workout extends ChangeNotifier implements InformationObject{
 
   final StorageProvider _storage;
 
-
   /// creates an empty workout as placeholder
-  Workout.empty({StorageProvider storageProvider})
-      : _storage = storageProvider ??= StorageProvider.instance {
+  Workout.empty({StorageProvider storageProvider}) : _storage = storageProvider ??= StorageProvider.instance {
+    owner = '';
     title = '';
     workoutDurationInMinutes = 0;
     lastUsed = DateTime.now();
@@ -57,20 +65,25 @@ class Workout extends ChangeNotifier implements InformationObject{
 
   /// creates an workout from the provided Map.
   /// Used for database loading and testing
-  Workout.fromMap(Map<String, dynamic> map,
-      {this.reference, StorageProvider storageProvider})
+  Workout.fromMap(Map<String, dynamic> map, {this.reference, StorageProvider storageProvider})
       : _storage = storageProvider ??= StorageProvider.instance,
+        owner = map.containsKey('owner') ? map['owner'] as String : '',
         title = map.containsKey('title') ? map['title'] as String : '',
-        workoutDurationInMinutes = map.containsKey('time') ? map['time'] as int : 0,
-        lastUsed = map.containsKey('lastUsed') ? map['lastUsed'] as DateTime : DateTime.now(),
-        warmupExercises = map.containsKey('warmupExercises') ? map['warmupExercises'] as List<Exercise> : [],
-        workoutExercises = map.containsKey('workoutExercises') ? map['workoutExercises'] as List<Exercise> : [],
-        cooldownExercises = map.containsKey('cooldownExercises') ? map['cooldownExercises'] as List<Exercise> : [],
+        // workoutDurationInMinutes = map.containsKey('time') ? map['time'] as int : 0,
+        // lastUsed = map.containsKey('lastUsed') ? map['lastUsed'] as DateTime : DateTime.now(),
+        warmupExercises = map.containsKey('warmupExercises')
+            ? List<Exercise>.from(jsonDecode(map['warmupExercises'] as String).map((m) => Exercise.fromMap(m)))
+            : [],
+        workoutExercises = map.containsKey('workoutExercises')
+            ? List<Exercise>.from(jsonDecode(map['workoutExercises'] as String).map((m) => Exercise.fromMap(m)))
+            : [],
+        cooldownExercises = map.containsKey('cooldownExercises')
+            ? List<Exercise>.from(jsonDecode(map['cooldownExercises'] as String).map((m) => Exercise.fromMap(m)))
+            : [],
         _isEmpty = false;
 
   /// loads an workout form a database snapshot
-  Workout.fromSnapshot(DocumentSnapshot snapshot)
-      : this.fromMap(snapshot.data(), reference: snapshot.reference);
+  Workout.fromSnapshot(DocumentSnapshot snapshot) : this.fromMap(snapshot.data(), reference: snapshot.reference);
 
   /// saves the workout object to the database
   /// any information already present on the database will be overridden
@@ -81,18 +94,18 @@ class Workout extends ChangeNotifier implements InformationObject{
       _isEmpty = false;
     }
     final path = reference.path;
+    logging.log('Path $path');
     await _storage.database.doc(path).set({
       'title': title,
-      'time': workoutDurationInMinutes,
-      'lastUsed': lastUsed,
-      'warmupExercises': warmupExercises,
-      'workoutExercises': workoutExercises,
-      'cooldownExercises': cooldownExercises,
+      // 'time': workoutDurationInMinutes,
+      // 'lastUsed': lastUsed,
+      'warmupExercises': jsonEncode(warmupExercises),
+      'workoutExercises': jsonEncode(workoutExercises),
+      'cooldownExercises': jsonEncode(cooldownExercises),
       'owner': owner,
     });
   }
 
   /// is true if this workout is an empty placeholder
   bool get isEmpty => _isEmpty;
-
 }

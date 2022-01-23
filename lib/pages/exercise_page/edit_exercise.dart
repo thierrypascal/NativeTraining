@@ -45,7 +45,9 @@ class _EditExerciseState extends State<EditExercise> {
   @override
   void initState() {
     (widget.exercise != null) ? exercise = widget.exercise : exercise = Exercise.empty();
-    (widget.exercise != null) ? _selectedType = exerciseProvider.getTypeFromAbstract(widget.exercise.type) : _selectedType = _type.elementAt(2);
+    (widget.exercise != null)
+        ? _selectedType = exerciseProvider.getTypeFromAbstract(widget.exercise.type)
+        : _selectedType = _type.elementAt(2);
     super.initState();
   }
 
@@ -62,12 +64,10 @@ class _EditExerciseState extends State<EditExercise> {
       saveCallback: () async {
         if (_saveRequested) {
           exercise.imageURL = await ServiceProvider.instance.imageService
-              .uploadImage(_toSaveImage, 'exercisepictures',
-                  filename: '${exercise.title}_${const Uuid().v4()}');
+              .uploadImage(_toSaveImage, 'exercisepictures', filename: '${exercise.title}_${const Uuid().v4()}');
         }
         if (_deleteRequested) {
-          ServiceProvider.instance.imageService
-              .deleteImage(imageURL: _toDeleteURL);
+          ServiceProvider.instance.imageService.deleteImage(imageURL: _toDeleteURL);
         }
         _formKey.currentState.save();
         if (_title.isEmpty) {
@@ -77,17 +77,16 @@ class _EditExerciseState extends State<EditExercise> {
         } else {
           if (!widget.isEdit && user.exercises.contains(_title)) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text(
-                  'Du hast bereits eine \u00DCbung mit dem Titel $_title.\n'
-                      'Wähle bitte einen Anderen.'),
+              content: Text('Du hast bereits eine \u00DCbung mit dem Titel $_title.\n'
+                  'Wähle bitte einen Anderen.'),
             ));
           }
           exercise.title = _title;
           exercise.description = _description;
           exercise.owner = user.userUUID;
-          exercise.type =
-              exerciseProvider.getAbstractFromType(_selectedType);
+          exercise.type = exerciseProvider.getAbstractFromType(_selectedType);
           await exercise.saveExercise();
+          user.addExercise(exercise);
           user.saveUser();
           Navigator.of(context).pushReplacement(MaterialPageRoute(
               builder: (context) => WhiteRedirectPage(
@@ -122,9 +121,8 @@ class _EditExerciseState extends State<EditExercise> {
                 padding: const EdgeInsets.fromLTRB(15, 8, 15, 8),
                 child: TextFormField(
                   initialValue: exercise.title,
-                  decoration: const InputDecoration(
-                      labelText: 'Titel',
-                      contentPadding: EdgeInsets.symmetric(vertical: 4)),
+                  decoration:
+                      const InputDecoration(labelText: 'Titel', contentPadding: EdgeInsets.symmetric(vertical: 4)),
                   onSaved: (value) => _title = value,
                 ),
               ),
@@ -151,8 +149,7 @@ class _EditExerciseState extends State<EditExercise> {
                   maxLines: null,
                   initialValue: exercise.description,
                   decoration: const InputDecoration(
-                      labelText: 'Beschreibung',
-                      contentPadding: EdgeInsets.symmetric(vertical: 4)),
+                      labelText: 'Beschreibung', contentPadding: EdgeInsets.symmetric(vertical: 4)),
                   onSaved: (value) => _description = value,
                 ),
               ),

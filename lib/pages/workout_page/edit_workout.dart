@@ -91,6 +91,7 @@ class _EditWorkoutState extends State<EditWorkout> {
           workout.workoutExercises = _selectedWorkoutExercises;
           workout.cooldownExercises = _selectedCooldownExercises;
           await workout.saveWorkout();
+          user.addWorkout(workout);
           user.saveUser();
           workoutProvider.clearAllCurrentlySelectedWorkouts();
           Navigator.of(context).pushReplacement(MaterialPageRoute(
