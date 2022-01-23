@@ -27,8 +27,8 @@ class InformationObjectListWidget extends StatefulWidget {
   InformationObjectListWidget(this.toReturnSelected,
       {Key key,
       this.objects,
-        this.type,
-        //TODO: implement showDeleteAndEdit
+      this.type,
+      //TODO: implement showDeleteAndEdit
       this.showDeleteAndEdit = false,
       this.physics = const ScrollPhysics(),
       ServiceProvider serviceProvider})
@@ -78,52 +78,73 @@ class _InformationObjectListWidgetState extends State<InformationObjectListWidge
                       itemCount: items.length,
                       itemBuilder: (context, index) {
                         final element = items.elementAt(index);
-                        return (widget.toReturnSelected)
-                            //If selected should be returned
-                            ? SimpleInformationObjectCard(
-                                element,
-                                //TODO: selected based on type
-                                selected: workoutService.getAllCurrentlySelectedWorkouts().contains(element),
-                                serviceProvider: widget._serviceProvider,
-                                onTapHandler: () {
-                                  switch (widget.type) {
-                                    case 1: {
+                        if ((widget.toReturnSelected)) {
+                          return SimpleInformationObjectCard(
+                            element,
+                            selected: (() {
+                              switch (widget.type) {
+                                case 1:
+                                  {
+                                    return workoutService.getCurrentlySelectedWarmupWorkouts().contains(element);
+                                  }
+                                  break;
+                                case 2:
+                                  {
+                                    return workoutService.getCurrentlySelectedWorkoutWorkouts().contains(element);
+                                  }
+                                  break;
+                                case 3:
+                                  {
+                                    return workoutService.getCurrentlySelectedCooldownWorkouts().contains(element);
+                                  }
+                                  break;
+                              }
+                            }()),
+                            serviceProvider: widget._serviceProvider,
+                            onTapHandler: () {
+                              setState(() {
+                                switch (widget.type) {
+                                  case 1:
+                                    {
                                       if (workoutService.getCurrentlySelectedWarmupWorkouts().contains(element)) {
                                         workoutService.removeFromCurrentlySelectedWarmupWorkouts(element);
-                                      }else{
+                                      } else {
                                         workoutService.addToCurrentlySelectedWarmupWorkouts(element);
                                       }
                                     }
                                     break;
-                                    case 2: {
+                                  case 2:
+                                    {
                                       if (workoutService.getCurrentlySelectedWorkoutWorkouts().contains(element)) {
                                         workoutService.removeFromCurrentlySelectedWorkoutWorkouts(element);
-                                      }else{
+                                      } else {
                                         workoutService.addToCurrentlySelectedWorkoutWorkouts(element);
                                       }
                                     }
                                     break;
-                                    case 3: {
+                                  case 3:
+                                    {
                                       if (workoutService.getCurrentlySelectedCooldownWorkouts().contains(element)) {
                                         workoutService.removeFromCurrentlySelectedCooldownWorkouts(element);
-                                      }else{
+                                      } else {
                                         workoutService.addToCurrentlySelectedCooldownWorkouts(element);
                                       }
                                     }
                                     break;
-                                  }
-                                },
-                              )
-                            //If selected should navigate to detail view
-                            : SimpleInformationObjectCard(
-                                element,
-                                serviceProvider: widget._serviceProvider,
-                                onTapHandler: () {
-                                  //TODO: use animations_package to detailview
-                                  Navigator.push(
-                                      context, MaterialPageRoute(builder: (context) => ShowExercise(element)));
-                                },
-                              );
+                                }
+                              });
+                            },
+                          );
+                        } else {
+                          return SimpleInformationObjectCard(
+                            element,
+                            serviceProvider: widget._serviceProvider,
+                            onTapHandler: () {
+                              //TODO: use animations_package to detailview
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => ShowExercise(element)));
+                            },
+                          );
+                        }
                       },
                       separatorBuilder: (context, index) {
                         return const SizedBox(height: 5);

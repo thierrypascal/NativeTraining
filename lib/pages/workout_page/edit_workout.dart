@@ -62,7 +62,6 @@ class _EditWorkoutState extends State<EditWorkout> {
     final user = Provider.of<User>(context, listen: false);
 
     return EditDialog(
-      //TODO: modify EditDialog to show color of selected type
       title: widget.isEdit ? 'Training bearbeiten' : 'Neues Training',
       abortCallback: () {
         workoutProvider.clearAllCurrentlySelectedWorkouts();
@@ -182,7 +181,7 @@ class _EditWorkoutState extends State<EditWorkout> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        Text("\u00DCbung hinzuf\u00FCgen"),
+        Text("Aufw\u00E4rm\u00FCbung hinzuf\u00FCgen"),
         IconButton(
             onPressed: () {
               showModalBottomSheet(
@@ -216,7 +215,7 @@ class _EditWorkoutState extends State<EditWorkout> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        Text("\u00DCbung hinzuf\u00FCgen"),
+        Text("Trainings\u00FCbung hinzuf\u00FCgen"),
         IconButton(
             onPressed: () {
               showModalBottomSheet(
@@ -250,7 +249,7 @@ class _EditWorkoutState extends State<EditWorkout> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        Text("\u00DCbung hinzuf\u00FCgen"),
+        Text("Dehn\u00FCbung hinzuf\u00FCgen"),
         IconButton(
             onPressed: () {
               showModalBottomSheet(
