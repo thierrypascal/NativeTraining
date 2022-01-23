@@ -25,6 +25,7 @@ class _ShowWorkoutState extends State<ShowWorkout> {
           padding: const EdgeInsets.fromLTRB(15, 8, 15, 8),
           child: Column(
             children: [
+              //TODO
               Text("- WIP -"),
               Text("Title: " + widget.workout.title),
               Text("Description: " + widget.workout.description),

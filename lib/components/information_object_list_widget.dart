@@ -111,29 +111,17 @@ class _InformationObjectListWidgetState extends State<InformationObjectListWidge
                                 switch (widget.type) {
                                   case 1:
                                     {
-                                      if (workoutService.getCurrentlySelectedWarmupWorkouts().contains(element)) {
-                                        workoutService.removeFromCurrentlySelectedWarmupWorkouts(element);
-                                      } else {
-                                        workoutService.addToCurrentlySelectedWarmupWorkouts(element);
-                                      }
+                                      workoutService.addToCurrentlySelectedWarmupWorkouts(element);
                                     }
                                     break;
                                   case 2:
                                     {
-                                      if (workoutService.getCurrentlySelectedWorkoutWorkouts().contains(element)) {
-                                        workoutService.removeFromCurrentlySelectedWorkoutWorkouts(element);
-                                      } else {
-                                        workoutService.addToCurrentlySelectedWorkoutWorkouts(element);
-                                      }
+                                      workoutService.addToCurrentlySelectedWorkoutWorkouts(element);
                                     }
                                     break;
                                   case 3:
                                     {
-                                      if (workoutService.getCurrentlySelectedCooldownWorkouts().contains(element)) {
-                                        workoutService.removeFromCurrentlySelectedCooldownWorkouts(element);
-                                      } else {
-                                        workoutService.addToCurrentlySelectedCooldownWorkouts(element);
-                                      }
+                                      workoutService.addToCurrentlySelectedCooldownWorkouts(element);
                                     }
                                     break;
                                 }

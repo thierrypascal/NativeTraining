@@ -201,7 +201,7 @@ class _EditWorkoutState extends State<EditWorkout> {
                     if (workoutProvider.getCurrentlySelectedWarmupWorkouts() != null)
                       {
                         setState(() {
-                          //TODO: fix weird multiple adding bug
+                          //TODO: fix weird multiple adding bug: the first time add() gets called, the list updates, afterwards never. SetState works, the list grows but the elements wont we displayed
                           _selectedWarmupExercises = workoutProvider.getCurrentlySelectedWarmupWorkouts();
                         }),
                       },
