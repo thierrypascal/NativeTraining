@@ -20,10 +20,15 @@ class InformationObjectListWidget extends StatefulWidget {
   /// what should happen if you tap on the card, only to be given to siocw
   final bool toReturnSelected;
 
+  /// which type is being shown to decide onTapHandler, only used if toReturnSelected = true
+  final int type;
+
   /// Creates a List Widget displaying all provided InformationObjects
   InformationObjectListWidget(this.toReturnSelected,
       {Key key,
       this.objects,
+        this.type,
+        //TODO: implement showDeleteAndEdit
       this.showDeleteAndEdit = false,
       this.physics = const ScrollPhysics(),
       ServiceProvider serviceProvider})
@@ -31,12 +36,10 @@ class InformationObjectListWidget extends StatefulWidget {
         super(key: key);
 
   @override
-  _InformationObjectListWidgetState createState() =>
-      _InformationObjectListWidgetState();
+  _InformationObjectListWidgetState createState() => _InformationObjectListWidgetState();
 }
 
-class _InformationObjectListWidgetState
-    extends State<InformationObjectListWidget> {
+class _InformationObjectListWidgetState extends State<InformationObjectListWidget> {
   final items = <InformationObject>[];
 
   @override
@@ -47,6 +50,8 @@ class _InformationObjectListWidgetState
 
   @override
   Widget build(BuildContext context) {
+    final workoutService = widget._serviceProvider.workoutService;
+
     return Container(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -74,25 +79,49 @@ class _InformationObjectListWidgetState
                       itemBuilder: (context, index) {
                         final element = items.elementAt(index);
                         return (widget.toReturnSelected)
+                            //If selected should be returned
                             ? SimpleInformationObjectCard(
                                 element,
+                                //TODO: selected based on type
+                                selected: workoutService.getAllCurrentlySelectedWorkouts().contains(element),
                                 serviceProvider: widget._serviceProvider,
                                 onTapHandler: () {
-                                  //TODO: implement selected color and return of selected value
-                                  widget._serviceProvider.workoutService
-                                      .addToCurrentlySelectedWorkouts(element);
+                                  switch (widget.type) {
+                                    case 1: {
+                                      if (workoutService.getCurrentlySelectedWarmupWorkouts().contains(element)) {
+                                        workoutService.removeFromCurrentlySelectedWarmupWorkouts(element);
+                                      }else{
+                                        workoutService.addToCurrentlySelectedWarmupWorkouts(element);
+                                      }
+                                    }
+                                    break;
+                                    case 2: {
+                                      if (workoutService.getCurrentlySelectedWorkoutWorkouts().contains(element)) {
+                                        workoutService.removeFromCurrentlySelectedWorkoutWorkouts(element);
+                                      }else{
+                                        workoutService.addToCurrentlySelectedWorkoutWorkouts(element);
+                                      }
+                                    }
+                                    break;
+                                    case 3: {
+                                      if (workoutService.getCurrentlySelectedCooldownWorkouts().contains(element)) {
+                                        workoutService.removeFromCurrentlySelectedCooldownWorkouts(element);
+                                      }else{
+                                        workoutService.addToCurrentlySelectedCooldownWorkouts(element);
+                                      }
+                                    }
+                                    break;
+                                  }
                                 },
                               )
+                            //If selected should navigate to detail view
                             : SimpleInformationObjectCard(
                                 element,
                                 serviceProvider: widget._serviceProvider,
                                 onTapHandler: () {
                                   //TODO: use animations_package to detailview
                                   Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              ShowExercise(element)));
+                                      context, MaterialPageRoute(builder: (context) => ShowExercise(element)));
                                 },
                               );
                       },

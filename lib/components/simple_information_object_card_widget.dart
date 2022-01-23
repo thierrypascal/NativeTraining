@@ -12,6 +12,9 @@ class SimpleInformationObjectCard extends StatelessWidget {
   /// what should happen if you tap on the card
   final Function onTapHandler;
 
+  /// if a card is selected
+  bool selected;
+
   final ServiceProvider _serviceProvider;
 
   /// formKey to control the amount input field
@@ -19,55 +22,57 @@ class SimpleInformationObjectCard extends StatelessWidget {
 
   /// Non expandable ListTile, displaying a [Workout] or a [Exercise]
   SimpleInformationObjectCard(this.object,
-      {this.onTapHandler,
-      ServiceProvider serviceProvider,
-      this.formKey,
-      Key key})
+      { this.onTapHandler,
+        this.selected = false,
+        ServiceProvider serviceProvider,
+        this.formKey,
+        Key key})
       : _serviceProvider = serviceProvider ?? ServiceProvider.instance,
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     return Card(
+      shape: selected
+          ? RoundedRectangleBorder(
+          side: BorderSide(color: Colors.green, width: 2.0),
+          borderRadius: BorderRadius.circular(3.0))
+          : RoundedRectangleBorder(
+          side: BorderSide(color: Colors.white, width: 2.0),
+          borderRadius: BorderRadius.circular(3.0)),
       child: InkWell(
         onTap: onTapHandler,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              ClipRRect(
-                borderRadius: const BorderRadius.only(
-                    topRight: Radius.circular(3),
-                    bottomRight: Radius.circular(3)),
-                child: _serviceProvider.imageService.getImageByUrl(
-                    object.imageURL,
-                    height: 60, width: 60, fit: BoxFit.cover),
-              ),
-              Expanded(
-                child: Wrap(
-                  spacing: 8.0,
-                  runSpacing: 4.0,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(object.title,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 16)),
-                        ],
-                      ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(4),
+              child: _serviceProvider.imageService
+                  .getImageByUrl(object.imageURL, height: 60, width: 60, fit: BoxFit.cover),
+            ),
+            Expanded(
+              child: Wrap(
+                spacing: 8.0,
+                runSpacing: 4.0,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(object.title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
+      ),
     );
   }
 }

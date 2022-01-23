@@ -16,8 +16,7 @@ import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 class EditWorkout extends StatefulWidget {
-  EditWorkout({@required this.isEdit, this.workout, this.route, Key key})
-      : super(key: key);
+  EditWorkout({@required this.isEdit, this.workout, this.route, Key key}) : super(key: key);
 
   /// if this workflow is used to edit
   final bool isEdit;
@@ -45,9 +44,7 @@ class _EditWorkoutState extends State<EditWorkout> {
 
   @override
   void initState() {
-    (widget.workout != null)
-        ? workout = widget.workout
-        : workout = Workout.empty();
+    (widget.workout != null) ? workout = widget.workout : workout = Workout.empty();
     if (workout.warmupExercises.isNotEmpty) {
       _selectedWarmupExercises.addAll(workout.warmupExercises);
     }
@@ -68,12 +65,12 @@ class _EditWorkoutState extends State<EditWorkout> {
       //TODO: modify EditDialog to show color of selected type
       title: widget.isEdit ? 'Training bearbeiten' : 'Neues Training',
       abortCallback: () {
-        workoutProvider.clearCurrentlySelectedWorkouts();
+        workoutProvider.clearAllCurrentlySelectedWorkouts();
         Navigator.pop(context);
       },
-      cancelCallback: (){
-          workoutProvider.clearCurrentlySelectedWorkouts();
-          Navigator.pop(context);
+      cancelCallback: () {
+        workoutProvider.clearAllCurrentlySelectedWorkouts();
+        Navigator.pop(context);
       },
       saveCallback: () async {
         _formKey.currentState.save();
@@ -84,9 +81,8 @@ class _EditWorkoutState extends State<EditWorkout> {
         } else {
           if (!widget.isEdit && user.workouts.contains(_title)) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content:
-                  Text('Du hast bereits ein Training mit dem Titel $_title.\n'
-                      'Wähle bitte einen Anderen.'),
+              content: Text('Du hast bereits ein Training mit dem Titel $_title.\n'
+                  'Wähle bitte einen Anderen.'),
             ));
           }
           workout.title = _title;
@@ -97,7 +93,7 @@ class _EditWorkoutState extends State<EditWorkout> {
           workout.cooldownExercises = _selectedCooldownExercises;
           await workout.saveWorkout();
           user.saveUser();
-          workoutProvider.clearCurrentlySelectedWorkouts();
+          workoutProvider.clearAllCurrentlySelectedWorkouts();
           Navigator.of(context).pushReplacement(MaterialPageRoute(
               builder: (context) => WhiteRedirectPage(
                     'Das Training $_title wurde gespeichert.',
@@ -115,9 +111,8 @@ class _EditWorkoutState extends State<EditWorkout> {
                 padding: const EdgeInsets.fromLTRB(15, 8, 15, 8),
                 child: TextFormField(
                   initialValue: workout.title,
-                  decoration: const InputDecoration(
-                      labelText: 'Titel',
-                      contentPadding: EdgeInsets.symmetric(vertical: 4)),
+                  decoration:
+                      const InputDecoration(labelText: 'Titel', contentPadding: EdgeInsets.symmetric(vertical: 4)),
                   onSaved: (value) => _title = value,
                 ),
               ),
@@ -127,39 +122,18 @@ class _EditWorkoutState extends State<EditWorkout> {
                   maxLines: null,
                   initialValue: workout.description,
                   decoration: const InputDecoration(
-                      labelText: 'Beschreibung',
-                      contentPadding: EdgeInsets.symmetric(vertical: 4)),
+                      labelText: 'Beschreibung', contentPadding: EdgeInsets.symmetric(vertical: 4)),
                   onSaved: (value) => _description = value,
                 ),
               ),
               (_selectedWarmupExercises.isNotEmpty)
                   ? InformationObjectListWidget(
-                false,
+                      false,
                       objects: _selectedWarmupExercises,
+                      showDeleteAndEdit: true,
                     )
-                  : Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        IconButton(onPressed: () {
-                          //TODO: open select Warmup Exercises
-                          showModalBottomSheet(context: context, builder: (context) {
-                            return Container(
-                              child: SingleChildScrollView(
-                                child: InformationObjectListWidget(
-                                  true,
-                                  objects: exerciseService.getAllExercisesFromUserOfTypePlusType0(user, 1),
-                                ),
-                              ),
-                            );
-                          }).whenComplete(() => {
-                            if(workoutProvider.getCurrentlySelectedWorkouts() != null){
-                              _selectedWarmupExercises.addAll(workoutProvider.getCurrentlySelectedWorkouts()),
-                            },
-                            //TODO: enforce setState(){}
-                          });
-                        }, icon: Icon(Icons.add)),
-                      ],
-                    ),
+                  : addWarmupExercises(user),
+              if (_selectedWarmupExercises.isNotEmpty) addWarmupExercises(user),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                 child: Divider(
@@ -167,19 +141,14 @@ class _EditWorkoutState extends State<EditWorkout> {
                   color: Colors.green,
                 ),
               ),
-              (workout.workoutExercises.isNotEmpty)
+              (_selectedWorkoutExercises.isNotEmpty)
                   ? InformationObjectListWidget(
-                false,
+                      false,
                       objects: _selectedWorkoutExercises,
+                      showDeleteAndEdit: true,
                     )
-                  : Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        IconButton(onPressed: () {
-                          //TODO: open select Workout Exercises
-                        }, icon: Icon(Icons.add)),
-                      ],
-                    ),
+                  : addWorkoutExercises(user),
+              if (_selectedWorkoutExercises.isNotEmpty) addWorkoutExercises(user),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                 child: Divider(
@@ -187,19 +156,14 @@ class _EditWorkoutState extends State<EditWorkout> {
                   color: Colors.deepOrange,
                 ),
               ),
-              (workout.cooldownExercises.isNotEmpty)
+              (_selectedCooldownExercises.isNotEmpty)
                   ? InformationObjectListWidget(
-                false,
+                      false,
                       objects: _selectedCooldownExercises,
+                      showDeleteAndEdit: true,
                     )
-                  : Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        IconButton(onPressed: () {
-                          //TODO: open select Cooldown Exercises
-                        }, icon: Icon(Icons.add)),
-                      ],
-                    ),
+                  : addCooldownExercises(user),
+              if (_selectedCooldownExercises.isNotEmpty) addCooldownExercises(user),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                 child: Divider(
@@ -211,6 +175,108 @@ class _EditWorkoutState extends State<EditWorkout> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget addWarmupExercises(User user) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Text("\u00DCbung hinzuf\u00FCgen"),
+        IconButton(
+            onPressed: () {
+              showModalBottomSheet(
+                  context: context,
+                  builder: (context) {
+                    return Container(
+                      child: SingleChildScrollView(
+                        child: InformationObjectListWidget(
+                          true,
+                          objects: exerciseService.getAllExercisesFromUserOfTypePlusType0(user, 1),
+                          type: 1,
+                        ),
+                      ),
+                    );
+                  }).whenComplete(() => {
+                    if (workoutProvider.getCurrentlySelectedWarmupWorkouts() != null)
+                      {
+                        setState(() {
+                          //TODO: fix weird multiple adding bug
+                          _selectedWarmupExercises = workoutProvider.getCurrentlySelectedWarmupWorkouts();
+                        }),
+                      },
+                  });
+            },
+            icon: Icon(Icons.add)),
+      ],
+    );
+  }
+
+  Widget addWorkoutExercises(User user) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Text("\u00DCbung hinzuf\u00FCgen"),
+        IconButton(
+            onPressed: () {
+              showModalBottomSheet(
+                  context: context,
+                  builder: (context) {
+                    return Container(
+                      child: SingleChildScrollView(
+                        child: InformationObjectListWidget(
+                          true,
+                          objects: exerciseService.getAllExercisesFromUserOfTypePlusType0(user, 2),
+                          type: 2,
+                        ),
+                      ),
+                    );
+                  }).whenComplete(() => {
+                    if (workoutProvider.getCurrentlySelectedWorkoutWorkouts() != null)
+                      {
+                        setState(() {
+                          //TODO: fix weird multiple adding bug
+                          _selectedWorkoutExercises = workoutProvider.getCurrentlySelectedWorkoutWorkouts();
+                        })
+                      },
+                  });
+            },
+            icon: Icon(Icons.add)),
+      ],
+    );
+  }
+
+  Widget addCooldownExercises(User user) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Text("\u00DCbung hinzuf\u00FCgen"),
+        IconButton(
+            onPressed: () {
+              showModalBottomSheet(
+                  context: context,
+                  builder: (context) {
+                    return Container(
+                      child: SingleChildScrollView(
+                        child: InformationObjectListWidget(
+                          true,
+                          objects: exerciseService.getAllExercisesFromUserOfTypePlusType0(user, 3),
+                          type: 3,
+                        ),
+                      ),
+                    );
+                  }).whenComplete(() => {
+                    if (workoutProvider.getCurrentlySelectedCooldownWorkouts() != null)
+                      {
+                        setState(() {
+                          //TODO: fix weird multiple adding bug
+                          _selectedCooldownExercises = workoutProvider.getCurrentlySelectedCooldownWorkouts();
+                        })
+                      },
+                  });
+            },
+            icon: Icon(Icons.add)),
+      ],
     );
   }
 }

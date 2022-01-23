@@ -15,7 +15,9 @@ class WorkoutService extends ChangeNotifier {
   final List<Workout> _workouts = [];
   StreamSubscription _streamSubscription;
   StorageProvider _storage;
-  List<Exercise> _currentlySelectedExercises = [];
+  List<Exercise> _currentlySelectedWarmupExercises = [];
+  List<Exercise> _currentlySelectedWorkoutExercises = [];
+  List<Exercise> _currentlySelectedCooldownExercises = [];
 
   /// init the service, should only be used once
   WorkoutService({StorageProvider storageProvider}) {
@@ -61,20 +63,63 @@ class WorkoutService extends ChangeNotifier {
   }
 
   /// Returns a list of all currently selected exercises in the workout edit/create workflow
-  List<Exercise> getCurrentlySelectedWorkouts(){
-    return _currentlySelectedExercises;
+  List<Exercise> getAllCurrentlySelectedWorkouts(){
+    List<Exercise> allExercises = [];
+    allExercises.addAll(_currentlySelectedWarmupExercises);
+    allExercises.addAll(_currentlySelectedWorkoutExercises);
+    allExercises.addAll(_currentlySelectedCooldownExercises);
+    return allExercises;
   }
 
-  void addToCurrentlySelectedWorkouts(Exercise e){
-    _currentlySelectedExercises.add(e);
+  /// Returns a list of all currently selected warmup exercises in the workout edit/create workflow
+  List<Exercise> getCurrentlySelectedWarmupWorkouts(){
+    return _currentlySelectedWarmupExercises;
   }
 
-  void setCurrentlySelectedWorkouts(List<Exercise> e){
-    _currentlySelectedExercises.addAll(e);
+  /// Adds a element to the list of currently selected warmup exercises in the workout edit/create workflow
+  void addToCurrentlySelectedWarmupWorkouts(Exercise e){
+    _currentlySelectedWarmupExercises.add(e);
   }
 
-  void clearCurrentlySelectedWorkouts(){
-    _currentlySelectedExercises.clear();
+  /// Removes a element to the list of currently selected warmup exercises in the workout edit/create workflow
+  void removeFromCurrentlySelectedWarmupWorkouts(Exercise e){
+    _currentlySelectedWarmupExercises.remove(e);
+  }
+
+  /// Returns a list of all currently selected workout exercises in the workout edit/create workflow
+  List<Exercise> getCurrentlySelectedWorkoutWorkouts(){
+    return _currentlySelectedWorkoutExercises;
+  }
+
+  /// Adds a element to the list of currently selected workout exercises in the workout edit/create workflow
+  void addToCurrentlySelectedWorkoutWorkouts(Exercise e){
+    _currentlySelectedWorkoutExercises.add(e);
+  }
+
+  /// Removes a element to the list of currently selected workout exercises in the workout edit/create workflow
+  void removeFromCurrentlySelectedWorkoutWorkouts(Exercise e){
+    _currentlySelectedWorkoutExercises.remove(e);
+  }
+
+  /// Returns a list of all currently selected workout exercises in the workout edit/create workflow
+  List<Exercise> getCurrentlySelectedCooldownWorkouts(){
+    return _currentlySelectedCooldownExercises;
+  }
+
+  /// Adds a element to the list of currently selected cooldown exercises in the workout edit/create workflow
+  void addToCurrentlySelectedCooldownWorkouts(Exercise e){
+    _currentlySelectedCooldownExercises.add(e);
+  }
+
+  /// Removes a element to the list of currently selected cooldown exercises in the workout edit/create workflow
+  void removeFromCurrentlySelectedCooldownWorkouts(Exercise e){
+    _currentlySelectedCooldownExercises.remove(e);
+  }
+
+  void clearAllCurrentlySelectedWorkouts(){
+    _currentlySelectedWarmupExercises.clear();
+    _currentlySelectedWorkoutExercises.clear();
+    _currentlySelectedCooldownExercises.clear();
   }
 
   ///Returns all elements inside the users active workout
