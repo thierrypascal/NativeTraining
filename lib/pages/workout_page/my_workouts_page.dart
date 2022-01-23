@@ -23,6 +23,7 @@ class MyWorkoutPage extends StatelessWidget {
         false,
         objects: ServiceProvider.instance.workoutService
             .getAllWorkoutsFromUser(user),
+        isWorkout: true,
       ),
       floatingActionButton: OpenContainer(
         closedColor: Theme.of(context).primaryColor,

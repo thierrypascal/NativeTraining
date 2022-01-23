@@ -55,6 +55,7 @@ class Workout extends ChangeNotifier implements InformationObject {
   Workout.empty({StorageProvider storageProvider}) : _storage = storageProvider ??= StorageProvider.instance {
     owner = '';
     title = '';
+    description = '';
     workoutDurationInMinutes = 0;
     lastUsed = DateTime.now();
     warmupExercises = [];
@@ -69,6 +70,7 @@ class Workout extends ChangeNotifier implements InformationObject {
       : _storage = storageProvider ??= StorageProvider.instance,
         owner = map.containsKey('owner') ? map['owner'] as String : '',
         title = map.containsKey('title') ? map['title'] as String : '',
+        description = map.containsKey('description') ? map['description'] as String : '',
         // workoutDurationInMinutes = map.containsKey('time') ? map['time'] as int : 0,
         // lastUsed = map.containsKey('lastUsed') ? map['lastUsed'] as DateTime : DateTime.now(),
         warmupExercises = map.containsKey('warmupExercises')
@@ -97,6 +99,7 @@ class Workout extends ChangeNotifier implements InformationObject {
     logging.log('Path $path');
     await _storage.database.doc(path).set({
       'title': title,
+      'description': description,
       // 'time': workoutDurationInMinutes,
       // 'lastUsed': lastUsed,
       'warmupExercises': jsonEncode(warmupExercises),

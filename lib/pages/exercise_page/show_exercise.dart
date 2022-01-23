@@ -1,17 +1,8 @@
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:native_training/components/edit_dialog.dart';
-import 'package:native_training/components/select_image_for_exercise.dart';
-import 'package:native_training/components/show_dialog.dart';
-import 'package:native_training/components/white_redirect_page.dart';
+import 'package:native_training/components/show_exercise_dialog.dart';
 import 'package:native_training/models/exercise.dart';
-import 'package:native_training/models/information_object.dart';
-import 'package:native_training/models/user.dart';
-import 'package:native_training/pages/exercise_page/my_exercises_page.dart';
 import 'package:native_training/services/service_provider.dart';
-import 'package:provider/provider.dart';
-import 'package:uuid/uuid.dart';
 
 class ShowExercise extends StatefulWidget {
   ShowExercise(this.exercise, {Key key}) : super(key: key);
@@ -25,7 +16,7 @@ class ShowExercise extends StatefulWidget {
 class _ShowExerciseState extends State<ShowExercise> {
   @override
   Widget build(BuildContext context) {
-    return ShowDialog(
+    return ShowExerciseDialog(
       exercise: widget.exercise,
       title: widget.exercise.title,
       body: SingleChildScrollView(

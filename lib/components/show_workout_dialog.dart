@@ -3,52 +3,36 @@ import 'package:flutter/material.dart';
 import 'package:native_training/components/drawer.dart';
 import 'package:native_training/models/exercise.dart';
 import 'package:native_training/models/user.dart';
+import 'package:native_training/models/workout.dart';
 import 'package:native_training/pages/exercise_page/edit_exercise.dart';
 import 'package:native_training/pages/exercise_page/my_exercises_page.dart';
+import 'package:native_training/pages/workout_page/edit_workout.dart';
 import 'package:native_training/services/service_provider.dart';
 import 'package:provider/provider.dart';
 
 /// Simple class to display a dialog
-class ShowDialog extends StatefulWidget {
-  ShowDialog(
-      {@required this.exercise,
+class ShowWorkoutDialog extends StatefulWidget {
+  ShowWorkoutDialog(
+      {@required this.workout,
         @required this.title,
         @required this.body,
         this.needsInset = true,
         Key key})
       : super(key: key);
 
-  final Exercise exercise;
+  final Workout workout;
   final String title;
   final Widget body;
   final bool needsInset;
 
   @override
-  _ShowDialogState createState() => _ShowDialogState();
+  _ShowWorkoutDialogState createState() => _ShowWorkoutDialogState();
 }
 
-class _ShowDialogState extends State<ShowDialog> {
-  Color gradientStart;
+class _ShowWorkoutDialogState extends State<ShowWorkoutDialog> {
 
   @override
   void initState() {
-    switch (widget.exercise.type) {
-      case 0:
-        gradientStart = Colors.grey;
-        break;
-      case 1:
-        gradientStart = Colors.green;
-        break;
-      case 2:
-        gradientStart = Colors.deepOrange;
-        break;
-      case 3:
-        gradientStart = Colors.deepPurple;
-        break;
-      default:
-        gradientStart = Colors.grey;
-        break;
-    }
     super.initState();
   }
 
@@ -63,7 +47,7 @@ class _ShowDialogState extends State<ShowDialog> {
           PopupMenuButton(
             itemBuilder: (bc) => [
               PopupMenuItem(
-                value: 'EditExercise',
+                value: 'EditWorkout',
                 child: Row(
                   children: [
                     Padding(
@@ -73,12 +57,12 @@ class _ShowDialogState extends State<ShowDialog> {
                         color: Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
-                    const Text('\u00DCbung bearbeiten')
+                    const Text('Training bearbeiten')
                   ],
                 ),
               ),
               PopupMenuItem(
-                value: 'DeleteExercise',
+                value: 'DeleteWorkout',
                 child: Row(
                   children: [
                     Padding(
@@ -88,7 +72,7 @@ class _ShowDialogState extends State<ShowDialog> {
                         color: Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
-                    const Text('\u00DCbung löschen')
+                    const Text('Training l\u00F6schen')
                   ],
                 ),
               ),
@@ -98,14 +82,6 @@ class _ShowDialogState extends State<ShowDialog> {
         ],
       ),
       body: Container(
-        decoration: new BoxDecoration(
-          gradient: new LinearGradient(colors: [gradientStart, Theme.of(context).scaffoldBackgroundColor],
-              begin: const FractionalOffset(0.0, 1.0),
-              end: const FractionalOffset(1.0, 1.0),
-              stops: [0.0,1.0],
-              tileMode: TileMode.clamp,
-          ),
-        ),
         child: Padding(
           padding: widget.needsInset ? const EdgeInsets.fromLTRB(40, 10, 8, 8) : const EdgeInsets.fromLTRB(8, 10, 8, 8),
           child: Card(
@@ -146,22 +122,22 @@ class _ShowDialogState extends State<ShowDialog> {
   ///Handles the decision where to route to
   void _handleTopMenu(String value) {
     switch (value) {
-      case 'EditExercise':
+      case 'EditWorkout':
         {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => (EditExercise(isEdit: true, exercise: widget.exercise,))));
+              MaterialPageRoute(builder: (context) => (EditWorkout(isEdit: true, workout: widget.workout,))));
           break;
         }
-      case 'DeleteExercise':
+      case 'DeleteWorkout':
         {
-          deleteExercise(widget.exercise, context);
+          deleteWorkout(widget.workout, context);
           break;
         }
     }
   }
 
-  ///Handles the deletation dialog of the exercise
-  void deleteExercise(Exercise exercise, BuildContext context) {
+  ///Handles the deletation dialog of the workout
+  void deleteWorkout(Workout workout, BuildContext context) {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -182,8 +158,8 @@ class _ShowDialogState extends State<ShowDialog> {
               Expanded(
                 child: ElevatedButton(
                   onPressed: () {
-                    ServiceProvider.instance.exerciseService.deleteExercise(widget.exercise);
-                    Provider.of<User>(context, listen: false).deleteExercise(widget.exercise);
+                    ServiceProvider.instance.workoutService.deleteWorkout(widget.workout);
+                    Provider.of<User>(context, listen: false).deleteWorkout(widget.workout);
                     Navigator.pushReplacement(context,
                         MaterialPageRoute(builder: (context) => MyExercisePage()));
                   },

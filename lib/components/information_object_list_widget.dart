@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:native_training/components/simple_information_object_card_widget.dart';
 import 'package:native_training/models/information_object.dart';
 import 'package:native_training/pages/exercise_page/show_exercise.dart';
+import 'package:native_training/pages/workout_page/show_workout.dart';
 import 'package:native_training/services/service_provider.dart';
 
 /// Creates a List Widget displaying all provided InformationObjects
@@ -23,11 +24,15 @@ class InformationObjectListWidget extends StatefulWidget {
   /// which type is being shown to decide onTapHandler, only used if toReturnSelected = true
   final int type;
 
+  /// if card is used for a workout or an exercise
+  final bool isWorkout;
+
   /// Creates a List Widget displaying all provided InformationObjects
   InformationObjectListWidget(this.toReturnSelected,
       {Key key,
       this.objects,
       this.type,
+      this.isWorkout = false,
       //TODO: implement showDeleteAndEdit
       this.showDeleteAndEdit = false,
       this.physics = const ScrollPhysics(),
@@ -141,7 +146,11 @@ class _InformationObjectListWidgetState extends State<InformationObjectListWidge
                             serviceProvider: widget._serviceProvider,
                             onTapHandler: () {
                               //TODO: use animations_package to detailview
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => ShowExercise(element)));
+                              (widget.isWorkout)
+                                  ? Navigator.push(
+                                      context, MaterialPageRoute(builder: (context) => ShowWorkout(element)))
+                                  : Navigator.push(
+                                      context, MaterialPageRoute(builder: (context) => ShowExercise(element)));
                             },
                           );
                         }
