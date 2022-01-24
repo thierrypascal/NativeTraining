@@ -17,6 +17,7 @@ class MyWorkoutPage extends StatelessWidget {
     final user = Provider.of<User>(context);
 
     return Scaffold(
+      key: UniqueKey(),
       appBar: AppBar(title: const Text("Meine Trainings")),
       drawer: MyDrawer(),
       body: InformationObjectListWidget(

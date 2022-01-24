@@ -17,6 +17,7 @@ class MyExercisePage extends StatelessWidget {
     final exerciseService = ServiceProvider.instance.exerciseService;
 
     return Scaffold(
+      key: UniqueKey(),
       appBar: AppBar(title: const Text('Meine \u00DCbungen')),
       drawer: MyDrawer(),
       body: Column(

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
+import 'package:native_training/pages/exercise_page/my_exercises_page.dart';
 import 'package:native_training/pages/login_page/login_page.dart';
 import 'package:native_training/pages/workout_page/my_workouts_page.dart';
 import 'package:firebase_core/firebase_core.dart';

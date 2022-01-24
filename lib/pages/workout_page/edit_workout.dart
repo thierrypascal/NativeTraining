@@ -62,6 +62,7 @@ class _EditWorkoutState extends State<EditWorkout> {
     final user = Provider.of<User>(context, listen: false);
 
     return EditDialog(
+      needsInset: false,
       title: widget.isEdit ? 'Training bearbeiten' : 'Neues Training',
       abortCallback: () {
         workoutProvider.clearAllCurrentlySelectedWorkouts();
@@ -126,14 +127,14 @@ class _EditWorkoutState extends State<EditWorkout> {
                   onSaved: (value) => _description = value,
                 ),
               ),
-              (_selectedWarmupExercises.isNotEmpty)
-                  ? InformationObjectListWidget(
-                      false,
-                      objects: _selectedWarmupExercises,
-                      showDeleteAndEdit: true,
-                    )
-                  : addWarmupExercises(user),
-              if (_selectedWarmupExercises.isNotEmpty) addWarmupExercises(user),
+              if (_selectedWarmupExercises.isNotEmpty)
+                InformationObjectListWidget(
+                  false,
+                  key: UniqueKey(),
+                  objects: _selectedWarmupExercises,
+                  showDeleteAndEdit: true,
+                ),
+              addWarmupExercises(user),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                 child: Divider(
@@ -141,14 +142,14 @@ class _EditWorkoutState extends State<EditWorkout> {
                   color: Colors.green,
                 ),
               ),
-              (_selectedWorkoutExercises.isNotEmpty)
-                  ? InformationObjectListWidget(
-                      false,
-                      objects: _selectedWorkoutExercises,
-                      showDeleteAndEdit: true,
-                    )
-                  : addWorkoutExercises(user),
-              if (_selectedWorkoutExercises.isNotEmpty) addWorkoutExercises(user),
+              if (_selectedWorkoutExercises.isNotEmpty)
+                InformationObjectListWidget(
+                  false,
+                  key: UniqueKey(),
+                  objects: _selectedWorkoutExercises,
+                  showDeleteAndEdit: true,
+                ),
+              addWorkoutExercises(user),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                 child: Divider(
@@ -156,14 +157,14 @@ class _EditWorkoutState extends State<EditWorkout> {
                   color: Colors.deepOrange,
                 ),
               ),
-              (_selectedCooldownExercises.isNotEmpty)
-                  ? InformationObjectListWidget(
-                      false,
-                      objects: _selectedCooldownExercises,
-                      showDeleteAndEdit: true,
-                    )
-                  : addCooldownExercises(user),
-              if (_selectedCooldownExercises.isNotEmpty) addCooldownExercises(user),
+              if (_selectedCooldownExercises.isNotEmpty)
+                InformationObjectListWidget(
+                  false,
+                  key: UniqueKey(),
+                  objects: _selectedCooldownExercises,
+                  showDeleteAndEdit: true,
+                ),
+              addCooldownExercises(user),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                 child: Divider(
@@ -201,7 +202,6 @@ class _EditWorkoutState extends State<EditWorkout> {
                     if (workoutProvider.getCurrentlySelectedWarmupWorkouts() != null)
                       {
                         setState(() {
-                          //TODO: fix weird multiple adding bug: the first time add() gets called, the list updates, afterwards never. SetState works, the list grows but the elements wont we displayed
                           _selectedWarmupExercises = workoutProvider.getCurrentlySelectedWarmupWorkouts();
                         }),
                       },
@@ -235,7 +235,6 @@ class _EditWorkoutState extends State<EditWorkout> {
                     if (workoutProvider.getCurrentlySelectedWorkoutWorkouts() != null)
                       {
                         setState(() {
-                          //TODO: fix weird multiple adding bug
                           _selectedWorkoutExercises = workoutProvider.getCurrentlySelectedWorkoutWorkouts();
                         })
                       },
@@ -269,7 +268,6 @@ class _EditWorkoutState extends State<EditWorkout> {
                     if (workoutProvider.getCurrentlySelectedCooldownWorkouts() != null)
                       {
                         setState(() {
-                          //TODO: fix weird multiple adding bug
                           _selectedCooldownExercises = workoutProvider.getCurrentlySelectedCooldownWorkouts();
                         })
                       },
