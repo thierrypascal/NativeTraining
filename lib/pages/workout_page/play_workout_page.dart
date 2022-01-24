@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:native_training/components/PageViewDotIndicator.dart';
 import 'package:native_training/components/white_redirect_page.dart';
 import 'package:native_training/models/exercise.dart';
 import 'package:native_training/models/workout.dart';
@@ -16,6 +17,7 @@ class PlayWorkoutPage extends StatefulWidget {
 }
 
 class _PlayWorkoutPageState extends State<PlayWorkoutPage> {
+  int pos = 0;
   PageController controller = PageController();
   List<Exercise> allExercises = [];
 
@@ -34,15 +36,39 @@ class _PlayWorkoutPageState extends State<PlayWorkoutPage> {
       appBar: AppBar(
         title: Text(widget.workout.title),
       ),
-      body: PageView.builder(
-        itemBuilder: (context, position) {
-          return _buildPage(allExercises[position], position);
-        },
-        itemCount: allExercises.length,
-        scrollDirection: Axis.vertical,
-        controller: controller,
-        physics: NeverScrollableScrollPhysics(),
-      ),
+      body: Stack(children: [
+        PageView.builder(
+          itemBuilder: (context, position) {
+            return _buildPage(allExercises[position], position);
+          },
+          onPageChanged: (page){
+            setState(() {
+              pos = page;
+            });
+          },
+          itemCount: allExercises.length,
+          scrollDirection: Axis.vertical,
+          controller: controller,
+          physics: NeverScrollableScrollPhysics(),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 11.0),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: PageViewDotIndicator(
+              currentItem: pos,
+              count: allExercises.length,
+              size: Size(20, 20),
+              margin: const EdgeInsets.symmetric(vertical: 8),
+              unselectedColor: Colors.white60,
+              selectedColor: Colors.white,
+              duration: Duration(milliseconds: 300),
+              padding: EdgeInsets.zero,
+              alignment: Alignment.centerLeft,
+            ),
+          ),
+        ),
+      ]),
     );
   }
 
@@ -93,14 +119,17 @@ class _PlayWorkoutPageState extends State<PlayWorkoutPage> {
                             ServiceProvider.instance.imageService.getImageByUrl(exercise.imageURL, fit: BoxFit.cover),
                       ),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(15, 8, 15, 8),
-                        child: Row(
-                          children: [
-                            Expanded(child: Text(exercise.title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),)),
-                            Text("10x" /*TODO: Anzahl Wiederholungen*/),
-                          ],
-                        )
-                      ),
+                          padding: const EdgeInsets.fromLTRB(15, 8, 15, 8),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                  child: Text(
+                                exercise.title,
+                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                              )),
+                              Text("10x" /*TODO: Anzahl Wiederholungen*/),
+                            ],
+                          )),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(15, 8, 15, 8),
                         child: TextFormField(
@@ -124,27 +153,28 @@ class _PlayWorkoutPageState extends State<PlayWorkoutPage> {
                 child: Row(
                   children: [
                     if (position != 0)
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
-                      child: ElevatedButton(
-                        child: Icon(Icons.skip_previous),
-                        style: ButtonStyle(visualDensity: VisualDensity.adaptivePlatformDensity),
-                        onPressed: () {
-                          controller.previousPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
-                        },
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
+                        child: ElevatedButton(
+                          child: Icon(Icons.skip_previous),
+                          style: ButtonStyle(visualDensity: VisualDensity.adaptivePlatformDensity),
+                          onPressed: () {
+                            controller.previousPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
+                          },
+                        ),
                       ),
-                    ),
-                    if (position != allExercises.length-1)
-                    Expanded(
-                      child: ElevatedButton.icon(
-                        label: Text('Fertig'),
-                        icon: Icon(Icons.done),
-                        style: ButtonStyle(visualDensity: VisualDensity.adaptivePlatformDensity),
-                        onPressed: () {
-                          controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
-                        },
-                      ),
-                    ) else
+                    if (position != allExercises.length - 1)
+                      Expanded(
+                        child: ElevatedButton.icon(
+                          label: Text('Fertig'),
+                          icon: Icon(Icons.done),
+                          style: ButtonStyle(visualDensity: VisualDensity.adaptivePlatformDensity),
+                          onPressed: () {
+                            controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
+                          },
+                        ),
+                      )
+                    else
                       Expanded(
                         child: ElevatedButton.icon(
                           label: Text('Training abschliessen'),
@@ -154,9 +184,9 @@ class _PlayWorkoutPageState extends State<PlayWorkoutPage> {
                             //TODO: mark workout as done/set last done
                             Navigator.of(context).pushReplacement(MaterialPageRoute(
                                 builder: (context) => WhiteRedirectPage(
-                                  'Du hast das Training ${widget.workout.title} abgeschlossen. Gratulation!',
-                                  MyWorkoutPage(),
-                                )));
+                                      'Du hast das Training ${widget.workout.title} abgeschlossen. Gratulation!',
+                                      MyWorkoutPage(),
+                                    )));
                           },
                         ),
                       ),
