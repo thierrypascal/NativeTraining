@@ -4,19 +4,19 @@ import 'package:native_training/components/show_exercise_dialog.dart';
 import 'package:native_training/components/show_workout_dialog.dart';
 import 'package:native_training/models/exercise.dart';
 import 'package:native_training/models/workout.dart';
-import 'package:native_training/pages/workout_page/play_workout.dart';
+import 'package:native_training/pages/workout_page/play_workout_page.dart';
 import 'package:native_training/services/service_provider.dart';
 
-class ShowWorkout extends StatefulWidget {
-  ShowWorkout(this.workout, {Key key}) : super(key: key);
+class ShowWorkoutPage extends StatefulWidget {
+  ShowWorkoutPage(this.workout, {Key key}) : super(key: key);
 
   final Workout workout;
 
   @override
-  _ShowWorkoutState createState() => _ShowWorkoutState();
+  _ShowWorkoutPageState createState() => _ShowWorkoutPageState();
 }
 
-class _ShowWorkoutState extends State<ShowWorkout> {
+class _ShowWorkoutPageState extends State<ShowWorkoutPage> {
   @override
   Widget build(BuildContext context) {
     return ShowWorkoutDialog(
@@ -38,7 +38,7 @@ class _ShowWorkoutState extends State<ShowWorkout> {
                       ),
                       onPressed: () {
                         Navigator.push(
-                            context, MaterialPageRoute(builder: (context) => PlayWorkout(widget.workout)));
+                            context, MaterialPageRoute(builder: (context) => PlayWorkoutPage(widget.workout)));
                       },
                     ),
                   ),

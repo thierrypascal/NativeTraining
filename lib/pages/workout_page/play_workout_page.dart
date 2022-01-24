@@ -9,16 +9,16 @@ import 'package:native_training/models/exercise.dart';
 import 'package:native_training/models/workout.dart';
 import 'package:native_training/services/service_provider.dart';
 
-class PlayWorkout extends StatefulWidget {
-  PlayWorkout(this.workout, {Key key}) : super(key: key);
+class PlayWorkoutPage extends StatefulWidget {
+  PlayWorkoutPage(this.workout, {Key key}) : super(key: key);
 
   final Workout workout;
 
   @override
-  _PlayWorkoutState createState() => _PlayWorkoutState();
+  _PlayWorkoutPageState createState() => _PlayWorkoutPageState();
 }
 
-class _PlayWorkoutState extends State<PlayWorkout> {
+class _PlayWorkoutPageState extends State<PlayWorkoutPage> {
   PageController controller = PageController();
   List<Exercise> allExercises = [];
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:native_training/components/simple_information_object_card_widget.dart';
 import 'package:native_training/models/information_object.dart';
-import 'package:native_training/pages/exercise_page/show_exercise.dart';
-import 'package:native_training/pages/workout_page/show_workout.dart';
+import 'package:native_training/pages/exercise_page/show_exercise_page.dart';
+import 'package:native_training/pages/workout_page/show_workout_page.dart';
 import 'package:native_training/services/service_provider.dart';
 
 /// Creates a List Widget displaying all provided InformationObjects
@@ -136,9 +136,9 @@ class _InformationObjectListWidgetState extends State<InformationObjectListWidge
                               //TODO: use animations_package to detailview
                               (widget.isWorkout)
                                   ? Navigator.push(
-                                      context, MaterialPageRoute(builder: (context) => ShowWorkout(element)))
+                                      context, MaterialPageRoute(builder: (context) => ShowWorkoutPage(element)))
                                   : Navigator.push(
-                                      context, MaterialPageRoute(builder: (context) => ShowExercise(element)));
+                                      context, MaterialPageRoute(builder: (context) => ShowExercisePage(element)));
                             },
                           );
                         }

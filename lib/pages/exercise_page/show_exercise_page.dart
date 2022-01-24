@@ -4,16 +4,16 @@ import 'package:native_training/components/show_exercise_dialog.dart';
 import 'package:native_training/models/exercise.dart';
 import 'package:native_training/services/service_provider.dart';
 
-class ShowExercise extends StatefulWidget {
-  ShowExercise(this.exercise, {Key key}) : super(key: key);
+class ShowExercisePage extends StatefulWidget {
+  ShowExercisePage(this.exercise, {Key key}) : super(key: key);
 
   final Exercise exercise;
 
   @override
-  _ShowExerciseState createState() => _ShowExerciseState();
+  _ShowExercisePageState createState() => _ShowExercisePageState();
 }
 
-class _ShowExerciseState extends State<ShowExercise> {
+class _ShowExercisePageState extends State<ShowExercisePage> {
   @override
   Widget build(BuildContext context) {
     return ShowExerciseDialog(

@@ -13,8 +13,8 @@ import 'package:uuid/uuid.dart';
 
 //TODO: Edit/Create as one workflow
 
-class EditExercise extends StatefulWidget {
-  EditExercise({@required this.isEdit, this.exercise, this.route, Key key}) : super(key: key);
+class EditExercisePage extends StatefulWidget {
+  EditExercisePage({@required this.isEdit, this.exercise, this.route, Key key}) : super(key: key);
 
   /// if this workflow is used to edit
   final bool isEdit;
@@ -26,10 +26,10 @@ class EditExercise extends StatefulWidget {
   final Exercise exercise;
 
   @override
-  _EditExerciseState createState() => _EditExerciseState();
+  _EditExercisePageState createState() => _EditExercisePageState();
 }
 
-class _EditExerciseState extends State<EditExercise> {
+class _EditExercisePageState extends State<EditExercisePage> {
   final _formKey = GlobalKey<FormState>();
   final exerciseProvider = ServiceProvider.instance.exerciseService;
   Exercise exercise;

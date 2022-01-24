@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:native_training/components/drawer.dart';
 import 'package:native_training/models/exercise.dart';
 import 'package:native_training/models/user.dart';
-import 'package:native_training/pages/exercise_page/edit_exercise.dart';
+import 'package:native_training/pages/exercise_page/edit_exercise_page.dart';
 import 'package:native_training/pages/exercise_page/my_exercises_page.dart';
 import 'package:native_training/services/service_provider.dart';
 import 'package:provider/provider.dart';
@@ -149,7 +149,7 @@ class _ShowExerciseDialogState extends State<ShowExerciseDialog> {
       case 'EditExercise':
         {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => (EditExercise(isEdit: true, exercise: widget.exercise,))));
+              MaterialPageRoute(builder: (context) => (EditExercisePage(isEdit: true, exercise: widget.exercise,))));
           break;
         }
       case 'DeleteExercise':

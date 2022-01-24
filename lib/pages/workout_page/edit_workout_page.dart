@@ -15,8 +15,8 @@ import 'package:native_training/services/service_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
-class EditWorkout extends StatefulWidget {
-  EditWorkout({@required this.isEdit, this.workout, this.route, Key key}) : super(key: key);
+class EditWorkoutPage extends StatefulWidget {
+  EditWorkoutPage({@required this.isEdit, this.workout, this.route, Key key}) : super(key: key);
 
   /// if this workflow is used to edit
   final bool isEdit;
@@ -28,10 +28,10 @@ class EditWorkout extends StatefulWidget {
   final Workout workout;
 
   @override
-  _EditWorkoutState createState() => _EditWorkoutState();
+  _EditWorkoutPageState createState() => _EditWorkoutPageState();
 }
 
-class _EditWorkoutState extends State<EditWorkout> {
+class _EditWorkoutPageState extends State<EditWorkoutPage> {
   final _formKey = GlobalKey<FormState>();
   final workoutProvider = ServiceProvider.instance.workoutService;
   final exerciseService = ServiceProvider.instance.exerciseService;

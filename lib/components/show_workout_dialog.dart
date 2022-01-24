@@ -4,9 +4,9 @@ import 'package:native_training/components/drawer.dart';
 import 'package:native_training/models/exercise.dart';
 import 'package:native_training/models/user.dart';
 import 'package:native_training/models/workout.dart';
-import 'package:native_training/pages/exercise_page/edit_exercise.dart';
+import 'package:native_training/pages/exercise_page/edit_exercise_page.dart';
 import 'package:native_training/pages/exercise_page/my_exercises_page.dart';
-import 'package:native_training/pages/workout_page/edit_workout.dart';
+import 'package:native_training/pages/workout_page/edit_workout_page.dart';
 import 'package:native_training/services/service_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -125,7 +125,7 @@ class _ShowWorkoutDialogState extends State<ShowWorkoutDialog> {
       case 'EditWorkout':
         {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => (EditWorkout(isEdit: true, workout: widget.workout,))));
+              MaterialPageRoute(builder: (context) => (EditWorkoutPage(isEdit: true, workout: widget.workout,))));
           break;
         }
       case 'DeleteWorkout':

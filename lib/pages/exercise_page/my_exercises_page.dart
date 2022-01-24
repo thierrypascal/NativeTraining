@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:native_training/components/drawer.dart';
 import 'package:native_training/components/information_object_list_widget.dart';
 import 'package:native_training/models/user.dart';
-import 'package:native_training/pages/exercise_page/edit_exercise.dart';
+import 'package:native_training/pages/exercise_page/edit_exercise_page.dart';
 import 'package:native_training/services/service_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -74,7 +74,7 @@ class MyExercisePage extends StatelessWidget {
             ),
           );
         },
-        openBuilder: (BuildContext c, VoidCallback action) => EditExercise(
+        openBuilder: (BuildContext c, VoidCallback action) => EditExercisePage(
           isEdit: false,
           route: MyExercisePage(),
         ),
