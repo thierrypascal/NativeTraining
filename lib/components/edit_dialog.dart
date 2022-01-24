@@ -50,8 +50,10 @@ class EditDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       // resizeToAvoidBottomInset: false,
-      drawer: MyDrawer(),
-      appBar: AppBar(title: Text(title)),
+      appBar: AppBar(
+        leading: Text(""),
+          title: Text(title)
+      ),
       body: Padding(
         padding: needsInset
             ? const EdgeInsets.fromLTRB(40, 10, 8, 8)

@@ -99,7 +99,6 @@ class _EditWorkoutPageState extends State<EditWorkoutPage> {
               builder: (context) => WhiteRedirectPage(
                     'Das Training $_title wurde gespeichert.',
                     widget.route ?? MyWorkoutPage(),
-                    duration: 2,
                   )));
         }
       },

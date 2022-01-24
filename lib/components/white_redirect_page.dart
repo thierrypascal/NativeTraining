@@ -12,7 +12,7 @@ class WhiteRedirectPage extends StatelessWidget {
   final int duration;
 
   /// A white page that displays text and then redirects to a new page
-  WhiteRedirectPage(this.text, this.route, {Key key, this.duration = 2500})
+  WhiteRedirectPage(this.text, this.route, {Key key, this.duration = 2000})
       : super(key: key);
 
   @override
