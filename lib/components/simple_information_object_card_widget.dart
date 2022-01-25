@@ -13,7 +13,13 @@ class SimpleInformationObjectCard extends StatelessWidget {
   final Function onTapHandler;
 
   /// if a card is selected
-  bool selected;
+  final bool selected;
+
+  /// if this flag is set, the buttons bearbeiten and löschen will be removed
+  final bool showDeleteAndEdit;
+
+  /// what should happen if you delete the card
+  final Function onDeleteHandler;
 
   final ServiceProvider _serviceProvider;
 
@@ -22,11 +28,13 @@ class SimpleInformationObjectCard extends StatelessWidget {
 
   /// Non expandable ListTile, displaying a [Workout] or a [Exercise]
   SimpleInformationObjectCard(this.object,
-      { this.onTapHandler,
-        this.selected = false,
-        ServiceProvider serviceProvider,
-        this.formKey,
-        Key key})
+      {this.onTapHandler,
+      this.onDeleteHandler,
+      this.selected = false,
+      this.showDeleteAndEdit = false,
+      ServiceProvider serviceProvider,
+      this.formKey,
+      Key key})
       : _serviceProvider = serviceProvider ?? ServiceProvider.instance,
         super(key: key);
 
@@ -35,11 +43,9 @@ class SimpleInformationObjectCard extends StatelessWidget {
     return Card(
       shape: selected
           ? RoundedRectangleBorder(
-          side: BorderSide(color: Colors.green, width: 2.0),
-          borderRadius: BorderRadius.circular(3.0))
+              side: BorderSide(color: Colors.green, width: 2.0), borderRadius: BorderRadius.circular(3.0))
           : RoundedRectangleBorder(
-          side: BorderSide(color: Colors.white, width: 2.0),
-          borderRadius: BorderRadius.circular(3.0)),
+              side: BorderSide(color: Colors.white, width: 2.0), borderRadius: BorderRadius.circular(3.0)),
       child: InkWell(
         onTap: onTapHandler,
         child: Row(
@@ -70,6 +76,11 @@ class SimpleInformationObjectCard extends StatelessWidget {
                 ],
               ),
             ),
+            if (showDeleteAndEdit)
+              IconButton(
+                onPressed: onDeleteHandler,
+                icon: Icon(Icons.remove),
+              ),
           ],
         ),
       ),

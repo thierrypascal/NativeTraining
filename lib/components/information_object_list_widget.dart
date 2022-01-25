@@ -33,7 +33,6 @@ class InformationObjectListWidget extends StatefulWidget {
       this.objects,
       this.type,
       this.isWorkout = false,
-      //TODO: implement showDeleteAndEdit
       this.showDeleteAndEdit = false,
       this.physics = const ScrollPhysics(),
       ServiceProvider serviceProvider})
@@ -133,12 +132,33 @@ class _InformationObjectListWidgetState extends State<InformationObjectListWidge
                             element,
                             serviceProvider: widget._serviceProvider,
                             onTapHandler: () {
-                              //TODO: use animations_package to detailview
                               (widget.isWorkout)
                                   ? Navigator.push(
                                       context, MaterialPageRoute(builder: (context) => ShowWorkoutPage(element)))
                                   : Navigator.push(
                                       context, MaterialPageRoute(builder: (context) => ShowExercisePage(element)));
+                            },
+                            showDeleteAndEdit: widget.showDeleteAndEdit,
+                            onDeleteHandler: () {
+                              setState(() {
+                                switch (widget.type) {
+                                  case 1:
+                                    {
+                                      workoutService.removeFromCurrentlySelectedWarmupWorkouts(element);
+                                    }
+                                    break;
+                                  case 2:
+                                    {
+                                      workoutService.removeFromCurrentlySelectedWorkoutWorkouts(element);
+                                    }
+                                    break;
+                                  case 3:
+                                    {
+                                      workoutService.removeFromCurrentlySelectedCooldownWorkouts(element);
+                                    }
+                                    break;
+                                }
+                              });
                             },
                           );
                         }

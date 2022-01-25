@@ -5,11 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:native_training/components/edit_dialog.dart';
 import 'package:native_training/components/information_object_list_widget.dart';
 import 'package:native_training/components/select_image_for_exercise.dart';
+import 'package:native_training/components/simple_information_object_card_widget.dart';
 import 'package:native_training/components/white_redirect_page.dart';
 import 'package:native_training/models/exercise.dart';
 import 'package:native_training/models/user.dart';
 import 'package:native_training/models/workout.dart';
 import 'package:native_training/pages/exercise_page/my_exercises_page.dart';
+import 'package:native_training/pages/exercise_page/show_exercise_page.dart';
 import 'package:native_training/pages/workout_page/my_workouts_page.dart';
 import 'package:native_training/services/service_provider.dart';
 import 'package:provider/provider.dart';
@@ -33,7 +35,7 @@ class EditWorkoutPage extends StatefulWidget {
 
 class _EditWorkoutPageState extends State<EditWorkoutPage> {
   final _formKey = GlobalKey<FormState>();
-  final workoutProvider = ServiceProvider.instance.workoutService;
+  final workoutService = ServiceProvider.instance.workoutService;
   final exerciseService = ServiceProvider.instance.exerciseService;
   Workout workout;
   String _title;
@@ -65,11 +67,11 @@ class _EditWorkoutPageState extends State<EditWorkoutPage> {
       needsInset: false,
       title: widget.isEdit ? 'Training bearbeiten' : 'Neues Training',
       abortCallback: () {
-        workoutProvider.clearAllCurrentlySelectedWorkouts();
+        workoutService.clearAllCurrentlySelectedWorkouts();
         Navigator.pop(context);
       },
       cancelCallback: () {
-        workoutProvider.clearAllCurrentlySelectedWorkouts();
+        workoutService.clearAllCurrentlySelectedWorkouts();
         Navigator.pop(context);
       },
       saveCallback: () async {
@@ -94,7 +96,7 @@ class _EditWorkoutPageState extends State<EditWorkoutPage> {
           await workout.saveWorkout();
           user.addWorkout(workout);
           user.saveUser();
-          workoutProvider.clearAllCurrentlySelectedWorkouts();
+          workoutService.clearAllCurrentlySelectedWorkouts();
           Navigator.of(context).pushReplacement(MaterialPageRoute(
               builder: (context) => WhiteRedirectPage(
                     'Das Training $_title wurde gespeichert.',
@@ -126,51 +128,15 @@ class _EditWorkoutPageState extends State<EditWorkoutPage> {
                   onSaved: (value) => _description = value,
                 ),
               ),
-              if (_selectedWarmupExercises.isNotEmpty)
-                InformationObjectListWidget(
-                  false,
-                  key: UniqueKey(),
-                  objects: _selectedWarmupExercises,
-                  showDeleteAndEdit: true,
-                ),
-              addWarmupExercises(user),
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                child: Divider(
-                  thickness: 2,
-                  color: Colors.green,
-                ),
-              ),
-              if (_selectedWorkoutExercises.isNotEmpty)
-                InformationObjectListWidget(
-                  false,
-                  key: UniqueKey(),
-                  objects: _selectedWorkoutExercises,
-                  showDeleteAndEdit: true,
-                ),
-              addWorkoutExercises(user),
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                child: Divider(
-                  thickness: 2,
-                  color: Colors.deepOrange,
-                ),
-              ),
-              if (_selectedCooldownExercises.isNotEmpty)
-                InformationObjectListWidget(
-                  false,
-                  key: UniqueKey(),
-                  objects: _selectedCooldownExercises,
-                  showDeleteAndEdit: true,
-                ),
-              addCooldownExercises(user),
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                child: Divider(
-                  thickness: 2,
-                  color: Colors.deepPurple,
-                ),
-              ),
+              if (_selectedWarmupExercises.isNotEmpty) _selectedWarmupExercisesList(),
+              _addWarmupExercises(user),
+              _divider(Colors.green),
+              if (_selectedWorkoutExercises.isNotEmpty) _selectedWorkoutExercisesList(),
+              _addWorkoutExercises(user),
+              _divider(Colors.deepOrange),
+              if (_selectedCooldownExercises.isNotEmpty) _selectedCooldownExercisesList(),
+              _addCooldownExercises(user),
+              _divider(Colors.deepPurple),
             ],
           ),
         ),
@@ -178,7 +144,58 @@ class _EditWorkoutPageState extends State<EditWorkoutPage> {
     );
   }
 
-  Widget addWarmupExercises(User user) {
+  Widget _selectedWarmupExercisesList() {
+    return Container(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Flexible(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: _selectedWarmupExercises.isEmpty
+                  ? Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Text(
+                            'Noch kein Eintrag vorhanden, m\u00F6chtest du einen neuen anlegen?',
+                            textScaleFactor: 2,
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    )
+                  : ListView.separated(
+                      shrinkWrap: true,
+                      itemCount: _selectedWarmupExercises.length,
+                      itemBuilder: (context, index) {
+                        final element = _selectedWarmupExercises.elementAt(index);
+                        return SimpleInformationObjectCard(
+                          element,
+                          serviceProvider: ServiceProvider.instance,
+                          onTapHandler: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => ShowExercisePage(element)));
+                          },
+                          showDeleteAndEdit: true,
+                          onDeleteHandler: () {
+                            setState(() {
+                              workoutService.removeFromCurrentlySelectedWarmupWorkouts(element);
+                            });
+                          },
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return const SizedBox(height: 5);
+                      },
+                    ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _addWarmupExercises(User user) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
@@ -198,10 +215,10 @@ class _EditWorkoutPageState extends State<EditWorkoutPage> {
                       ),
                     );
                   }).whenComplete(() => {
-                    if (workoutProvider.getCurrentlySelectedWarmupWorkouts() != null)
+                    if (workoutService.getCurrentlySelectedWarmupWorkouts() != null)
                       {
                         setState(() {
-                          _selectedWarmupExercises = workoutProvider.getCurrentlySelectedWarmupWorkouts();
+                          _selectedWarmupExercises = workoutService.getCurrentlySelectedWarmupWorkouts();
                         }),
                       },
                   });
@@ -211,7 +228,58 @@ class _EditWorkoutPageState extends State<EditWorkoutPage> {
     );
   }
 
-  Widget addWorkoutExercises(User user) {
+  Widget _selectedWorkoutExercisesList() {
+    return Container(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Flexible(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: _selectedWorkoutExercises.isEmpty
+                  ? Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Text(
+                            'Noch kein Eintrag vorhanden, m\u00F6chtest du einen neuen anlegen?',
+                            textScaleFactor: 2,
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    )
+                  : ListView.separated(
+                      shrinkWrap: true,
+                      itemCount: _selectedWorkoutExercises.length,
+                      itemBuilder: (context, index) {
+                        final element = _selectedWorkoutExercises.elementAt(index);
+                        return SimpleInformationObjectCard(
+                          element,
+                          serviceProvider: ServiceProvider.instance,
+                          onTapHandler: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => ShowExercisePage(element)));
+                          },
+                          showDeleteAndEdit: true,
+                          onDeleteHandler: () {
+                            setState(() {
+                              workoutService.removeFromCurrentlySelectedWorkoutWorkouts(element);
+                            });
+                          },
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return const SizedBox(height: 5);
+                      },
+                    ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _addWorkoutExercises(User user) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
@@ -231,10 +299,10 @@ class _EditWorkoutPageState extends State<EditWorkoutPage> {
                       ),
                     );
                   }).whenComplete(() => {
-                    if (workoutProvider.getCurrentlySelectedWorkoutWorkouts() != null)
+                    if (workoutService.getCurrentlySelectedWorkoutWorkouts() != null)
                       {
                         setState(() {
-                          _selectedWorkoutExercises = workoutProvider.getCurrentlySelectedWorkoutWorkouts();
+                          _selectedWorkoutExercises = workoutService.getCurrentlySelectedWorkoutWorkouts();
                         })
                       },
                   });
@@ -244,7 +312,58 @@ class _EditWorkoutPageState extends State<EditWorkoutPage> {
     );
   }
 
-  Widget addCooldownExercises(User user) {
+  Widget _selectedCooldownExercisesList() {
+    return Container(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Flexible(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: _selectedCooldownExercises.isEmpty
+                  ? Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Text(
+                            'Noch kein Eintrag vorhanden, m\u00F6chtest du einen neuen anlegen?',
+                            textScaleFactor: 2,
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    )
+                  : ListView.separated(
+                      shrinkWrap: true,
+                      itemCount: _selectedCooldownExercises.length,
+                      itemBuilder: (context, index) {
+                        final element = _selectedCooldownExercises.elementAt(index);
+                        return SimpleInformationObjectCard(
+                          element,
+                          serviceProvider: ServiceProvider.instance,
+                          onTapHandler: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => ShowExercisePage(element)));
+                          },
+                          showDeleteAndEdit: true,
+                          onDeleteHandler: () {
+                            setState(() {
+                              workoutService.removeFromCurrentlySelectedCooldownWorkouts(element);
+                            });
+                          },
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return const SizedBox(height: 5);
+                      },
+                    ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _addCooldownExercises(User user) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
@@ -264,16 +383,26 @@ class _EditWorkoutPageState extends State<EditWorkoutPage> {
                       ),
                     );
                   }).whenComplete(() => {
-                    if (workoutProvider.getCurrentlySelectedCooldownWorkouts() != null)
+                    if (workoutService.getCurrentlySelectedCooldownWorkouts() != null)
                       {
                         setState(() {
-                          _selectedCooldownExercises = workoutProvider.getCurrentlySelectedCooldownWorkouts();
+                          _selectedCooldownExercises = workoutService.getCurrentlySelectedCooldownWorkouts();
                         })
                       },
                   });
             },
             icon: Icon(Icons.add)),
       ],
+    );
+  }
+
+  Widget _divider(Color color) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+      child: Divider(
+        thickness: 2,
+        color: color,
+      ),
     );
   }
 }
