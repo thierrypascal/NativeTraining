@@ -5,6 +5,7 @@ import 'package:native_training/pages/account_page/account_page.dart';
 import 'package:native_training/pages/exercise_page/edit_exercise_page.dart';
 import 'package:native_training/pages/exercise_page/my_exercises_page.dart';
 import 'package:native_training/pages/login_page/login_page.dart';
+import 'package:native_training/pages/workout_page/edit_workout_page.dart';
 import 'package:native_training/pages/workout_page/my_workouts_page.dart';
 import 'package:provider/provider.dart';
 
@@ -27,16 +28,12 @@ class MyDrawer extends StatelessWidget {
                   icon: const Icon(Icons.person),
                   onPressed: () {
                     if (Provider.of<User>(context, listen: false).isLoggedIn) {
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => AccountPage()));
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => AccountPage()));
                     } else {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => WhiteRedirectPage(
-                                'Bitte melde Dich zuerst an', LoginPage())),
+                            builder: (context) => WhiteRedirectPage('Bitte melde Dich zuerst an', LoginPage())),
                       );
                     }
                   }),
@@ -58,19 +55,15 @@ class MyDrawer extends StatelessWidget {
                           ListTile(
                             title: const Text('Meine Trainings'),
                             onTap: () {
-                              if (Provider.of<User>(context, listen: false)
-                                  .isLoggedIn) {
+                              if (Provider.of<User>(context, listen: false).isLoggedIn) {
                                 Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => MyWorkoutPage()));
+                                    context, MaterialPageRoute(builder: (context) => MyWorkoutPage()));
                               } else {
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => WhiteRedirectPage(
-                                          'Bitte melde Dich zuerst an',
-                                          LoginPage())),
+                                      builder: (context) =>
+                                          WhiteRedirectPage('Bitte melde Dich zuerst an', LoginPage())),
                                 );
                               }
                             },
@@ -78,20 +71,15 @@ class MyDrawer extends StatelessWidget {
                           ListTile(
                             title: const Text('Meine \u00DCbungen'),
                             onTap: () {
-                              if (Provider.of<User>(context, listen: false)
-                                  .isLoggedIn) {
+                              if (Provider.of<User>(context, listen: false).isLoggedIn) {
                                 Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            MyExercisePage()));
+                                    context, MaterialPageRoute(builder: (context) => MyExercisePage()));
                               } else {
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => WhiteRedirectPage(
-                                          'Bitte melde Dich zuerst an',
-                                          LoginPage())),
+                                      builder: (context) =>
+                                          WhiteRedirectPage('Bitte melde Dich zuerst an', LoginPage())),
                                 );
                               }
                             },
@@ -101,18 +89,44 @@ class MyDrawer extends StatelessWidget {
                           ),
                           ListTile(
                             title: const Text('Neues Training'),
-                            onTap: () {},
-                          ),
-                          ListTile(
-                            title: const Text('Neue Übung'),
                             onTap: () {
-                              Navigator.push(
+                              if (Provider.of<User>(context, listen: false).isLoggedIn) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => EditWorkoutPage(
+                                              isEdit: false,
+                                              route: MyWorkoutPage(),
+                                            )));
+                              } else {
+                                Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => EditExercisePage(
-                                            isEdit: false,
-                                            route: MyExercisePage(),
-                                          )));
+                                      builder: (context) =>
+                                          WhiteRedirectPage('Bitte melde Dich zuerst an', LoginPage())),
+                                );
+                              }
+                            },
+                          ),
+                          ListTile(
+                            title: const Text('Neue \u00DCbung'),
+                            onTap: () {
+                              if (Provider.of<User>(context, listen: false).isLoggedIn) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => EditExercisePage(
+                                          isEdit: false,
+                                          route: MyExercisePage(),
+                                        )));
+                              } else {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          WhiteRedirectPage('Bitte melde Dich zuerst an', LoginPage())),
+                                );
+                              }
                             },
                           ),
                           Divider(
@@ -130,8 +144,7 @@ class MyDrawer extends StatelessWidget {
 
   Widget _loginLogoutButton(BuildContext context) {
     if (Provider.of<User>(context).isLoggedIn) {
-      return ListTile(
-          title: const Text('Logout'), onTap: () => _signOut(context));
+      return ListTile(title: const Text('Logout'), onTap: () => _signOut(context));
     } else {
       return ListTile(
         title: const Text('Login'),
@@ -155,8 +168,7 @@ class MyDrawer extends StatelessWidget {
                     child: ElevatedButton(
                       onPressed: () => Navigator.pop(context),
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            Theme.of(context).primaryColor),
+                        backgroundColor: MaterialStateProperty.all<Color>(Theme.of(context).primaryColor),
                       ),
                       child: const Text('Abbrechen'),
                     ),
@@ -168,14 +180,10 @@ class MyDrawer extends StatelessWidget {
                     child: ElevatedButton(
                       onPressed: () {
                         Provider.of<User>(context, listen: false).signOut();
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => LoginPage()));
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
                       },
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            Theme.of(context).errorColor),
+                        backgroundColor: MaterialStateProperty.all<Color>(Theme.of(context).errorColor),
                       ),
                       child: const Text('Ausloggen'),
                     ),

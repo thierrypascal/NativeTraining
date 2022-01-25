@@ -7,6 +7,7 @@ import 'package:native_training/models/workout.dart';
 import 'package:native_training/pages/exercise_page/edit_exercise_page.dart';
 import 'package:native_training/pages/exercise_page/my_exercises_page.dart';
 import 'package:native_training/pages/workout_page/edit_workout_page.dart';
+import 'package:native_training/pages/workout_page/my_workouts_page.dart';
 import 'package:native_training/services/service_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -39,7 +40,6 @@ class _ShowWorkoutDialogState extends State<ShowWorkoutDialog> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // resizeToAvoidBottomInset: false,
       drawer: MyDrawer(),
       appBar: AppBar(
           title: Text(widget.title),
@@ -161,7 +161,7 @@ class _ShowWorkoutDialogState extends State<ShowWorkoutDialog> {
                     ServiceProvider.instance.workoutService.deleteWorkout(widget.workout);
                     Provider.of<User>(context, listen: false).deleteWorkout(widget.workout);
                     Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => MyExercisePage()));
+                        MaterialPageRoute(builder: (context) => MyWorkoutPage()));
                   },
                   style: ButtonStyle(
                     backgroundColor:

@@ -41,9 +41,10 @@ class LogoAndWavesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: Text(""),
         title: Text(title),
       ),
-      drawer: MyDrawer(),
       body: LayoutBuilder(
         builder: (context, constraint) {
           return SingleChildScrollView(
