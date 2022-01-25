@@ -165,13 +165,15 @@ class _EditWorkoutPageState extends State<EditWorkoutPage> {
                         ],
                       ),
                     )
-                  : ListView.separated(
+                  : ReorderableListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: _selectedWarmupExercises.length,
                       itemBuilder: (context, index) {
                         final element = _selectedWarmupExercises.elementAt(index);
                         return SimpleInformationObjectCard(
                           element,
+                          key: Key('$index'),
                           serviceProvider: ServiceProvider.instance,
                           onTapHandler: () {
                             Navigator.push(context, MaterialPageRoute(builder: (context) => ShowExercisePage(element)));
@@ -179,13 +181,19 @@ class _EditWorkoutPageState extends State<EditWorkoutPage> {
                           showDeleteAndEdit: true,
                           onDeleteHandler: () {
                             setState(() {
-                              workoutService.removeFromCurrentlySelectedWarmupWorkouts(element);
+                              _selectedWarmupExercises.removeAt(index);
                             });
                           },
                         );
                       },
-                      separatorBuilder: (context, index) {
-                        return const SizedBox(height: 5);
+                      onReorder: (int oldIndex, int newIndex) {
+                        setState(() {
+                          if (oldIndex < newIndex) {
+                            newIndex -= 1;
+                          }
+                          final Exercise item = _selectedWarmupExercises.removeAt(oldIndex);
+                          _selectedWarmupExercises.insert(newIndex, item);
+                        });
                       },
                     ),
             ),
@@ -249,13 +257,15 @@ class _EditWorkoutPageState extends State<EditWorkoutPage> {
                         ],
                       ),
                     )
-                  : ListView.separated(
+                  : ReorderableListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: _selectedWorkoutExercises.length,
                       itemBuilder: (context, index) {
                         final element = _selectedWorkoutExercises.elementAt(index);
                         return SimpleInformationObjectCard(
                           element,
+                          key: Key('$index'),
                           serviceProvider: ServiceProvider.instance,
                           onTapHandler: () {
                             Navigator.push(context, MaterialPageRoute(builder: (context) => ShowExercisePage(element)));
@@ -263,13 +273,19 @@ class _EditWorkoutPageState extends State<EditWorkoutPage> {
                           showDeleteAndEdit: true,
                           onDeleteHandler: () {
                             setState(() {
-                              workoutService.removeFromCurrentlySelectedWorkoutWorkouts(element);
+                              _selectedWorkoutExercises.removeAt(index);
                             });
                           },
                         );
                       },
-                      separatorBuilder: (context, index) {
-                        return const SizedBox(height: 5);
+                      onReorder: (int oldIndex, int newIndex) {
+                        setState(() {
+                          if (oldIndex < newIndex) {
+                            newIndex -= 1;
+                          }
+                          final Exercise item = _selectedWorkoutExercises.removeAt(oldIndex);
+                          _selectedWorkoutExercises.insert(newIndex, item);
+                        });
                       },
                     ),
             ),
@@ -333,13 +349,15 @@ class _EditWorkoutPageState extends State<EditWorkoutPage> {
                         ],
                       ),
                     )
-                  : ListView.separated(
+                  : ReorderableListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: _selectedCooldownExercises.length,
                       itemBuilder: (context, index) {
                         final element = _selectedCooldownExercises.elementAt(index);
                         return SimpleInformationObjectCard(
                           element,
+                          key: Key('$index'),
                           serviceProvider: ServiceProvider.instance,
                           onTapHandler: () {
                             Navigator.push(context, MaterialPageRoute(builder: (context) => ShowExercisePage(element)));
@@ -347,13 +365,19 @@ class _EditWorkoutPageState extends State<EditWorkoutPage> {
                           showDeleteAndEdit: true,
                           onDeleteHandler: () {
                             setState(() {
-                              workoutService.removeFromCurrentlySelectedCooldownWorkouts(element);
+                              _selectedCooldownExercises.removeAt(index);
                             });
                           },
                         );
                       },
-                      separatorBuilder: (context, index) {
-                        return const SizedBox(height: 5);
+                      onReorder: (int oldIndex, int newIndex) {
+                        setState(() {
+                          if (oldIndex < newIndex) {
+                            newIndex -= 1;
+                          }
+                          final Exercise item = _selectedCooldownExercises.removeAt(oldIndex);
+                          _selectedCooldownExercises.insert(newIndex, item);
+                        });
                       },
                     ),
             ),
