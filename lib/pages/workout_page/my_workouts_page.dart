@@ -3,18 +3,44 @@ import 'package:flutter/material.dart';
 import 'package:native_training/components/drawer.dart';
 import 'package:native_training/components/information_object_list_widget.dart';
 import 'package:native_training/models/user.dart';
-import 'package:native_training/pages/exercise_page/edit_exercise_page.dart';
 import 'package:native_training/pages/workout_page/edit_workout_page.dart';
 import 'package:native_training/services/service_provider.dart';
 import 'package:provider/provider.dart';
 
 ///Displays a list of the users workouts
-class MyWorkoutPage extends StatelessWidget {
+class MyWorkoutPage extends StatefulWidget {
   MyWorkoutPage({Key key}) : super (key: key);
+
+  @override
+  State<MyWorkoutPage> createState() => _MyWorkoutPageState();
+}
+
+class _MyWorkoutPageState extends State<MyWorkoutPage> {
+  @override
+  void initState() {
+
+    _uglySetState();
+
+    super.initState();
+  }
+
+  _uglySetState() {
+    //very ugly method to "reload" as soon as objects has loaded
+    Future.delayed(const Duration(milliseconds: 500), () {
+      if (mounted) {
+        setState(() {});
+      }else{
+        //if !mounted, wait again 500ms and try again
+        _uglySetState();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
+    final objects = ServiceProvider.instance.workoutService
+        .getAllWorkoutsFromUser(user);
 
     return Scaffold(
       key: UniqueKey(),
@@ -22,8 +48,7 @@ class MyWorkoutPage extends StatelessWidget {
       drawer: MyDrawer(),
       body: InformationObjectListWidget(
         false,
-        objects: ServiceProvider.instance.workoutService
-            .getAllWorkoutsFromUser(user),
+        objects: objects,
         isWorkout: true,
       ),
       floatingActionButton: OpenContainer(
