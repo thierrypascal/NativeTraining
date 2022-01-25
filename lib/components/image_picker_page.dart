@@ -41,6 +41,7 @@ class ImagePickerPage extends StatefulWidget {
 }
 
 class _ImagePickerPageState extends State<ImagePickerPage> {
+  //TODO: selected img is always rotated 90° after camera
   File _imageFile;
   bool _deleteRequested = false;
   bool _hasOriginal = true;

@@ -68,6 +68,7 @@ class _InformationObjectListWidgetState extends State<InformationObjectListWidge
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const [
+                          //TODO: if is Exercise, show differently
                           Text(
                             'Noch kein Eintrag vorhanden, m\u00F6chtest du einen neuen anlegen?',
                             textScaleFactor: 2,

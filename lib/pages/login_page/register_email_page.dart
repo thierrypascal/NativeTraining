@@ -118,6 +118,7 @@ class _RegisterFormState extends State<RegisterForm> {
                   children: [
                     Row(
                       children: [
+                        //TODO: Pixeloverflow
                         TextButton(
                           onPressed: () async {
                             final _read = await showPrivacyAgreement(context);
