@@ -21,14 +21,20 @@ class Workout extends ChangeNotifier implements InformationObject {
   @override
   String description;
 
+  //TODO
   ///how long the workout lasts/estimation by user
   @override
   int workoutDurationInMinutes;
+
+  ///how long the exercise lasts/estimation by user
+  @override
+  int get exerciseDurationInMinutes => null;
 
   ///ImageURL of the exercise
   @override
   String get imageURL => null;
 
+  //TODO
   ///dateTime of when this workout was last used
   DateTime lastUsed;
 

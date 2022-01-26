@@ -9,6 +9,8 @@ abstract class InformationObject {
   String get description;
   ///how long the workout lasts/estimation by user
   int get workoutDurationInMinutes;
+  ///how long the exercise lasts/estimation by user
+  int get exerciseDurationInMinutes;
   ///ImageURL of the exercise
   String get imageURL;
 }
