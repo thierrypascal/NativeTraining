@@ -1,5 +1,5 @@
 name: native_training
-description: A new Flutter project.
+description: A custom training planner app to create and manage your daily workout routine.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
