@@ -26,6 +26,7 @@ class MyExercisePage extends StatelessWidget {
             false,
             objects: exerciseService.getAllExercisesFromUserOfType(user, 0),
           ),
+          //TODO: add small text over the divider to display type of list
           Padding(
             padding: const EdgeInsets.only(left: 8.0, right: 8.0),
             child: Divider(

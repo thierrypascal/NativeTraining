@@ -49,12 +49,15 @@ class _EditWorkoutPageState extends State<EditWorkoutPage> {
     (widget.workout != null) ? workout = widget.workout : workout = Workout.empty();
     if (workout.warmupExercises.isNotEmpty) {
       _selectedWarmupExercises.addAll(workout.warmupExercises);
+      workoutService.currentlySelectedWarmupExercises = workout.warmupExercises;
     }
     if (workout.workoutExercises.isNotEmpty) {
       _selectedWorkoutExercises.addAll(workout.workoutExercises);
+      workoutService.currentlySelectedWorkoutExercises = workout.workoutExercises;
     }
     if (workout.cooldownExercises.isNotEmpty) {
       _selectedCooldownExercises.addAll(workout.cooldownExercises);
+      workoutService.currentlySelectedCooldownExercises = workout.cooldownExercises;
     }
     super.initState();
   }

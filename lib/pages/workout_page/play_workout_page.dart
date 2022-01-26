@@ -183,6 +183,7 @@ class _PlayWorkoutPageState extends State<PlayWorkoutPage> {
                           onPressed: () {
                             //TODO: mark workout as done/set last done
                             Navigator.of(context).pushReplacement(MaterialPageRoute(
+                              //TODO: show WorkoutFinishedPage -> play Sound, confirm to continue to MyWorkoutPage
                                 builder: (context) => WhiteRedirectPage(
                                       'Du hast das Training ${widget.workout.title} abgeschlossen. Gratulation!',
                                       MyWorkoutPage(),

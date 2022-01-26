@@ -145,4 +145,16 @@ class WorkoutService extends ChangeNotifier {
     }
     _workouts.remove(workout);
   }
+
+  set currentlySelectedWarmupExercises(List<Exercise> value) {
+    _currentlySelectedWarmupExercises = value;
+  }
+
+  set currentlySelectedWorkoutExercises(List<Exercise> value) {
+    _currentlySelectedWorkoutExercises = value;
+  }
+
+  set currentlySelectedCooldownExercises(List<Exercise> value) {
+    _currentlySelectedCooldownExercises = value;
+  }
 }

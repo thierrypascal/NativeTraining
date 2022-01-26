@@ -21,15 +21,6 @@ class Workout extends ChangeNotifier implements InformationObject {
   @override
   String description;
 
-  //TODO
-  ///how long the workout lasts/estimation by user
-  @override
-  int workoutDurationInMinutes;
-
-  ///how long the exercise lasts/estimation by user
-  @override
-  int get exerciseDurationInMinutes => null;
-
   ///ImageURL of the exercise
   @override
   String get imageURL => null;
@@ -62,7 +53,6 @@ class Workout extends ChangeNotifier implements InformationObject {
     owner = '';
     title = '';
     description = '';
-    workoutDurationInMinutes = 0;
     lastUsed = DateTime.now();
     warmupExercises = [];
     workoutExercises = [];
@@ -77,7 +67,6 @@ class Workout extends ChangeNotifier implements InformationObject {
         owner = map.containsKey('owner') ? map['owner'] as String : '',
         title = map.containsKey('title') ? map['title'] as String : '',
         description = map.containsKey('description') ? map['description'] as String : '',
-        // workoutDurationInMinutes = map.containsKey('time') ? map['time'] as int : 0,
         // lastUsed = map.containsKey('lastUsed') ? map['lastUsed'] as DateTime : DateTime.now(),
         warmupExercises = map.containsKey('warmupExercises')
             ? List<Exercise>.from(jsonDecode(map['warmupExercises'] as String).map((m) => Exercise.fromMap(m)))
@@ -106,7 +95,6 @@ class Workout extends ChangeNotifier implements InformationObject {
     await _storage.database.doc(path).set({
       'title': title,
       'description': description,
-      // 'time': workoutDurationInMinutes,
       // 'lastUsed': lastUsed,
       'warmupExercises': jsonEncode(warmupExercises),
       'workoutExercises': jsonEncode(workoutExercises),
