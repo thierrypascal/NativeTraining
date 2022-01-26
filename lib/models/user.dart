@@ -100,7 +100,6 @@ class User extends ChangeNotifier {
       'surname': surname,
       'mail': mail,
       'imageURL': imageURL,
-      //TODO: save/update lists / names correctly
       'workouts': _workouts.toList(),
       'exercises': _exercises.toList(),
     });

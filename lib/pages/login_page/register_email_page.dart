@@ -56,14 +56,12 @@ class _RegisterFormState extends State<RegisterForm> {
           TextFormField(
             decoration: const InputDecoration(labelText: 'Name'),
             onSaved: (value) => _name = value,
-            validator: (value) =>
-                value.isEmpty ? 'Bitte ein Name eingeben' : null,
+            validator: (value) => value.isEmpty ? 'Bitte ein Name eingeben' : null,
           ),
           TextFormField(
             decoration: const InputDecoration(labelText: 'Nachname'),
             onSaved: (value) => _surname = value,
-            validator: (value) =>
-                value.isEmpty ? 'Bitte ein Nachname eingeben' : null,
+            validator: (value) => value.isEmpty ? 'Bitte ein Nachname eingeben' : null,
           ),
           TextFormField(
               decoration: const InputDecoration(labelText: 'Email'),
@@ -96,8 +94,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 }
               }),
           TextFormField(
-              decoration:
-                  const InputDecoration(labelText: 'Passwort wiederholen'),
+              decoration: const InputDecoration(labelText: 'Passwort wiederholen'),
               obscureText: true,
               validator: (value) {
                 if (value.isEmpty) {
@@ -118,16 +115,16 @@ class _RegisterFormState extends State<RegisterForm> {
                   children: [
                     Row(
                       children: [
-                        //TODO: Pixeloverflow
-                        TextButton(
-                          onPressed: () async {
-                            final _read = await showPrivacyAgreement(context);
-                            setState(() {
-                              _readPrivacyAgreement = _read;
-                            });
-                          },
-                          child: const Text(
-                              'Ich habe das Privacy-Agreement gelesen'),
+                        Expanded(
+                          child: TextButton(
+                            onPressed: () async {
+                              final _read = await showPrivacyAgreement(context);
+                              setState(() {
+                                _readPrivacyAgreement = _read;
+                              });
+                            },
+                            child: const Text('Ich habe das Privacy-Agreement gelesen'),
+                          ),
                         ),
                         Checkbox(
                           value: field.value,
@@ -138,14 +135,12 @@ class _RegisterFormState extends State<RegisterForm> {
                     if (field.hasError)
                       Text(
                         field.errorText,
-                        style: TextStyle(
-                            color: Theme.of(context).errorColor, fontSize: 12),
+                        style: TextStyle(color: Theme.of(context).errorColor, fontSize: 12),
                       )
                   ],
                 );
               },
-              validator: (value) =>
-                  value ? null : 'Bitte lies das Privacy-Agreement'),
+              validator: (value) => value ? null : 'Bitte lies das Privacy-Agreement'),
           const SizedBox(
             height: 40,
           ),
@@ -162,16 +157,12 @@ class _RegisterFormState extends State<RegisterForm> {
     logging.log(_formKey.toString());
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      final errorMessage =
-          await Provider.of<User>(context, listen: false)
-              .registerWithEmail(_email, _password,
-                  name: _name, surname: _surname);
+      final errorMessage = await Provider.of<User>(context, listen: false)
+          .registerWithEmail(_email, _password, name: _name, surname: _surname);
       if (errorMessage == null) {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => MyWorkoutPage()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MyWorkoutPage()));
       } else {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(errorMessage)));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(errorMessage)));
       }
     }
   }

@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 
 ///Displays a list of the users workouts
 class MyWorkoutPage extends StatefulWidget {
-  MyWorkoutPage({Key key}) : super (key: key);
+  MyWorkoutPage({Key key}) : super(key: key);
 
   @override
   State<MyWorkoutPage> createState() => _MyWorkoutPageState();
@@ -18,7 +18,6 @@ class MyWorkoutPage extends StatefulWidget {
 class _MyWorkoutPageState extends State<MyWorkoutPage> {
   @override
   void initState() {
-
     _uglySetState();
 
     super.initState();
@@ -29,18 +28,19 @@ class _MyWorkoutPageState extends State<MyWorkoutPage> {
     Future.delayed(const Duration(milliseconds: 500), () {
       if (mounted) {
         setState(() {});
-      }else{
+      } else {
         //if !mounted, wait again 500ms and try again
         _uglySetState();
       }
     });
   }
 
+  //TODO: Nach registrieren/anmelden kann beim erstenmal keine Workouts/Exercises angezeigt werden. Nach erneutem Starten der App geht es, hot reload reicht nicht aus
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
-    final objects = ServiceProvider.instance.workoutService
-        .getAllWorkoutsFromUser(user);
+    final objects = ServiceProvider.instance.workoutService.getAllWorkoutsFromUser(user);
 
     return Scaffold(
       key: UniqueKey(),

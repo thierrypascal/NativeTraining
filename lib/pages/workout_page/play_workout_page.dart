@@ -127,7 +127,7 @@ class _PlayWorkoutPageState extends State<PlayWorkoutPage> {
                                 exercise.title,
                                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                               )),
-                              Text("10x" /*TODO: Anzahl Wiederholungen*/),
+                              // Text("10x" /*TODO: Anzahl Wiederholungen*/),
                             ],
                           )),
                       Padding(

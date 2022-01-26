@@ -11,8 +11,6 @@ import 'package:native_training/services/service_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
-//TODO: Edit/Create as one workflow
-
 class EditExercisePage extends StatefulWidget {
   EditExercisePage({@required this.isEdit, this.exercise, this.route, Key key}) : super(key: key);
 
@@ -56,7 +54,6 @@ class _EditExercisePageState extends State<EditExercisePage> {
     final user = Provider.of<User>(context, listen: false);
 
     return EditDialog(
-      //TODO: modify EditDialog to show color of selected type
       title: widget.isEdit ? '\u00DCbung bearbeiten' : 'Neue \u00DCbung',
       abortCallback: () {
         Navigator.pop(context);
@@ -156,6 +153,7 @@ class _EditExercisePageState extends State<EditExercisePage> {
           ),
         ),
       ),
+      type: exerciseProvider.getAbstractFromType(_selectedType),
     );
   }
 }

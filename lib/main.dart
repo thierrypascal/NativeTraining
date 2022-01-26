@@ -21,8 +21,6 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  //TODO: change Android App Icon
-
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
   @override

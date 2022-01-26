@@ -67,13 +67,14 @@ class _InformationObjectListWidgetState extends State<InformationObjectListWidge
                   ? Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          //TODO: if is Exercise, show differently
+                        children: [
+                          if (widget.isWorkout)
                           Text(
                             'Noch kein Eintrag vorhanden, m\u00F6chtest du einen neuen anlegen?',
                             textScaleFactor: 2,
                             textAlign: TextAlign.center,
-                          ),
+                          ) else
+                          Text('Du hast noch keine \u00DCbungen dieses Typs'),
                         ],
                       ),
                     )
