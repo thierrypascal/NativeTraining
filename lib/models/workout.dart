@@ -60,6 +60,8 @@ class Workout extends ChangeNotifier implements InformationObject {
     _isEmpty = true;
   }
 
+  //TODO: change way of saving workouts: Exercises have to reference to actual exercises, not just json save them
+
   /// creates an workout from the provided Map.
   /// Used for database loading and testing
   Workout.fromMap(Map<String, dynamic> map, {this.reference, StorageProvider storageProvider})

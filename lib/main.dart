@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:native_training/pages/exercise_page/my_exercises_page.dart';
 import 'package:native_training/pages/login_page/login_page.dart';
 import 'package:native_training/pages/workout_page/my_workouts_page.dart';
@@ -7,11 +8,19 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:native_training/services/service_provider.dart';
 import 'package:provider/provider.dart';
 
+import 'models/ad_state.dart';
 import 'models/user.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(App());
+  final initAdsFuture = MobileAds.instance.initialize();
+  final adState = AdState(initAdsFuture);
+  runApp(
+    Provider.value(
+      value: adState,
+      builder: (context, child) => App(),
+    )
+  );
 }
 
 class App extends StatefulWidget {

@@ -3,6 +3,7 @@ import 'package:native_training/components/PageViewDotIndicator.dart';
 import 'package:native_training/components/white_redirect_page.dart';
 import 'package:native_training/models/exercise.dart';
 import 'package:native_training/models/workout.dart';
+import 'package:native_training/pages/workout_page/workout_finished_redirect_page.dart';
 import 'package:native_training/services/service_provider.dart';
 
 import 'my_workouts_page.dart';
@@ -184,7 +185,7 @@ class _PlayWorkoutPageState extends State<PlayWorkoutPage> {
                             //TODO: mark workout as done/set last done
                             Navigator.of(context).pushReplacement(MaterialPageRoute(
                               //TODO: show WorkoutFinishedPage -> play Sound, confirm to continue to MyWorkoutPage
-                                builder: (context) => WhiteRedirectPage(
+                                builder: (context) => WorkoutFinishedRedirectPage(
                                       'Du hast das Training ${widget.workout.title} abgeschlossen. Gratulation!',
                                       MyWorkoutPage(),
                                     )));
