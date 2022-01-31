@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ch.odt.native_training">
    <application
-        android:label="native_training"
+        android:label="NativeTraining"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
