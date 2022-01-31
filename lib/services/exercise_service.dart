@@ -18,10 +18,7 @@ class ExerciseService extends ChangeNotifier {
   /// init the service, should only be used once
   ExerciseService({StorageProvider storageProvider}) {
     _storage = storageProvider ?? StorageProvider.instance;
-    _streamSubscription = _storage.database
-        .collection('exercises')
-        .snapshots()
-        .listen(_updateElements);
+    _streamSubscription = _storage.database.collection('exercises').snapshots().listen(_updateElements);
   }
 
   @override
@@ -45,12 +42,18 @@ class ExerciseService extends ChangeNotifier {
 
   /// Returns a list of exercises of a type which the provided User has
   List<Exercise> getAllExercisesFromUserOfType(User user, int type) {
-    return _exercises.where((exercise) => exercise.owner == user.userUUID).where((exercise) => exercise.type == type).toList();
+    return _exercises
+        .where((exercise) => exercise.owner == user.userUUID)
+        .where((exercise) => exercise.type == type)
+        .toList();
   }
 
   /// Returns a list of exercises of a type which the provided User has
   List<Exercise> getAllExercisesFromUserOfTypePlusType0(User user, int type) {
-    return _exercises.where((exercise) => exercise.owner == user.userUUID).where((exercise) => exercise.type == type || exercise.type == 0).toList();
+    return _exercises
+        .where((exercise) => exercise.owner == user.userUUID)
+        .where((exercise) => exercise.type == type || exercise.type == 0)
+        .toList();
   }
 
   ///Delete all exercises from the user when the account is being deleted
@@ -82,12 +85,32 @@ class ExerciseService extends ChangeNotifier {
     }
   }
 
+  /// returns the [Exercise] identified by the title
+  List<Exercise> getWorkoutExercises(List<String> list) {
+    List<Exercise> result = [];
+    list.forEach((e) {
+      try {
+        result.add(_exercises.where((element) => element.title == e).first);
+      }catch (e){
+      }
+    });
+    return result;
+  }
+
+  /// returns the [Exercise] identified by the title
+  List<String> getWorkoutExercisesTitle(List<Exercise> list) {
+    List<String> result = [];
+    list.forEach((e) {
+      result.add(e.title);
+    });
+    return result;
+  }
+
   ///function to delete the exercise from an user
   Future<void> deleteExercise(Exercise exercise) async {
     if (exercise.reference != null) {
       if (exercise.imageURL != null && exercise.imageURL.isNotEmpty) {
-        ServiceProvider.instance.imageService
-            .deleteImage(imageURL: exercise.imageURL);
+        ServiceProvider.instance.imageService.deleteImage(imageURL: exercise.imageURL);
       }
       _storage.database.doc(exercise.reference.path).delete();
     }

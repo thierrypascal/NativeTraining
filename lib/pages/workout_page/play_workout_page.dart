@@ -21,12 +21,13 @@ class _PlayWorkoutPageState extends State<PlayWorkoutPage> {
   int pos = 0;
   PageController controller = PageController();
   List<Exercise> allExercises = [];
+  final exerciseService = ServiceProvider.instance.exerciseService;
 
   @override
   void initState() {
-    allExercises.addAll(widget.workout.warmupExercises);
-    allExercises.addAll(widget.workout.workoutExercises);
-    allExercises.addAll(widget.workout.cooldownExercises);
+    allExercises.addAll(exerciseService.getWorkoutExercises(widget.workout.warmupExercises));
+    allExercises.addAll(exerciseService.getWorkoutExercises(widget.workout.workoutExercises));
+    allExercises.addAll(exerciseService.getWorkoutExercises(widget.workout.cooldownExercises));
     super.initState();
   }
 
@@ -42,7 +43,7 @@ class _PlayWorkoutPageState extends State<PlayWorkoutPage> {
           itemBuilder: (context, position) {
             return _buildPage(allExercises[position], position);
           },
-          onPageChanged: (page){
+          onPageChanged: (page) {
             setState(() {
               pos = page;
             });
@@ -184,11 +185,15 @@ class _PlayWorkoutPageState extends State<PlayWorkoutPage> {
                           onPressed: () {
                             //TODO: mark workout as done/set last done
                             Navigator.of(context).pushReplacement(MaterialPageRoute(
-                              //TODO: show WorkoutFinishedPage -> play Sound, confirm to continue to MyWorkoutPage
-                                builder: (context) => WorkoutFinishedRedirectPage(
+                                //TODO: show WorkoutFinishedPage -> play Sound, confirm to continue to MyWorkoutPage
+                                builder: (context) => WhiteRedirectPage(
                                       'Du hast das Training ${widget.workout.title} abgeschlossen. Gratulation!',
                                       MyWorkoutPage(),
                                     )));
+                                // builder: (context) => WorkoutFinishedRedirectPage(
+                                //           'Du hast das Training ${widget.workout.title} abgeschlossen. Gratulation!',
+                                //           MyWorkoutPage(),
+                                //         )));
                           },
                         ),
                       ),

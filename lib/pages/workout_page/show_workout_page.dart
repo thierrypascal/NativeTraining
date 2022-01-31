@@ -17,6 +17,8 @@ class ShowWorkoutPage extends StatefulWidget {
 }
 
 class _ShowWorkoutPageState extends State<ShowWorkoutPage> {
+  final exerciseService = ServiceProvider.instance.exerciseService;
+
   @override
   Widget build(BuildContext context) {
     return ShowWorkoutDialog(
@@ -50,7 +52,7 @@ class _ShowWorkoutPageState extends State<ShowWorkoutPage> {
               InformationObjectListWidget(
                 false,
                 key: UniqueKey(),
-                objects: widget.workout.warmupExercises,
+                objects: exerciseService.getWorkoutExercises(widget.workout.warmupExercises),
               ),
             Padding(
               padding: const EdgeInsets.only(left: 8.0, right: 8.0),
@@ -63,7 +65,7 @@ class _ShowWorkoutPageState extends State<ShowWorkoutPage> {
               InformationObjectListWidget(
                 false,
                 key: UniqueKey(),
-                objects: widget.workout.workoutExercises,
+                objects: exerciseService.getWorkoutExercises(widget.workout.workoutExercises),
               ),
             Padding(
               padding: const EdgeInsets.only(left: 8.0, right: 8.0),
@@ -76,7 +78,7 @@ class _ShowWorkoutPageState extends State<ShowWorkoutPage> {
               InformationObjectListWidget(
                 false,
                 key: UniqueKey(),
-                objects: widget.workout.cooldownExercises,
+                objects: exerciseService.getWorkoutExercises(widget.workout.cooldownExercises),
               ),
             Padding(
               padding: const EdgeInsets.only(left: 8.0, right: 8.0),

@@ -81,13 +81,4 @@ class Exercise extends ChangeNotifier implements InformationObject {
 
   /// is true if this exercise is an empty placeholder
   bool get isEmpty => _isEmpty;
-
-  ///converts an exercise to json format
-  Map toJson() => {
-    'title': title,
-    'description': description,
-    'imageURL': imageURL,
-    'type': type,
-    'owner' : owner,
-  };
 }

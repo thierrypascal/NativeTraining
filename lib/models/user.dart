@@ -170,6 +170,11 @@ class User extends ChangeNotifier {
     saveUser();
   }
 
+  void updateExerciseList(String oldName, newName){
+    _exercises.remove(oldName);
+    _exercises.add(newName);
+  }
+
   /// Returns a list of all names from owned workouts
   List<String> get workouts => _workouts.toList();
 

@@ -78,12 +78,18 @@ class _EditExercisePageState extends State<EditExercisePage> {
                   'Wähle bitte einen Anderen.'),
             ));
           }
+          if (widget.isEdit) {
+            await ServiceProvider.instance.workoutService.updateExerciseNameInWorkouts(exercise.title, _title);
+            user.updateExerciseList(exercise.title, _title);
+          }
           exercise.title = _title;
           exercise.description = _description;
           exercise.owner = user.userUUID;
           exercise.type = exerciseProvider.getAbstractFromType(_selectedType);
           await exercise.saveExercise();
-          user.addExercise(exercise);
+          if (!widget.isEdit){
+            user.addExercise(exercise);
+          }
           user.saveUser();
           Navigator.of(context).pushReplacement(MaterialPageRoute(
               builder: (context) => WhiteRedirectPage(

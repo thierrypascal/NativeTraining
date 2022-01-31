@@ -30,13 +30,13 @@ class Workout extends ChangeNotifier implements InformationObject {
   DateTime lastUsed;
 
   ///List of exercises for warm-up
-  List<Exercise> warmupExercises;
+  List<String> warmupExercises;
 
   ///List of exercises for workout
-  List<Exercise> workoutExercises;
+  List<String> workoutExercises;
 
   ///List of exercises for cooldown
-  List<Exercise> cooldownExercises;
+  List<String> cooldownExercises;
 
   /// reference where the object is stored in the database
   DocumentReference reference;
@@ -54,9 +54,9 @@ class Workout extends ChangeNotifier implements InformationObject {
     title = '';
     description = '';
     lastUsed = DateTime.now();
-    warmupExercises = [];
-    workoutExercises = [];
-    cooldownExercises = [];
+    warmupExercises = <String>[];
+    workoutExercises = <String>[];
+    cooldownExercises = <String>[];
     _isEmpty = true;
   }
 
@@ -70,15 +70,9 @@ class Workout extends ChangeNotifier implements InformationObject {
         title = map.containsKey('title') ? map['title'] as String : '',
         description = map.containsKey('description') ? map['description'] as String : '',
         // lastUsed = map.containsKey('lastUsed') ? map['lastUsed'] as DateTime : DateTime.now(),
-        warmupExercises = map.containsKey('warmupExercises')
-            ? List<Exercise>.from(jsonDecode(map['warmupExercises'] as String).map((m) => Exercise.fromMap(m)))
-            : [],
-        workoutExercises = map.containsKey('workoutExercises')
-            ? List<Exercise>.from(jsonDecode(map['workoutExercises'] as String).map((m) => Exercise.fromMap(m)))
-            : [],
-        cooldownExercises = map.containsKey('cooldownExercises')
-            ? List<Exercise>.from(jsonDecode(map['cooldownExercises'] as String).map((m) => Exercise.fromMap(m)))
-            : [],
+        warmupExercises = map.containsKey('warmupExercises') ? List.from(map['warmupExercises']) : <String>[],
+        workoutExercises = map.containsKey('workoutExercises') ? List.from(map['workoutExercises']) : <String>[],
+        cooldownExercises = map.containsKey('cooldownExercises') ? List.from(map['cooldownExercises']) : <String>[],
         _isEmpty = false;
 
   /// loads an workout form a database snapshot
@@ -98,9 +92,9 @@ class Workout extends ChangeNotifier implements InformationObject {
       'title': title,
       'description': description,
       // 'lastUsed': lastUsed,
-      'warmupExercises': jsonEncode(warmupExercises),
-      'workoutExercises': jsonEncode(workoutExercises),
-      'cooldownExercises': jsonEncode(cooldownExercises),
+      'warmupExercises': warmupExercises,
+      'workoutExercises': workoutExercises,
+      'cooldownExercises': cooldownExercises,
       'owner': owner,
     });
   }

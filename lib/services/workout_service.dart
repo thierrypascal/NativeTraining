@@ -42,6 +42,28 @@ class WorkoutService extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Updates the workout exercises names
+  Future<void> updateExerciseNameInWorkouts(String oldName, String newName) async {
+    _workouts.forEach((workout) {
+      for (var i = 0; i < workout.warmupExercises.length; i++){
+        if (workout.warmupExercises[i] == oldName){
+          workout.warmupExercises[i] = newName;
+        }
+      }
+      for (var i = 0; i < workout.workoutExercises.length; i++){
+        if (workout.workoutExercises[i] == oldName){
+          workout.workoutExercises[i] = newName;
+        }
+      }
+      for (var i = 0; i < workout.cooldownExercises.length; i++){
+        if (workout.cooldownExercises[i] == oldName){
+          workout.cooldownExercises[i] = newName;
+        }
+      }
+      workout.saveWorkout();
+    });
+  }
+
   /// Returns a list of workouts which the provided User has
   List<Workout> getAllWorkoutsFromUser(User user) {
     return _workouts.where((workout) => workout.owner == user.userUUID).toList();

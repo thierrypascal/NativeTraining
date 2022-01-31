@@ -48,16 +48,16 @@ class _EditWorkoutPageState extends State<EditWorkoutPage> {
   void initState() {
     (widget.workout != null) ? workout = widget.workout : workout = Workout.empty();
     if (workout.warmupExercises.isNotEmpty) {
-      _selectedWarmupExercises.addAll(workout.warmupExercises);
-      workoutService.currentlySelectedWarmupExercises = workout.warmupExercises;
+      _selectedWarmupExercises.addAll(exerciseService.getWorkoutExercises(workout.warmupExercises));
+      workoutService.currentlySelectedWarmupExercises = exerciseService.getWorkoutExercises(workout.warmupExercises);
     }
     if (workout.workoutExercises.isNotEmpty) {
-      _selectedWorkoutExercises.addAll(workout.workoutExercises);
-      workoutService.currentlySelectedWorkoutExercises = workout.workoutExercises;
+      _selectedWorkoutExercises.addAll(exerciseService.getWorkoutExercises(workout.workoutExercises));
+      workoutService.currentlySelectedWorkoutExercises = exerciseService.getWorkoutExercises(workout.workoutExercises);
     }
     if (workout.cooldownExercises.isNotEmpty) {
-      _selectedCooldownExercises.addAll(workout.cooldownExercises);
-      workoutService.currentlySelectedCooldownExercises = workout.cooldownExercises;
+      _selectedCooldownExercises.addAll(exerciseService.getWorkoutExercises(workout.cooldownExercises));
+      workoutService.currentlySelectedCooldownExercises = exerciseService.getWorkoutExercises(workout.cooldownExercises);
     }
     super.initState();
   }
@@ -93,9 +93,9 @@ class _EditWorkoutPageState extends State<EditWorkoutPage> {
           workout.title = _title;
           workout.description = _description;
           workout.owner = user.userUUID;
-          workout.warmupExercises = _selectedWarmupExercises;
-          workout.workoutExercises = _selectedWorkoutExercises;
-          workout.cooldownExercises = _selectedCooldownExercises;
+          workout.warmupExercises = exerciseService.getWorkoutExercisesTitle(_selectedWarmupExercises);
+          workout.workoutExercises = exerciseService.getWorkoutExercisesTitle(_selectedWorkoutExercises);
+          workout.cooldownExercises = exerciseService.getWorkoutExercisesTitle(_selectedCooldownExercises);
           await workout.saveWorkout();
           user.addWorkout(workout);
           user.saveUser();
