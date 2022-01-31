@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:native_training/models/ad_state.dart';
-import 'package:provider/provider.dart';
 
 /// A white page that displays text and then redirects to a new page
 class WorkoutFinishedRedirectPage extends StatefulWidget {

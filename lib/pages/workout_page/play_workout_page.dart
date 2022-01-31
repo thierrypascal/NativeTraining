@@ -3,7 +3,6 @@ import 'package:native_training/components/PageViewDotIndicator.dart';
 import 'package:native_training/components/white_redirect_page.dart';
 import 'package:native_training/models/exercise.dart';
 import 'package:native_training/models/workout.dart';
-import 'package:native_training/pages/workout_page/workout_finished_redirect_page.dart';
 import 'package:native_training/services/service_provider.dart';
 
 import 'my_workouts_page.dart';
@@ -129,7 +128,6 @@ class _PlayWorkoutPageState extends State<PlayWorkoutPage> {
                                 exercise.title,
                                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                               )),
-                              // Text("10x" /*TODO: Anzahl Wiederholungen*/),
                             ],
                           )),
                       Padding(

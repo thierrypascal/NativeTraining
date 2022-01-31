@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:native_training/components/drawer.dart';
 
 /// Displays a page with the logo at the top and the green waves at the bottom.
 class LogoAndWavesScreen extends StatelessWidget {

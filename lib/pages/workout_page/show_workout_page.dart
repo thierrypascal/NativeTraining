@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:native_training/components/information_object_list_widget.dart';
-import 'package:native_training/components/show_exercise_dialog.dart';
 import 'package:native_training/components/show_workout_dialog.dart';
-import 'package:native_training/models/exercise.dart';
 import 'package:native_training/models/workout.dart';
 import 'package:native_training/pages/workout_page/play_workout_page.dart';
 import 'package:native_training/services/service_provider.dart';
@@ -54,25 +52,40 @@ class _ShowWorkoutPageState extends State<ShowWorkoutPage> {
                 key: UniqueKey(),
                 objects: exerciseService.getWorkoutExercises(widget.workout.warmupExercises),
               ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-              child: Divider(
-                thickness: 2,
-                color: Colors.green,
+            Stack(alignment: Alignment.topRight, children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 10),
+                child: Divider(
+                  thickness: 2,
+                  color: Colors.green,
+                ),
               ),
-            ),
+              Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: Text("Aufw\u00E4rmen"),
+              ),
+            ]),
             if (widget.workout.workoutExercises.isNotEmpty)
               InformationObjectListWidget(
                 false,
                 key: UniqueKey(),
                 objects: exerciseService.getWorkoutExercises(widget.workout.workoutExercises),
               ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-              child: Divider(
-                thickness: 2,
-                color: Colors.deepOrange,
-              ),
+            Stack(
+              alignment: Alignment.topRight,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 10),
+                  child: Divider(
+                    thickness: 2,
+                    color: Colors.deepOrange,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Text("Training"),
+                ),
+              ],
             ),
             if (widget.workout.cooldownExercises.isNotEmpty)
               InformationObjectListWidget(
@@ -80,12 +93,21 @@ class _ShowWorkoutPageState extends State<ShowWorkoutPage> {
                 key: UniqueKey(),
                 objects: exerciseService.getWorkoutExercises(widget.workout.cooldownExercises),
               ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-              child: Divider(
-                thickness: 2,
-                color: Colors.deepPurple,
-              ),
+            Stack(
+              alignment: Alignment.topRight,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 10),
+                  child: Divider(
+                    thickness: 2,
+                    color: Colors.deepPurple,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Text("Dehnen"),
+                ),
+              ],
             ),
           ],
         ),

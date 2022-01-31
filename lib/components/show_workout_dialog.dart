@@ -1,11 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:native_training/components/drawer.dart';
-import 'package:native_training/models/exercise.dart';
 import 'package:native_training/models/user.dart';
 import 'package:native_training/models/workout.dart';
-import 'package:native_training/pages/exercise_page/edit_exercise_page.dart';
-import 'package:native_training/pages/exercise_page/my_exercises_page.dart';
 import 'package:native_training/pages/workout_page/edit_workout_page.dart';
 import 'package:native_training/pages/workout_page/my_workouts_page.dart';
 import 'package:native_training/services/service_provider.dart';

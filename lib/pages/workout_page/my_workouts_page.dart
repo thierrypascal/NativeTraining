@@ -35,7 +35,7 @@ class _MyWorkoutPageState extends State<MyWorkoutPage> {
     });
   }
 
-  //TODO: Nach registrieren/anmelden kann beim erstenmal keine Workouts/Exercises angezeigt werden. Nach erneutem Starten der App geht es, hot reload reicht nicht aus
+  //TODO: Nach registrieren kann beim erstenmal keine Workouts/Exercises angezeigt werden. Nach erneutem Starten der App geht es, hot reload reicht nicht aus
 
   @override
   Widget build(BuildContext context) {

@@ -19,7 +19,7 @@ class MyAccountDelete extends StatefulWidget {
 
 class _MyAccountDeleteState extends State<MyAccountDelete> {
   final _formKey = GlobalKey<FormState>();
-  bool _password_ok = false;
+  bool _passwordOk = false;
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +32,9 @@ class _MyAccountDeleteState extends State<MyAccountDelete> {
       },
       save: 'Löschen',
       saveIcon: Icons.delete_forever,
-      saveCallback: _password_ok
+      saveCallback: _passwordOk
           ? () {
-              _confirm_delete(context);
+              _confirmDelete(context);
             }
           : null,
       body: Padding(
@@ -63,17 +63,17 @@ class _MyAccountDeleteState extends State<MyAccountDelete> {
                         await FirebaseAuth.instance.currentUser
                             .reauthenticateWithCredential(credential);
                         setState(() {
-                          _password_ok = true;
+                          _passwordOk = true;
                         });
                       } on FirebaseAuthException catch (e) {
                         if (e.code == 'wrong-password') {
-                          _password_ok = false;
+                          _passwordOk = false;
 
                           ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                   content: Text('Das Passwort ist falsch')));
                         } else {
-                          _password_ok = false;
+                          _passwordOk = false;
                           ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                   content: Text('Etwas ist schiefgelaufen')));
@@ -91,7 +91,7 @@ class _MyAccountDeleteState extends State<MyAccountDelete> {
     );
   }
 
-  void _confirm_delete(BuildContext context) {
+  void _confirmDelete(BuildContext context) {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(

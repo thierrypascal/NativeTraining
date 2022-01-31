@@ -1,9 +1,7 @@
-import 'dart:convert';
 import 'dart:core';
 import 'dart:developer' as logging;
 
 import 'package:flutter/cupertino.dart';
-import 'package:native_training/models/exercise.dart';
 import 'package:native_training/models/information_object.dart';
 import 'package:native_training/services/storage_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -59,8 +57,6 @@ class Workout extends ChangeNotifier implements InformationObject {
     cooldownExercises = <String>[];
     _isEmpty = true;
   }
-
-  //TODO: change way of saving workouts: Exercises have to reference to actual exercises, not just json save them
 
   /// creates an workout from the provided Map.
   /// Used for database loading and testing

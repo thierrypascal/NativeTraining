@@ -3,11 +3,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:native_training/components/screen_with_logo_and_waves.dart';
-import 'package:native_training/models/user.dart';
 import 'package:native_training/pages/login_page/email_login_page.dart';
 import 'package:native_training/pages/login_page/register_page.dart';
 import 'package:native_training/pages/workout_page/my_workouts_page.dart';
-import 'package:provider/provider.dart';
 
 final ButtonStyle _buttonStyle = ButtonStyle(
     backgroundColor: MaterialStateProperty.all(Colors.white),
