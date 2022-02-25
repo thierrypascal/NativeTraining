@@ -26,7 +26,7 @@ dependencies:
 
   firebase_core: ^1.0.3
   firebase_storage: ^10.0.5
-  cloud_firestore: ^2.2.1
+  cloud_firestore: ^3.1.10
   firebase_auth: ^3.1.3
 
   google_mobile_ads: ^1.0.1
@@ -34,7 +34,7 @@ dependencies:
   image: any
 #  TODO: remove image_editor, oly use extended_image
   image_editor: ^1.0.0
-  extended_image: ^5.1.2
+  extended_image: ^6.0.1
   provider: ^6.0.1
 #  TODO: check usage, not compatible with web
   cached_network_image:
