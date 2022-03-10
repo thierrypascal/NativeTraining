@@ -110,6 +110,7 @@ class _EditWorkoutPageState extends State<EditWorkoutPage> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(15, 8, 15, 8),
                 child: TextFormField(
+                  textCapitalization: TextCapitalization.sentences,
                   initialValue: workout.title,
                   decoration:
                       const InputDecoration(labelText: 'Titel', contentPadding: EdgeInsets.symmetric(vertical: 4)),
@@ -119,6 +120,7 @@ class _EditWorkoutPageState extends State<EditWorkoutPage> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(15, 8, 15, 8),
                 child: TextFormField(
+                  textCapitalization: TextCapitalization.sentences,
                   maxLines: null,
                   initialValue: workout.description,
                   decoration: const InputDecoration(
